@@ -1,0 +1,3 @@
+kopf
+requests
+kubernetes

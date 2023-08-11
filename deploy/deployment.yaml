@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-dojo-report-operator
+  namespace: mgmt
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      application: trivy-dojo-report-operator
+  template:
+    metadata:
+      labels:
+        application: trivy-dojo-report-operator
+    spec:
+      serviceAccountName: trivy-dojo-report-account
+      containers:
+      - name: trivy-dojo-report-operator
+        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:latest
+      - env:
+        - name: DEFECT_DOJO_API_KEY
+          value: ""
+        - name: DEFECT_DOJO_URL
+          value: ""
+        - name: LABEL
+          value: ""
+        - name: LABEL_VALUE
+          value: ""
