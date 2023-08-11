@@ -5,4 +5,4 @@ RUN pip install -r /requirements.txt
 
 COPY src/* /src/
 
-CMD kopf run /src/handlers.py --verbose
+CMD kopf run /src/handlers.py --all-namespaces
