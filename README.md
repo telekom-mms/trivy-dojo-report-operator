@@ -67,3 +67,4 @@ kubectl delete -f deploy/
 
 # License
 
+GPLv3
