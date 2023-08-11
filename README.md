@@ -24,16 +24,14 @@ git clone https://github.com/telekom-mms/trivy-dojo-report-operator.git
 cd trivy-dojo-report-operator
 ```
 
-* Configure Defect Dojo settings in the deployment.yaml file:
+* Configure Defect Dojo settings:
 
-Update the environment variables in the Deployment manifest to match your Defect Dojo instance configuration:
+Update the environment variables in the secret manifest to match your Defect Dojo instance configuration:
 
 ```
-env:
-- name: DEFECT_DOJO_URL
-  value: "https://your.defectdojo.instance"
-- name: DEFECT_DOJO_API_KEY
-  value: "your_defect_dojo_api_key"
+data:
+  url: "https://your.defectdojo.instance"
+  api-key: "your_defect_dojo_api_key"
 ```
 
 Replace https://your.defectdojo.instance with the URL of your Defect Dojo instance, and your_defect_dojo_api_key with your API key.

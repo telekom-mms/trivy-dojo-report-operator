@@ -20,11 +20,20 @@ spec:
       containers:
       - name: trivy-dojo-report-operator
         image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:latest
-      - env:
+        env:
         - name: DEFECT_DOJO_API_KEY
-          value: ""
+          valueFrom:
+            secretKeyRef:
+              key: api-key
+              name: defect-dojo-api-credentials
+              optional: false
+
         - name: DEFECT_DOJO_URL
-          value: ""
+          valueFrom:
+            secretKeyRef:
+              key: url
+              name: defect-dojo-api-credentials
+              optional: false
         - name: LABEL
           value: ""
         - name: LABEL_VALUE
