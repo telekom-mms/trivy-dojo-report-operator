@@ -38,3 +38,23 @@ spec:
           value: ""
         - name: LABEL_VALUE
           value: ""
+        - name: DEFECT_DOJO_ACTIVE
+          value: true
+        - name: DEFECT_DOJO_VERIFIED
+          value: false
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
+          value: false
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
+          value: false
+        - name: DEFECT_DOJO_PUSH_TO_JIRA
+          value: false
+        - name: DEFECT_DOJO_MINIMUM_SEVERITY
+          value: "Info"
+        - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
+          value: true
+        - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
+          value: true
+        - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
+          value: "Research and Development"
+        - name: DEFECT_DOJO_TEST_TITLE
+          value: "Kubernetes"

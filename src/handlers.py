@@ -50,19 +50,19 @@ def send_to_dojo(body, meta, logger, **_):
     }
 
     data: dict = {
-        "active": "true",
-        "verified": "false",
-        "close_old_findings": "false",
-        "close_old_findings_product_scope": "false",
-        "push_to_jira": "false",
-        "minimum_severity": "Info",
-        "auto_create_context": "true",
-        "deduplication_on_engagement": "true",
+        "active": settings.DEFECT_DOJO_ACTIVE,
+        "verified": settings.DEFECT_DOJO_VERIFIED,
+        "close_old_findings": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS,
+        "close_old_findings_product_scope": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE,
+        "push_to_jira": settings.DEFECT_DOJO_PUSH_TO_JIRA,
+        "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
+        "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
+        "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
         "scan_type": "Trivy Operator Scan",
         "engagement_name": meta["creationTimestamp"],
         "product_name": body["report"]["artifact"]["repository"],
-        #"product_type_name": "Research and Development",
-        "test_title": "kubernetes",
+        "product_type_name": settings.DEFECT_DOJO_PRODUCT_TYPE_NAME,
+        "test_title": settings.DEFECT_DOJO_TEST_TITLE,
     }
 
     try:
