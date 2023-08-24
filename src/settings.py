@@ -13,13 +13,6 @@ elif LABEL:
 else:
     logger.info("Looking for all resources")
 
-NAMESPACE = os.getenv('NAMESPACE', 'ALL')
-if NAMESPACE == 'ALL':
-    logger.info("Looking for resources in the entire cluster")
-else:
-    NAMESPACE = NAMESPACE.replace(" ", "").split(',')
-    logger.info(f"Looking for resources only in the {NAMESPACE} namespaces")
-
 DEFECT_DOJO_API_KEY = get_required_env_var('DEFECT_DOJO_API_KEY')
 DEFECT_DOJO_URL = get_required_env_var('DEFECT_DOJO_URL')
 
