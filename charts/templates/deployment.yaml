@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "charts.fullname" . }}-operator
+  labels:
+  {{- include "charts.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.operator.replicas }}
+  selector:
+    matchLabels:
+      application: trivy-dojo-report-operator
+    {{- include "charts.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        application: trivy-dojo-report-operator
+      {{- include "charts.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: DEFECT_DOJO_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: api-key
+              name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
+              optional: false
+        - name: DEFECT_DOJO_URL
+          valueFrom:
+            secretKeyRef:
+              key: url
+              name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
+              optional: false
+        - name: DEFECT_DOJO_ACTIVE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
+            }}
+        - name: DEFECT_DOJO_VERIFIED
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoVerified
+            }}
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoCloseOldFindings
+            }}
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoCloseOldFindingsProductScope
+            }}
+        - name: DEFECT_DOJO_PUSH_TO_JIRA
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoPushToJira
+            }}
+        - name: DEFECT_DOJO_MINIMUM_SEVERITY
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoMinimumSeverity
+            }}
+        - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoAutoCreateContext
+            }}
+        - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDeduplicationOnEngagement
+            }}
+        - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductTypeName
+            }}
+        - name: DEFECT_DOJO_TEST_TITLE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTestTitle
+            }}
+        image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
+          | default .Chart.AppVersion }}
+        name: trivy-dojo-report-operator
+        resources: {}
+      serviceAccountName: {{ include "charts.fullname" . }}-account

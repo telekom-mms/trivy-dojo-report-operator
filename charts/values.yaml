@@ -1,0 +1,23 @@
+account:
+  serviceAccount:
+    annotations: {}
+defectDojoApiCredentials:
+  apiKey: ""
+  url: ""
+operator:
+  replicas: 1
+  trivyDojoReportOperator:
+    env:
+      defectDojoActive: "true"
+      defectDojoAutoCreateContext: "true"
+      defectDojoCloseOldFindings: "false"
+      defectDojoCloseOldFindingsProductScope: "false"
+      defectDojoDeduplicationOnEngagement: "true"
+      defectDojoMinimumSeverity: Info
+      defectDojoProductTypeName: Research and Development
+      defectDojoPushToJira: "false"
+      defectDojoTestTitle: Kubernetes
+      defectDojoVerified: "false"
+    image:
+      repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
+      tag: latest

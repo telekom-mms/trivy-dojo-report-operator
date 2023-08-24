@@ -24,6 +24,8 @@ git clone https://github.com/telekom-mms/trivy-dojo-report-operator.git
 cd trivy-dojo-report-operator
 ```
 
+## Manually
+
 * Configure Defect Dojo settings:
 
 Update the environment variables in the secret manifest to match your Defect Dojo instance configuration:
@@ -44,6 +46,24 @@ in the `import-scan` API-call found [here](https://demo.defectdojo.org/api/v2/oa
 
 ```
 kubectl apply -f deploy/
+```
+
+## With Helm
+
+* Configure Defect Dojo settings:
+
+Update the variables in the values.yaml to match your Defect Dojo instance configuration:
+
+```
+defectDojoApiCredentials:
+  apiKey: "your_defect_dojo_api_key"
+  url: "https://your.defectdojo.instance"
+```
+
+* Deploy the chart:
+
+```
+> helm install chart-name charts/
 ```
 
 The operator is now running in your cluster and will monitor for Trivy vulnerability reports and push them to the configured Defect Dojo instance.
