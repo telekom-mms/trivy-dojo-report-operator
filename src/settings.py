@@ -1,25 +1,17 @@
-import kopf
 import logging
 import os
-from env_vars import get_required_env_var, get_env_var_bool
-
-# Here we use Kopf's logging macro to setup the logging format and level for all modules
-DEBUG = get_env_var_bool("DEBUG")
-kopf.configure(
-    debug=DEBUG
-)
+from env_vars import get_required_env_var
 
 logger = logging.getLogger(__name__)
 
-if DEBUG:
-    logger.info("DEBUG mode is activated!")
-
-LABEL = os.getenv('LABEL')
-LABEL_VALUE = os.getenv('LABEL_VALUE')
-if LABEL_VALUE:
+LABEL = os.getenv('LABEL', None)
+LABEL_VALUE = os.getenv('LABEL_VALUE', None)
+if LABEL and LABEL_VALUE:
     logger.info("Looking for resources with LABEL '%s' and LABEL_VALUE '%s'", LABEL, LABEL_VALUE)
-else:
+elif LABEL:
     logger.info("Looking for resources with LABEL '%s'", LABEL)
+else:
+    logger.info("Looking for all resources")
 
 NAMESPACE = os.getenv('NAMESPACE', 'ALL')
 if NAMESPACE == 'ALL':
