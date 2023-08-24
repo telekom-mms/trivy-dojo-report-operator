@@ -36,6 +36,10 @@ data:
 
 Replace https://your.defectdojo.instance with the URL of your Defect Dojo instance, and your_defect_dojo_api_key with your API key.
 
+
+Change the environment variables in the deployment manifest to your liking. The options closely match the options
+in the `import-scan` API-call found [here](https://demo.defectdojo.org/api/v2/oa3/swagger-ui/).
+
 * Deploy the trivy-dojo-report-operator:
 
 ```
