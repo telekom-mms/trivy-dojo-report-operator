@@ -60,10 +60,18 @@ defectDojoApiCredentials:
   url: "https://your.defectdojo.instance"
 ```
 
-* Deploy the chart:
+* Deploy the chart from the repository:
 
 ```
-> helm install chart-name charts/
+helm repo add trivy-dojo-report-operator https://telekom-mms.github.io/trivy-dojo-report-operator/
+helm install chart-name trivy-dojo-report-operator/trivy-dojo-report-operator
+```
+
+
+* Deploy the chart manually after cloning the git-repository:
+
+```
+helm install chart-name charts/
 ```
 
 The operator is now running in your cluster and will monitor for Trivy vulnerability reports and push them to the configured Defect Dojo instance.
