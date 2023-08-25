@@ -6,28 +6,34 @@ import kopf
 
 import settings
 
-# we cannot use annotations-based diffbase_storage
-# because kopf creates a annotation that contains the last applied
-# state. this anootation will be too large too handle for k8s and cannot
-# be added to the object.
+
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
+    """
+    This function tells kopf to use the StatusDiffBaseStorage instead
+    of the annotations-based storage, because the annotation will get too large
+    for k8s to handle. see: https://github.com/kubernetes-sigs/kubebuilder/issues/2556
+    """
     settings.persistence.diffbase_storage = kopf.MultiDiffBaseStorage(
         [
             kopf.StatusDiffBaseStorage(field="status.diff-base"),
         ]
     )
 
-if settings.LABEL and settings.LABEL_VALUE:
-    labels={settings.LABEL: settings.LABEL_VALUE}
-else:
-    labels={}
 
-@kopf.on.create(
-    "vulnerabilityreports.aquasecurity.github.io",
-    labels=labels
-)
+labels: dict = {}
+if settings.LABEL and settings.LABEL_VALUE:
+    labels = {settings.LABEL: settings.LABEL_VALUE}
+else:
+    labels = {}
+
+
+@kopf.on.create("vulnerabilityreports.aquasecurity.github.io", labels=labels)
 def send_to_dojo(body, meta, logger, **_):
+    """
+    The main function that creates a report-file from the trivy-operator vulnerabilityreport
+    and sends it to the defectdojo instance.
+    """
 
     logger.info(f"Working on {meta['name']}")
 
@@ -75,7 +81,9 @@ def send_to_dojo(body, meta, logger, **_):
         )
         response.raise_for_status()
     except HTTPError as http_err:
-        raise kopf.PermanentError(f"HTTP error occurred: {http_err} - {response.content}")
+        raise kopf.PermanentError(
+            f"HTTP error occurred: {http_err} - {response.content}"
+        )
     except Exception as err:
         raise kopf.PermanentError(f"Other error occurred: {err}")
     else:
