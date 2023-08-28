@@ -38,7 +38,6 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/telekom-mms/docker-trivy-dojo-operator:latest,ghcr.io/telekom-mms/docker-trivy-dojo-operator:${{ github.event.release.tag_name }}
-        if: github.ref == 'refs/heads/main'
   helm:
     runs-on: ubuntu-latest
     steps:
