@@ -20,4 +20,4 @@ operator:
       defectDojoVerified: "false"
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: latest
+      tag: 0.2.3
