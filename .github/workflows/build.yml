@@ -30,7 +30,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        if: github.ref == 'refs/heads/main'
       -
         name: Build and push to ghcr.io
         uses: docker/build-push-action@v4
