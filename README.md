@@ -86,6 +86,10 @@ docker pull ghcr.io/telekom-mms/docker-trivy-dojo-operator
 docker run -it -v /path/to/your/.kube/config:/root/.kube/config -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL -e LABEL="trivy-operator.resource.name" -e LABEL_VALUE="master-live-server" ghcr.io/telekom-mms/docker-trivy-dojo-operator
 ```
 
+# Metrics
+
+The operator provides a Prometheus metrics endpoint, where successful and failed requests are collected.
+
 
 # Uninstall
 

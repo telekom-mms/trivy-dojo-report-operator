@@ -12,7 +12,7 @@ prometheus.start_http_server(9090)
 REQUEST_TIME = prometheus.Summary('request_processing_seconds', 'Time spent processing request')
 PROMETHEUS_DISABLE_CREATED_SERIES=True
 
-c = prometheus.Counter('requests_total', 'HTTP Failures', ['status'])
+c = prometheus.Counter('requests_total', 'HTTP Requests', ['status'])
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
@@ -101,14 +101,14 @@ def send_to_dojo(body, meta, logger, **_):
         )
         response.raise_for_status()
     except HTTPError as http_err:
-        c.labels(http_err).inc()
+        c.labels("failed").inc()
         raise kopf.PermanentError(
             f"HTTP error occurred: {http_err} - {response.content}"
         )
     except Exception as err:
-        c.labels("other_failure").inc()
+        c.labels("failed").inc()
         raise kopf.PermanentError(f"Other error occurred: {err}")
     else:
-        c.labels(response.status_code).inc()
+        c.labels("success").inc()
         logger.info(f"Finished {meta['name']}")
         logger.debug(response.content)
