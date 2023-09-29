@@ -5,6 +5,11 @@ defectDojoApiCredentials:
   apiKey: ""
   url: ""
 operator:
+  ports:
+  - name: metrics
+    port: 80
+    protocol: TCP
+    targetPort: metrics
   replicas: 1
   trivyDojoReportOperator:
     env:
@@ -21,3 +26,4 @@ operator:
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: latest
+  type: ClusterIP

@@ -6,6 +6,13 @@ import kopf
 
 import settings
 
+import prometheus_client as prometheus
+
+prometheus.start_http_server(9090)
+REQUEST_TIME = prometheus.Summary('request_processing_seconds', 'Time spent processing request')
+PROMETHEUS_DISABLE_CREATED_SERIES=True
+
+c = prometheus.Counter('requests_total', 'HTTP Requests', ['status'])
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
@@ -41,6 +48,7 @@ else:
 
 
 @kopf.on.create("vulnerabilityreports.aquasecurity.github.io", labels=labels)
+@REQUEST_TIME.time()
 def send_to_dojo(body, meta, logger, **_):
     """
     The main function that creates a report-file from the trivy-operator vulnerabilityreport
@@ -93,11 +101,14 @@ def send_to_dojo(body, meta, logger, **_):
         )
         response.raise_for_status()
     except HTTPError as http_err:
+        c.labels("failed").inc()
         raise kopf.PermanentError(
             f"HTTP error occurred: {http_err} - {response.content}"
         )
     except Exception as err:
+        c.labels("failed").inc()
         raise kopf.PermanentError(f"Other error occurred: {err}")
     else:
+        c.labels("success").inc()
         logger.info(f"Finished {meta['name']}")
         logger.debug(response.content)
