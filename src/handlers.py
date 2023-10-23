@@ -85,7 +85,7 @@ def send_to_dojo(body, meta, logger, **_):
         "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
         "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
         "scan_type": "Trivy Operator Scan",
-        "engagement_name": meta["creationTimestamp"],
+        "engagement_name": body["report"]["artifact"]["tag"],
         "product_name": body["report"]["artifact"]["repository"],
         "product_type_name": settings.DEFECT_DOJO_PRODUCT_TYPE_NAME,
         "test_title": settings.DEFECT_DOJO_TEST_TITLE,
