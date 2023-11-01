@@ -2,5 +2,5 @@ apiVersion: v2
 name: trivy-dojo-report-operator
 description: A Helm chart to install the trivy-dojo-report-operator
 type: application
-version: 0.1.0
-appVersion: "0.1.0"
+version: 0.3.0
+appVersion: "0.3.0"
