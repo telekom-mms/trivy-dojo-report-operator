@@ -52,5 +52,17 @@ spec:
           value: "true"
         - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
           value: "Research and Development"
+        - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+          value: "false"
         - name: DEFECT_DOJO_TEST_TITLE
           value: "Kubernetes"
+        - name: DEFECT_DOJO_EVAL_TEST_TITLE
+          value: "false"
+        - name: DEFECT_DOJO_ENGAGEMENT_NAME
+          value: "engagement"
+        - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+          value: "false"
+        - name: DEFECT_DOJO_PRODUCT_NAME
+          value: "product"
+        - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
+          value: "false"

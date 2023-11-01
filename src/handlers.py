@@ -9,10 +9,13 @@ import settings
 import prometheus_client as prometheus
 
 prometheus.start_http_server(9090)
-REQUEST_TIME = prometheus.Summary('request_processing_seconds', 'Time spent processing request')
-PROMETHEUS_DISABLE_CREATED_SERIES=True
+REQUEST_TIME = prometheus.Summary(
+    "request_processing_seconds", "Time spent processing request"
+)
+PROMETHEUS_DISABLE_CREATED_SERIES = True
 
-c = prometheus.Counter('requests_total', 'HTTP Requests', ['status'])
+c = prometheus.Counter("requests_total", "HTTP Requests", ["status"])
+
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
@@ -65,6 +68,28 @@ def send_to_dojo(body, meta, logger, **_):
     for i in body:
         full_object[i] = body[i]
 
+    logger.debug(full_object)
+
+    if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME:
+        print(settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME)
+        settings.DEFECT_DOJO_ENGAGEMENT_NAME = eval(
+            settings.DEFECT_DOJO_ENGAGEMENT_NAME
+        )
+
+    if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME:
+        print(settings.DEFECT_DOJO_EVAL_PRODUCT_NAME)
+        settings.DEFECT_DOJO_PRODUCT_NAME = eval(settings.DEFECT_DOJO_PRODUCT_NAME)
+
+    if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME:
+        print(settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME)
+        settings.DEFECT_DOJO_PRODUCT_TYPE_NAME = eval(
+            settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
+        )
+
+    if settings.DEFECT_DOJO_EVAL_TEST_TITLE:
+        print(settings.DEFECT_DOJO_EVAL_TEST_TITLE)
+        settings.DEFECT_DOJO_TEST_TITLE = eval(settings.DEFECT_DOJO_TEST_TITLE)
+
     # define the vulnerabilityreport as a json-file so DD accepts it
     json_string: str = json.dumps(full_object)
     json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
@@ -85,11 +110,13 @@ def send_to_dojo(body, meta, logger, **_):
         "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
         "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
         "scan_type": "Trivy Operator Scan",
-        "engagement_name": meta["creationTimestamp"],
-        "product_name": body["report"]["artifact"]["repository"],
+        "engagement_name": settings.DEFECT_DOJO_ENGAGEMENT_NAME,
+        "product_name": settings.DEFECT_DOJO_PRODUCT_NAME,
         "product_type_name": settings.DEFECT_DOJO_PRODUCT_TYPE_NAME,
         "test_title": settings.DEFECT_DOJO_TEST_TITLE,
     }
+
+    logger.debug(data)
 
     try:
         response: requests.Response = requests.post(

@@ -86,6 +86,35 @@ docker pull ghcr.io/telekom-mms/docker-trivy-dojo-operator
 docker run -it -v /path/to/your/.kube/config:/root/.kube/config -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL -e LABEL="trivy-operator.resource.name" -e LABEL_VALUE="master-live-server" ghcr.io/telekom-mms/docker-trivy-dojo-operator
 ```
 
+# Configuration
+
+| Variable                             | Default Value          | Description                                                                                  |
+|--------------------------------------|------------------------|----------------------------------------------------------------------------------------------|
+| `defectDojoActive`                    | `"true"`               | Override the active setting from the tool.                                                  |
+| `defectDojoAutoCreateContext`         | `"true"`               | Specifies whether to automatically create Engagements, Products and Product_Types           |
+| `defectDojoCloseOldFindings`          | `"false"`              | Select if old findings no longer present in the report get closed as mitigated when importing. If service has been set, only the findings for this service will be closed. |
+| `defectDojoCloseOldFindingsProductScope` | `"false"`           | Select if close_old_findings applies to all findings of the same type in the product. By default, it is false meaning that only old findings of the same type in the engagement are in scope. |
+| `defectDojoDeduplicationOnEngagement` | `"true"`               | restrict deduplication for imported Findings to the newly created Engagement.               |
+| `defectDojoEngagementName`            | `engagement`           | The name of the engagement in DefectDojo.                                                   |
+| `defectDojoEvalEngagementName`        | `"false"`              | Specifies whether the engagement name should be evaluated as a python function.             |
+| `defectDojoEvalProductName`           | `"false"`              | Specifies whether the product name should be evaluated as a python function.                |
+| `defectDojoEvalProductTypeName`       | `"false"`              | Specifies whether the product type name should be evaluated as a python function.           |
+| `defectDojoEvalTestTitle`             | `"false"`              | Specifies whether the test title should be evaluated as a python function.                  |
+| `defectDojoMinimumSeverity`           | `Info`                 | The minimum severity level for findings in DefectDojo.                                      |
+| `defectDojoProductName`               | `product`              | The name of the product in DefectDojo.                                                      |
+| `defectDojoProductTypeName`           | `Research and Development` | The type of the product in DefectDojo.                                                  |
+| `defectDojoPushToJira`                | `"false"`              | Specifies whether findings should be pushed to Jira in DefectDojo.                          |
+| `defectDojoTestTitle`                 | `Kubernetes`           | The title of the test in DefectDojo.                                                        |
+| `defectDojoVerified`                  | `"false"`              | Specifies whether findings should be marked as verified in DefectDojo.                      |
+
+## A note on eval
+
+When setting one of the Eval*-settings to `true`, the corresponding name or title will be run as a python function!
+
+For example, set defectDojoEvalEngagementName to `true` and `defectDojoEngagementName` to `meta["creationTimestamp"]`, then the creationTimestamp of the vulnerability Report Resource in Kubernetes will be evaluated and used as the engagement name.
+
+If you set defectDojoEngagementName to `body["report"]["artifact"]["tag"]`, then the engagement will get the name of the specified image-tag.
+
 # Metrics
 
 The operator provides a Prometheus metrics endpoint, where successful and failed requests are collected.

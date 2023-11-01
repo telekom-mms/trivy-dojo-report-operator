@@ -4,6 +4,7 @@ account:
 defectDojoApiCredentials:
   apiKey: ""
   url: ""
+kubernetesClusterDomain: cluster.local
 operator:
   ports:
   - name: metrics
@@ -18,7 +19,13 @@ operator:
       defectDojoCloseOldFindings: "false"
       defectDojoCloseOldFindingsProductScope: "false"
       defectDojoDeduplicationOnEngagement: "true"
+      defectDojoEngagementName: engagement
+      defectDojoEvalEngagementName: "false"
+      defectDojoEvalProductName: "false"
+      defectDojoEvalProductTypeName: "false"
+      defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
+      defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes

@@ -57,9 +57,29 @@ spec:
         - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductTypeName
             }}
+        - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductTypeName
+            }}
         - name: DEFECT_DOJO_TEST_TITLE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTestTitle
             }}
+        - name: DEFECT_DOJO_EVAL_TEST_TITLE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalTestTitle
+            }}
+        - name: DEFECT_DOJO_ENGAGEMENT_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEngagementName
+            }}
+        - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalEngagementName
+            }}
+        - name: DEFECT_DOJO_PRODUCT_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductName
+            }}
+        - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
+            }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
           | default .Chart.AppVersion }}
         name: trivy-dojo-report-operator
