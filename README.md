@@ -128,6 +128,37 @@ To remove the trivy-dojo-report-operator from your cluster, run the following co
 kubectl delete -f deploy/
 ```
 
+# Creating new Releases
+
+* Update the versions in:
+
+```
+charts/Chart.yaml
+charts/values.yaml
+```
+
+* Package the new chart version:
+
+```
+> cr package charts/
+```
+
+* Upload the new chart and create a new github release with the chart
+
+```
+> cr upload --owner telekom-mms --git-repo trivy-dojo-report-operator --token $GITHUB_COM_TOKEN
+```
+
+* Update the cahrt repository:
+
+```
+> git co gh-pages
+> cr index --owner telekom-mms --git-repo trivy-dojo-report-operator -i index.yaml --token $GITHUB_TOKEN
+> git add index.yaml
+> git commit
+> git push
+```
+
 # License
 
 GPLv3

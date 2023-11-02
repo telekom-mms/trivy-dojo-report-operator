@@ -37,27 +37,3 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/telekom-mms/docker-trivy-dojo-operator:latest,ghcr.io/telekom-mms/docker-trivy-dojo-operator:${{ github.event.release.tag_name }}
-  helm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: v3.8.1
-
-      - name: Install helm plugin
-        run: |
-          helm plugin install https://github.com/sstarcher/helm-release
-
-      - name: Update Chart.yaml
-        run: |
-          helm release -t ${{ github.event.release.tag_name }} --path operator.trivyDojoReportOperator.image.tag charts/
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
