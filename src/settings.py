@@ -16,7 +16,7 @@ else:
     logger.info("Looking for all resources")
 
 DEFECT_DOJO_API_KEY: str = get_required_env_var("DEFECT_DOJO_API_KEY")
-DEFECT_DOJO_UR: str = get_required_env_var("DEFECT_DOJO_URL")
+DEFECT_DOJO_URL: str = get_required_env_var("DEFECT_DOJO_URL")
 
 DEFECT_DOJO_ACTIVE: bool = get_env_var_bool("DEFECT_DOJO_ACTIVE")
 DEFECT_DOJO_VERIFIED: bool = get_env_var_bool("DEFECT_DOJO_VERIFIED")
