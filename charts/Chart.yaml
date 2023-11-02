@@ -3,4 +3,4 @@ appVersion: 0.3.3
 description: A Helm chart to install the trivy-dojo-report-operator
 name: trivy-dojo-report-operator
 type: application
-version: 0.3.3+50eb81f
+version: 0.3.3
