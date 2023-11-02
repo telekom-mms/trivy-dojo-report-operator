@@ -125,12 +125,12 @@ def send_to_dojo(body, meta, logger, **_):
         response.raise_for_status()
     except HTTPError as http_err:
         c.labels("failed").inc()
-        raise kopf.PermanentError(
-            f"HTTP error occurred: {http_err} - {response.content}"
+        raise kopf.TemporaryError(
+            f"HTTP error occurred: {http_err} - {response.content}. Retrying in 60 seconds", delay=60
         )
     except Exception as err:
         c.labels("failed").inc()
-        raise kopf.PermanentError(f"Other error occurred: {err}")
+        raise kopf.TemporaryError(f"Other error occurred: {err}. Retrying in 60 seconds", delay=60)
     else:
         c.labels("success").inc()
         logger.info(f"Finished {meta['name']}")
