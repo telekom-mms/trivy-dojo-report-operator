@@ -71,23 +71,19 @@ def send_to_dojo(body, meta, logger, **_):
     logger.debug(full_object)
 
     if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME:
-        print(settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME)
         settings.DEFECT_DOJO_ENGAGEMENT_NAME = eval(
             settings.DEFECT_DOJO_ENGAGEMENT_NAME
         )
 
     if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME:
-        print(settings.DEFECT_DOJO_EVAL_PRODUCT_NAME)
         settings.DEFECT_DOJO_PRODUCT_NAME = eval(settings.DEFECT_DOJO_PRODUCT_NAME)
 
     if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME:
-        print(settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME)
         settings.DEFECT_DOJO_PRODUCT_TYPE_NAME = eval(
             settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
         )
 
     if settings.DEFECT_DOJO_EVAL_TEST_TITLE:
-        print(settings.DEFECT_DOJO_EVAL_TEST_TITLE)
         settings.DEFECT_DOJO_TEST_TITLE = eval(settings.DEFECT_DOJO_TEST_TITLE)
 
     # define the vulnerabilityreport as a json-file so DD accepts it
@@ -124,7 +120,7 @@ def send_to_dojo(body, meta, logger, **_):
             headers=headers,
             data=data,
             files=report_file,
-            verify=False,
+            verify=True,
         )
         response.raise_for_status()
     except HTTPError as http_err:
