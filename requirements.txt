@@ -1,4 +1,0 @@
-kopf
-requests
-kubernetes
-prometheus-client
