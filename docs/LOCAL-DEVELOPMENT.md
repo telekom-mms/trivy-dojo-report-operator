@@ -99,3 +99,22 @@ environment for this operator.
   [2023-11-06 15:56:49,654] kopf.activities.auth [INFO    ] Activity 'login_via_client' succeeded.
   [2023-11-06 15:56:49,654] kopf._core.engines.a [INFO    ] Initial authentication has finished.
   ```
+
+## Troubleshooting
+
+### Enabling ingress addon fails
+
+Issue:
+
+```bash
+$ minikube addons enable ingress
+Exiting due to MK_ADDON_ENABLE: enable failed: run callbacks: running callbacks: [waiting for app.kubernetes.io/name=ingress-nginx pods: context deadline exceeded]
+```
+
+Solution:
+
+Completely clean up your minikube environment and start over
+
+```bash
+$ minikube delete --all
+```
