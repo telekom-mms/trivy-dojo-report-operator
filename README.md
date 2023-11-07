@@ -19,7 +19,7 @@ The trivy-dojo-report-operator is a Kubernetes operator developed using Kopf and
 
 * Clone this repository:
 
-```
+```bash
 git clone https://github.com/telekom-mms/trivy-dojo-report-operator.git
 cd trivy-dojo-report-operator
 ```
@@ -30,21 +30,21 @@ cd trivy-dojo-report-operator
 
 Update the environment variables in the secret manifest to match your Defect Dojo instance configuration:
 
-```
-data:
+```yaml
+stringData:
   url: "https://your.defectdojo.instance"
-  api-key: "your_defect_dojo_api_key"
+  apiKey: "your_defect_dojo_api_key"
 ```
 
 Replace https://your.defectdojo.instance with the URL of your Defect Dojo instance, and your_defect_dojo_api_key with your API key.
-
 
 Change the environment variables in the deployment manifest to your liking. The options closely match the options
 in the `import-scan` API-call found [here](https://demo.defectdojo.org/api/v2/oa3/swagger-ui/).
 
 * Deploy the trivy-dojo-report-operator:
 
-```
+```bash
+kubectl create ns mgmt
 kubectl apply -f deploy/
 ```
 
@@ -62,15 +62,14 @@ defectDojoApiCredentials:
 
 * Deploy the chart from the repository:
 
-```
+```bash
 helm repo add trivy-dojo-report-operator https://telekom-mms.github.io/trivy-dojo-report-operator/
 helm install chart-name trivy-dojo-report-operator/trivy-dojo-report-operator
 ```
 
-
 * Deploy the chart manually after cloning the git-repository:
 
-```
+```bash
 helm install chart-name charts/
 ```
 
@@ -119,12 +118,11 @@ If you set defectDojoEngagementName to `body["report"]["artifact"]["tag"]`, then
 
 The operator provides a Prometheus metrics endpoint, where successful and failed requests are collected.
 
-
 # Uninstall
 
 To remove the trivy-dojo-report-operator from your cluster, run the following command:
 
-```
+```bash
 kubectl delete -f deploy/
 ```
 

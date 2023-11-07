@@ -21,7 +21,7 @@ spec:
         - name: DEFECT_DOJO_API_KEY
           valueFrom:
             secretKeyRef:
-              key: api-key
+              key: apiKey
               name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
               optional: false
         - name: DEFECT_DOJO_URL
