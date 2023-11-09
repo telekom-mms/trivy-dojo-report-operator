@@ -8,6 +8,7 @@ environment for this operator.
 - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [helm](https://helm.sh/docs/intro/install/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+- [poetry](https://python-poetry.org/docs/#installation)
 
 ## Using Minikube
 
@@ -68,7 +69,6 @@ environment for this operator.
 
   ```bash
   kubectl port-forward --namespace=default service/defectdojo-django 8080:80
-  # Access service via http://localhost:8080/
   ```
 
 - [Retrieve DefectDojo API-Key](http://localhost:8080/api/key-v2)
