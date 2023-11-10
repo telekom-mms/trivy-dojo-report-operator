@@ -8,4 +8,4 @@ RUN poetry install --no-dev --no-cache
 
 COPY src/* /src/
 
-CMD ["poetry", "run", "kopf", "run", "/src/handlers.py", "--all-namespaces"]
+CMD ["poetry", "run", "kopf", "run", "--liveness=http://0.0.0.0:8080/healthz", "/src/handlers.py", "--all-namespaces"]

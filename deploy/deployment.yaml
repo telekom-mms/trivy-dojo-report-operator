@@ -19,7 +19,13 @@ spec:
       serviceAccountName: trivy-dojo-report-account
       containers:
       - name: trivy-dojo-report-operator
-        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.3.1
+        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.3.3
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 30
         env:
         - name: DEFECT_DOJO_API_KEY
           valueFrom:

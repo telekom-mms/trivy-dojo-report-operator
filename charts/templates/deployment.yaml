@@ -82,6 +82,12 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
           | default .Chart.AppVersion }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 30
         name: trivy-dojo-report-operator
         resources: {}
       serviceAccountName: {{ include "charts.fullname" . }}-account
