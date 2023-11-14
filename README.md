@@ -151,10 +151,10 @@ charts/values.yaml
 
 ```
 > git co gh-pages
-> cr index --owner telekom-mms --git-repo trivy-dojo-report-operator -i index.yaml --token $GITHUB_TOKEN
+> cr index --owner telekom-mms --git-repo trivy-dojo-report-operator -i index.yaml --token $GITHUB_COM_TOKEN
 > git add index.yaml
-> git commit
-> git push
+> git commit -m "update chart index"
+> git push origin gh-pages
 ```
 
 # License
