@@ -70,21 +70,13 @@ def send_to_dojo(body, meta, logger, **_):
 
     logger.debug(full_object)
 
-    if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME:
-        settings.DEFECT_DOJO_ENGAGEMENT_NAME = eval(
-            settings.DEFECT_DOJO_ENGAGEMENT_NAME
-        )
+    _DEFECT_DOJO_ENGAGEMENT_NAME = eval(settings.DEFECT_DOJO_ENGAGEMENT_NAME) if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME else settings.DEFECT_DOJO_ENGAGEMENT_NAME
 
-    if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME:
-        settings.DEFECT_DOJO_PRODUCT_NAME = eval(settings.DEFECT_DOJO_PRODUCT_NAME)
+    _DEFECT_DOJO_PRODUCT_NAME = eval(settings.DEFECT_DOJO_PRODUCT_NAME) if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME else settings.DEFECT_DOJO_PRODUCT_NAME
 
-    if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME:
-        settings.DEFECT_DOJO_PRODUCT_TYPE_NAME = eval(
-            settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
-        )
+    _DEFECT_DOJO_PRODUCT_TYPE_NAME = eval(settings.DEFECT_DOJO_PRODUCT_TYPE_NAME) if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
 
-    if settings.DEFECT_DOJO_EVAL_TEST_TITLE:
-        settings.DEFECT_DOJO_TEST_TITLE = eval(settings.DEFECT_DOJO_TEST_TITLE)
+    _DEFECT_DOJO_TEST_TITLE = eval(settings.DEFECT_DOJO_TEST_TITLE) if settings.DEFECT_DOJO_EVAL_TEST_TITLE else settings.DEFECT_DOJO_TEST_TITLE
 
     # define the vulnerabilityreport as a json-file so DD accepts it
     json_string: str = json.dumps(full_object)
@@ -106,10 +98,10 @@ def send_to_dojo(body, meta, logger, **_):
         "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
         "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
         "scan_type": "Trivy Operator Scan",
-        "engagement_name": settings.DEFECT_DOJO_ENGAGEMENT_NAME,
-        "product_name": settings.DEFECT_DOJO_PRODUCT_NAME,
-        "product_type_name": settings.DEFECT_DOJO_PRODUCT_TYPE_NAME,
-        "test_title": settings.DEFECT_DOJO_TEST_TITLE,
+        "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
+        "product_name": _DEFECT_DOJO_PRODUCT_NAME,
+        "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
+        "test_title": _DEFECT_DOJO_TEST_TITLE,
     }
 
     logger.debug(data)
