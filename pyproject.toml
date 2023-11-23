@@ -14,7 +14,7 @@ python = "^3.9"
 kopf = "^1.36.2"
 requests = "^2.31.0"
 kubernetes = "^28.1.0"
-prometheus-client = "^0.18.0"
+prometheus-client = "^0.19.0"
 
 [tool.poetry.dev-dependencies]
 black = "^23.0.0"
