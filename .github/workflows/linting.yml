@@ -1,0 +1,8 @@
+name: Linting
+
+on: [push, pull_request]
+
+jobs:
+  linting:
+    # docs: https://github.com/telekom-mms/.github#golang-linting
+    uses: telekom-mms/.github/.github/workflows/golang_linting.yml@main
