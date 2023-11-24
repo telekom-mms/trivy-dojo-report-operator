@@ -78,6 +78,9 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
             }}
+        - name: DEFECT_DOJO_DO_NOT_REACTIVATE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
+            }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag

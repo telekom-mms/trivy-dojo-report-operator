@@ -102,13 +102,14 @@ def send_to_dojo(body, meta, logger, **_):
         "product_name": _DEFECT_DOJO_PRODUCT_NAME,
         "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
         "test_title": _DEFECT_DOJO_TEST_TITLE,
+        "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
     }
 
     logger.debug(data)
 
     try:
         response: requests.Response = requests.post(
-            settings.DEFECT_DOJO_URL + "/api/v2/import-scan/",
+            settings.DEFECT_DOJO_URL + "/api/v2/reimport-scan/",
             headers=headers,
             data=data,
             files=report_file,
