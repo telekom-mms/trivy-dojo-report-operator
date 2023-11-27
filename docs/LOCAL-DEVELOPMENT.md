@@ -80,6 +80,7 @@ environment for this operator.
   export LABEL="trivy-operator.resource.name"; export LABEL_VALUE="your_label_value";
   export DEFECT_DOJO_ENGAGEMENT_NAME="test"
   export DEFECT_DOJO_AUTO_CREATE_CONTEXT=true
+  export DEFECT_DOJO_ACTIVE=true
   ```
 
 - Install the Python dependencies
