@@ -19,7 +19,7 @@ spec:
       serviceAccountName: trivy-dojo-report-account
       containers:
       - name: trivy-dojo-report-operator
-        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.3.3
+        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:trivy-dojo-report-operator-0.3.5
         livenessProbe:
           httpGet:
             path: /healthz
@@ -71,3 +71,5 @@ spec:
           value: "product"
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: "false"
+        - name: DEFECT_DOJO_DO_NOT_REACTIVATE
+          value: "true"

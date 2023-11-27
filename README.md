@@ -105,6 +105,7 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config -e DEFECT_DOJO_A
 | `defectDojoPushToJira`                | `"false"`              | Specifies whether findings should be pushed to Jira in DefectDojo.                          |
 | `defectDojoTestTitle`                 | `Kubernetes`           | The title of the test in DefectDojo.                                                        |
 | `defectDojoVerified`                  | `"false"`              | Specifies whether findings should be marked as verified in DefectDojo.                      |
+| `defectDojoDoNotReactivate`           | `"true"`               | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones                |
 
 ## A note on eval
 
