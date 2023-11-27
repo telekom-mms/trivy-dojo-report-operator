@@ -134,11 +134,13 @@ kubectl delete -f deploy/
 ```
 charts/Chart.yaml
 charts/values.yaml
+deploy/deployment.yaml
 ```
 
 * Package the new chart version:
 
 ```
+> rm -fr .cr-release-packages/
 > cr package charts/
 ```
 

@@ -33,5 +33,5 @@ operator:
       defectDojoVerified: "false"
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: trivy-dojo-report-operator-0.3.5
+      tag: trivy-dojo-report-operator-0.4.0
   type: ClusterIP
