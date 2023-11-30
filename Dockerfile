@@ -1,4 +1,4 @@
-FROM python:3.11-slim@sha256:1bc6a3e9356d64ea632791653bc71a56340e8741dab66434ab2739ebf6aed29d
+FROM python:3.11-slim@sha256:23f52205321f806c2cc742cefbf837e0d25101388c043e860c7817985230565c
 
 RUN pip install --no-cache-dir poetry
 
