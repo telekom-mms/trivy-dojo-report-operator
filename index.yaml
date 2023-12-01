@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   trivy-dojo-report-operator:
   - apiVersion: v2
+    appVersion: 0.4.1
+    created: "2023-12-01T09:55:48.609318722+01:00"
+    description: A Helm chart to install the trivy-dojo-report-operator
+    digest: 03a0ecec861145c5537e07be69bbba302be80c16d1642e6cf46ee4593647e1e4
+    name: trivy-dojo-report-operator
+    type: application
+    urls:
+    - https://github.com/telekom-mms/trivy-dojo-report-operator/releases/download/trivy-dojo-report-operator-0.4.1/trivy-dojo-report-operator-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
     appVersion: 0.4.0
     created: "2023-11-27T15:23:44.937627973+01:00"
     description: A Helm chart to install the trivy-dojo-report-operator
@@ -81,4 +91,4 @@ entries:
     urls:
     - https://github.com/telekom-mms/trivy-dojo-report-operator/releases/download/trivy-dojo-report-operator-0.1.0/trivy-dojo-report-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2023-11-27T15:23:44.937711532+01:00"
+generated: "2023-12-01T09:55:48.609384959+01:00"
