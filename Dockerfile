@@ -1,11 +1,18 @@
-FROM python:3.12-slim@sha256:eb6d3208444a54418be98f83f1006f6d78ef17144f1cd9eb4e5945d4851af355
+FROM python:3.12 as build
+
+WORKDIR /app
 
 RUN pip install --no-cache-dir poetry
 
-COPY poetry.lock pyproject.toml /
+COPY poetry.lock pyproject.toml /app/
 
-RUN poetry install --no-dev --no-cache
+RUN poetry config virtualenvs.in-project true
+RUN poetry install --no-ansi
 
-COPY src/* /src/
+FROM python:3.12-slim@sha256:eb6d3208444a54418be98f83f1006f6d78ef17144f1cd9eb4e5945d4851af355
 
-CMD ["poetry", "run", "kopf", "run", "--liveness=http://0.0.0.0:8080/healthz", "/src/handlers.py", "--all-namespaces"]
+COPY --from=build /app /app
+
+COPY src/* /app/
+
+CMD ["/app/.venv/bin/kopf", "run", "--liveness=http://0.0.0.0:8080/healthz", "/app/handlers.py", "--all-namespaces"]
