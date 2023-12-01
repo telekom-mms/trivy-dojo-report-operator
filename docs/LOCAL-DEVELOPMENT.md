@@ -77,7 +77,7 @@ environment for this operator.
   ```bash
   export DEFECT_DOJO_API_KEY="YOUR_API_KEY"
   export DEFECT_DOJO_URL="http://localhost:8080"
-  export LABEL="trivy-operator.resource.name"; export LABEL_VALUE="your_label_value";
+  export LABEL="trivy-operator.resource.name"; export LABEL_VALUE="your-label-value";
   export DEFECT_DOJO_ENGAGEMENT_NAME="test"
   export DEFECT_DOJO_AUTO_CREATE_CONTEXT=true
   export DEFECT_DOJO_ACTIVE=true
@@ -94,7 +94,7 @@ environment for this operator.
   ```bash
   $ poetry run kopf run src/handlers.py --all-namespaces
 
-  [2023-11-06 15:56:49,610] settings             [INFO    ] Looking for resources with LABEL 'trivy-operator.resource.name' and LABEL_VALUE 'your_label_value'
+  [2023-11-06 15:56:49,610] settings             [INFO    ] Looking for resources with LABEL 'trivy-operator.resource.name' and LABEL_VALUE 'your-label-value'
   [2023-11-06 15:56:49,646] kopf.activities.star [INFO    ] Activity 'configure' succeeded.
   [2023-11-06 15:56:49,647] kopf._core.engines.a [INFO    ] Initial authentication has been initiated.
   [2023-11-06 15:56:49,654] kopf.activities.auth [INFO    ] Activity 'login_via_client' succeeded.
@@ -104,16 +104,16 @@ environment for this operator.
 - Create a pod, thus a VulnerabilityReport
 
   ```bash
-  kubectl run --image debian:11 your_label_value bash
+  kubectl run --image debian:11 your-label-value bash
   ```
 
 - Check the logs in kopf:
 
   ```bash
-  [2023-11-07 08:57:36,430] kopf.objects         [INFO    ] [default/pod-your_label_value] Working on pod-your_label_value
-  [2023-11-07 08:57:40,048] kopf.objects         [INFO    ] [default/pod-your_label_value] Finished pod-your_label_value
-  [2023-11-07 08:57:40,050] kopf.objects         [INFO    ] [default/pod-your_label_value] Handler 'send_to_dojo' succeeded.
-  [2023-11-07 08:57:40,051] kopf.objects         [INFO    ] [default/pod-your_label_value] Creation is processed: 1 succeeded; 0 failed.
+  [2023-11-07 08:57:36,430] kopf.objects         [INFO    ] [default/pod-your-label-value] Working on pod-your-label-value
+  [2023-11-07 08:57:40,048] kopf.objects         [INFO    ] [default/pod-your-label-value] Finished pod-your-label-value
+  [2023-11-07 08:57:40,050] kopf.objects         [INFO    ] [default/pod-your-label-value] Handler 'send_to_dojo' succeeded.
+  [2023-11-07 08:57:40,051] kopf.objects         [INFO    ] [default/pod-your-label-value] Creation is processed: 1 succeeded; 0 failed.
   ```
 
 ## Troubleshooting
