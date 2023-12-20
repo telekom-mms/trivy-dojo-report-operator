@@ -54,7 +54,7 @@ kubectl apply -f deploy/
 
 Update the variables in the values.yaml to match your Defect Dojo instance configuration:
 
-```
+```yml
 defectDojoApiCredentials:
   apiKey: "your_defect_dojo_api_key"
   url: "https://your.defectdojo.instance"
@@ -131,7 +131,7 @@ kubectl delete -f deploy/
 
 * Update the versions in:
 
-```
+```files
 charts/Chart.yaml
 charts/values.yaml
 deploy/deployment.yaml
@@ -139,20 +139,24 @@ deploy/deployment.yaml
 
 * Package the new chart version:
 
-```
+```bash
 > rm -fr .cr-release-packages/
 > cr package charts/
 ```
 
 * Upload the new chart and create a new github release with the chart
 
-```
-> cr upload --owner telekom-mms --git-repo trivy-dojo-report-operator --token $GITHUB_COM_TOKEN
+```bash
+cr upload \
+  --owner telekom-mms \
+  --git-repo trivy-dojo-report-operator \
+  --token $GITHUB_COM_TOKEN \
+  --release-name-template "{{ .Version }}"
 ```
 
-* Update the cahrt repository:
+* Update the chart repository:
 
-```
+```bash
 > git co gh-pages
 > cr index --owner telekom-mms --git-repo trivy-dojo-report-operator -i index.yaml --token $GITHUB_COM_TOKEN
 > git add index.yaml
