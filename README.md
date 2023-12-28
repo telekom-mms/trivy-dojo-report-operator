@@ -144,25 +144,7 @@ deploy/deployment.yaml
 > cr package charts/
 ```
 
-* Upload the new chart and create a new github release with the chart
-
-```bash
-cr upload \
-  --owner telekom-mms \
-  --git-repo trivy-dojo-report-operator \
-  --token $GITHUB_COM_TOKEN \
-  --release-name-template "{{ .Version }}"
-```
-
-* Update the chart repository:
-
-```bash
-> git co gh-pages
-> cr index --owner telekom-mms --git-repo trivy-dojo-report-operator -i index.yaml --token $GITHUB_COM_TOKEN
-> git add index.yaml
-> git commit -m "update chart index"
-> git push origin gh-pages
-```
+* Trigger the [workflow action](https://github.com/telekom-mms/trivy-dojo-report-operator/actions)
 
 # License
 
