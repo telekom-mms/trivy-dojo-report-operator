@@ -144,7 +144,9 @@ deploy/deployment.yaml
 > cr package charts/
 ```
 
-* Trigger the [workflow action](https://github.com/telekom-mms/trivy-dojo-report-operator/actions)
+* Open a MR/Push them to the main branch
+* A draft release will be created
+* Manually publishing that release will trigger a new release of the helm chart 
 
 # License
 
