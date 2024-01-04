@@ -1,7 +1,7 @@
 name: Chart Release
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   release:
