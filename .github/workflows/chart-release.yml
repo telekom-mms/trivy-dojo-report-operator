@@ -18,6 +18,23 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
 
+      - name: Install yq
+        run: sudo snap install yq
+
+      - name: Update YAML File with Release Version
+        run: |
+          yq e ".operator.trivyDojoReportOperator.image.tag = \"${{ github.event.release.tag_name }}\"" -i charts/values.yaml
+          yq e ".appVersion = \"${{ github.event.release.tag_name }}\"" -i charts/Chart.yaml
+          yq e ".version = \"${{ github.event.release.tag_name }}\"" -i charts/Chart.yaml
+          yq e ".spec.template.spec.containers[0].image = \"ghcr.io/telekom-mms/docker-trivy-dojo-operator:${{ github.event.release.tag_name }}\"" -i deploy/deployment.yaml
+
+      - name: Commit all changed files back to the repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update version to ${{ github.event.release.tag_name }}
+          branch: ${{ github.ref }}
+          push_options: '--force'
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:
