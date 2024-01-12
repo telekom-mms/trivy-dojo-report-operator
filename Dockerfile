@@ -9,7 +9,7 @@ COPY poetry.lock pyproject.toml /app/
 RUN poetry config virtualenvs.in-project true
 RUN poetry install --no-ansi
 
-FROM python:3.12-slim@sha256:45700299484f0cd248020da669eb55780417c4496444f7c37dfd66e9577dca82
+FROM python:3.12-slim@sha256:ee9a59cfdad294560241c9a8c8e40034f165feb4af7088c1479c2cdd84aafbed
 
 COPY --from=build /app /app
 
