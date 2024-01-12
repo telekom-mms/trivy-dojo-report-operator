@@ -20,6 +20,7 @@ spec:
       containers:
       - name: trivy-dojo-report-operator
         image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.4.1
+        resources: {}
         livenessProbe:
           httpGet:
             path: /healthz
