@@ -92,5 +92,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
-        resources: {}
+        {{- if .Values.operator.trivyDojoReportOperator.resources }}
+        resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
+        {{- end }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
