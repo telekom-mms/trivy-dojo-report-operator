@@ -1,0 +1,53 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: calculate next version
+        id: version
+        uses: patrickjahns/version-drafter-action@fda4b8e4017bee5dd5794f255a4d484e8e647561 # v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update YAML File with next version
+        uses: mikefarah/yq@dd648994340a5d03225d97abf19c9bf1086c3f07 # v4.40.5
+        with:
+          cmd: |
+            yq e '.operator.trivyDojoReportOperator.image.tag = "${{ steps.version.outputs.next-version }}"' -i charts/values.yaml
+            yq e '.appVersion = "${{ steps.version.outputs.next-version }}"' -i charts/Chart.yaml
+            yq e '.version = "${{ steps.version.outputs.next-version }}"' -i charts/Chart.yaml
+            yq e '.spec.template.spec.containers[0].image = "ghcr.io/telekom-mms/docker-trivy-dojo-operator:${{ steps.version.outputs.next-version }}"' -i deploy/deployment.yaml
+
+      - name: Push Updates to YAML Files with next version
+        uses: github-actions-x/commit@722d56b8968bf00ced78407bbe2ead81062d8baa # v2.9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          push-branch: main
+          commit-message: Update version to ${{ steps.version.outputs.next-version }}
+          force-add: 'true'
+          files: charts/values.yaml charts/Chart.yaml deploy/deployment.yaml
+          name: Deutsche Telekom MMS
+          email: mms@telekom.de
+
+      - name: Create Release draft
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This token is provided by Actions, you do not need to create your own token
+        with:
+          release_name: ${{ steps.version.outputs.next-version }}
+          tag_name: ${{ steps.version.outputs.next-version }}
+          draft: true

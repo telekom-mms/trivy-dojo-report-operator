@@ -129,14 +129,16 @@ kubectl delete -f deploy/
 
 ## Creating new Releases
 
-Release creation is fully automated on push to the main branch
+* On push to main
+  * a new release version is calculated
+  * versions in all files are automatically updated
+  * a draft release is created
 
-* a new release version is calculated
-* versions in all files are automatically updated
-* new tag is created
-* new release is created
-* new container image build
-* new helm chart published
+* On publish of the draft release a
+  * new tag is created
+  * new release is created
+  * new container image build
+  * new helm chart published
 
 ## License
 
