@@ -134,7 +134,7 @@ kubectl delete -f deploy/
   * versions in all files are automatically updated
   * a draft release is created
 
-* On publish of the draft release a
+* On publish of the release a
   * new tag is created
   * new release is created
   * new container image build
