@@ -138,7 +138,7 @@ kubectl delete -f deploy/
   * new tag is created
   * new release is created
   * new container image build
-  * new helm chart published
+  * new helm chart is published
 
 ## License
 
