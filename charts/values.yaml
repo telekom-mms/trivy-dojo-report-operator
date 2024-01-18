@@ -33,6 +33,6 @@ operator:
       defectDojoVerified: "false"
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.4.2
+      tag: 0.1.0
     resources: {}
   type: ClusterIP
