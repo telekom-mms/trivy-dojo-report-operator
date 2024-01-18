@@ -6,6 +6,7 @@ on:
 
 jobs:
   release:
+    if: github.repository_owner == 'telekom-mms' # do not run this elsewhere
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -19,18 +20,13 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
 
-      - name: Install Chart Releaser
-        run: |
-          curl -sSL https://github.com/helm/chart-releaser/releases/download/v1.6.1/chart-releaser_1.6.1_linux_amd64.tar.gz | tar xz
-          sudo mv cr /usr/local/bin/
-
       - name: Get the version tag
         run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Package and Release Charts
         run: |
-          cr package charts/
-          gh release upload $VERSION_TAG .cr-release-packages/trivy-dojo-report-operator-$VERSION_TAG.tgz
+          helm package charts/
+          gh release upload $VERSION_TAG trivy-dojo-report-operator-$VERSION_TAG.tgz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,7 +36,7 @@ jobs:
           ref: gh-pages
 
       - name: Update index.yaml
-        run: cr index -o telekom-mms -r trivy-dojo-report-operator -c -i index.yaml --token ${{ secrets.GITHUB_TOKEN }}
+        run: helm repo index . --merge index.yaml --url "https://github.com/telekom-mms/trivy-dojo-report-operator/releases/download/${VERSION_TAG}/"
 
       - name: Push Updated index.yaml
         uses: github-actions-x/commit@722d56b8968bf00ced78407bbe2ead81062d8baa # v2.9
