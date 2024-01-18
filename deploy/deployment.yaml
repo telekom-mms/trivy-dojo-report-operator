@@ -18,59 +18,59 @@ spec:
     spec:
       serviceAccountName: trivy-dojo-report-account
       containers:
-      - name: trivy-dojo-report-operator
-        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.4.1
-        resources: {}
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 30
-        env:
-        - name: DEFECT_DOJO_API_KEY
-          valueFrom:
-            secretKeyRef:
-              key: apiKey
-              name: defect-dojo-api-credentials
-              optional: false
-        - name: DEFECT_DOJO_URL
-          valueFrom:
-            secretKeyRef:
-              key: url
-              name: defect-dojo-api-credentials
-              optional: false
-        - name: DEFECT_DOJO_ACTIVE
-          value: "true"
-        - name: DEFECT_DOJO_VERIFIED
-          value: "false"
-        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
-          value: "false"
-        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
-          value: "false"
-        - name: DEFECT_DOJO_PUSH_TO_JIRA
-          value: "false"
-        - name: DEFECT_DOJO_MINIMUM_SEVERITY
-          value: "Info"
-        - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
-          value: "true"
-        - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
-          value: "true"
-        - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
-          value: "Research and Development"
-        - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
-          value: "false"
-        - name: DEFECT_DOJO_TEST_TITLE
-          value: "Kubernetes"
-        - name: DEFECT_DOJO_EVAL_TEST_TITLE
-          value: "false"
-        - name: DEFECT_DOJO_ENGAGEMENT_NAME
-          value: "engagement"
-        - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
-          value: "false"
-        - name: DEFECT_DOJO_PRODUCT_NAME
-          value: "product"
-        - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
-          value: "false"
-        - name: DEFECT_DOJO_DO_NOT_REACTIVATE
-          value: "true"
+        - name: trivy-dojo-report-operator
+          image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.4.2
+          resources: {}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          env:
+            - name: DEFECT_DOJO_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: apiKey
+                  name: defect-dojo-api-credentials
+                  optional: false
+            - name: DEFECT_DOJO_URL
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: defect-dojo-api-credentials
+                  optional: false
+            - name: DEFECT_DOJO_ACTIVE
+              value: "true"
+            - name: DEFECT_DOJO_VERIFIED
+              value: "false"
+            - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
+              value: "false"
+            - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
+              value: "false"
+            - name: DEFECT_DOJO_PUSH_TO_JIRA
+              value: "false"
+            - name: DEFECT_DOJO_MINIMUM_SEVERITY
+              value: "Info"
+            - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
+              value: "true"
+            - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
+              value: "true"
+            - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
+              value: "Research and Development"
+            - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+              value: "false"
+            - name: DEFECT_DOJO_TEST_TITLE
+              value: "Kubernetes"
+            - name: DEFECT_DOJO_EVAL_TEST_TITLE
+              value: "false"
+            - name: DEFECT_DOJO_ENGAGEMENT_NAME
+              value: "engagement"
+            - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+              value: "false"
+            - name: DEFECT_DOJO_PRODUCT_NAME
+              value: "product"
+            - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
+              value: "false"
+            - name: DEFECT_DOJO_DO_NOT_REACTIVATE
+              value: "true"
