@@ -6,6 +6,7 @@ on:
 
 jobs:
   release:
+    if: github.repository_owner == 'telekom-mms' # do not run this elsewhere
     permissions:
       contents: write
       issues: read
