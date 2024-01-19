@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.3) (2024-01-19)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.4.2...0.4.3)
+
+**Merged pull requests:**
+
+- Ensure release actions do not run on forks, replace cr with helm boar… [\#48](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/48) ([szEvEz](https://github.com/szEvEz))
+
 ## [0.4.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.2) (2024-01-18)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/trivy-dojo-report-operator-0.4.1...0.4.2)
