@@ -554,13 +554,13 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kopf"
-version = "1.37.0"
+version = "1.37.1"
 description = "Kubernetes Operator Pythonic Framework (Kopf)"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "kopf-1.37.0-py3-none-any.whl", hash = "sha256:1d9e3102dc3144eca9d371aa201751804b73728c216da9622332a48ce97fee61"},
-    {file = "kopf-1.37.0.tar.gz", hash = "sha256:d6d3816951385b1a7cb4383f6836221df8689eda9f49618e9d0de5c4fcda75d6"},
+    {file = "kopf-1.37.1-py3-none-any.whl", hash = "sha256:dbeafe715987705d6fb44a49a26ca065b9e537a85c654efa94a520c6d16509d5"},
+    {file = "kopf-1.37.1.tar.gz", hash = "sha256:f38829cb702d788ab536ecd51f10d83175b971874af1d6c8178a864cf9af4ece"},
 ]
 
 [package.dependencies]
