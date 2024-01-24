@@ -5,7 +5,7 @@ metadata:
   labels:
   {{- include "charts.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.operator.replicas }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       application: trivy-dojo-report-operator
@@ -31,59 +31,59 @@ spec:
               name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
               optional: false
         - name: DEFECT_DOJO_ACTIVE
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
+          value: {{ quote .Values.env.defectDojoActive
             }}
         - name: DEFECT_DOJO_VERIFIED
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoVerified
+          value: {{ quote .Values.env.defectDojoVerified
             }}
         - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoCloseOldFindings
+          value: {{ quote .Values.env.defectDojoCloseOldFindings
             }}
         - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoCloseOldFindingsProductScope
+          value: {{ quote .Values.env.defectDojoCloseOldFindingsProductScope
             }}
         - name: DEFECT_DOJO_PUSH_TO_JIRA
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoPushToJira
+          value: {{ quote .Values.env.defectDojoPushToJira
             }}
         - name: DEFECT_DOJO_MINIMUM_SEVERITY
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoMinimumSeverity
+          value: {{ quote .Values.env.defectDojoMinimumSeverity
             }}
         - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoAutoCreateContext
+          value: {{ quote .Values.env.defectDojoAutoCreateContext
             }}
         - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDeduplicationOnEngagement
+          value: {{ quote .Values.env.defectDojoDeduplicationOnEngagement
             }}
         - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductTypeName
+          value: {{ quote .Values.env.defectDojoProductTypeName
             }}
         - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductTypeName
+          value: {{ quote .Values.env.defectDojoEvalProductTypeName
             }}
         - name: DEFECT_DOJO_TEST_TITLE
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTestTitle
+          value: {{ quote .Values.env.defectDojoTestTitle
             }}
         - name: DEFECT_DOJO_EVAL_TEST_TITLE
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalTestTitle
+          value: {{ quote .Values.env.defectDojoEvalTestTitle
             }}
         - name: DEFECT_DOJO_ENGAGEMENT_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEngagementName
+          value: {{ quote .Values.env.defectDojoEngagementName
             }}
         - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalEngagementName
+          value: {{ quote .Values.env.defectDojoEvalEngagementName
             }}
         - name: DEFECT_DOJO_PRODUCT_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductName
+          value: {{ quote .Values.env.defectDojoProductName
             }}
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
+          value: {{ quote .Values.env.defectDojoEvalProductName
             }}
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
-          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
+          value: {{ quote .Values.env.defectDojoDoNotReactivate
             }}
         - name: KUBERNETES_CLUSTER_DOMAIN
-          value: {{ quote .Values.kubernetesClusterDomain }}
-        image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
+          value: {{ quote .Values.env.kubernetesClusterDomain }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag
           | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
@@ -92,7 +92,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
-        {{- if .Values.operator.trivyDojoReportOperator.resources }}
-        resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
+        {{- if .Values.resources }}
+        resources: {{- toYaml .Values.resources | nindent 10 }}
         {{- end }}
       serviceAccountName: {{ include "charts.fullname" . }}-account

@@ -5,10 +5,10 @@ metadata:
   labels:
   {{- include "charts.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.operator.type }}
+  type: ClusterIP
   selector:
     app.kubernetes.io/instance: trivy-dojo-report-operator
     app.kubernetes.io/name: trivy-dojo-report-operator
   {{- include "charts.selectorLabels" . | nindent 4 }}
   ports:
-	{{- .Values.operator.ports | toYaml | nindent 2 -}}
+	{{- .Values.ports | toYaml | nindent 2 -}}

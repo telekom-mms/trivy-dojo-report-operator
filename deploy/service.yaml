@@ -5,7 +5,7 @@ metadata:
   name: trivy-dojo-report-operator
   namespace: mgmt
 spec:
-  clusterIP: None
+  type: ClusterIP
   ports:
     - name: metrics
       port: 80

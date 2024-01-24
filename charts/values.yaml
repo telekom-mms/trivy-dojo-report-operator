@@ -1,38 +1,40 @@
-account:
-  serviceAccount:
-    annotations: {}
 defectDojoApiCredentials:
   apiKey: ""
   url: ""
-kubernetesClusterDomain: cluster.local
-operator:
-  ports:
-    - name: metrics
-      port: 80
-      protocol: TCP
-      targetPort: metrics
-  replicas: 1
-  trivyDojoReportOperator:
-    env:
-      defectDojoActive: "true"
-      defectDojoAutoCreateContext: "true"
-      defectDojoCloseOldFindings: "false"
-      defectDojoCloseOldFindingsProductScope: "false"
-      defectDojoDeduplicationOnEngagement: "true"
-      defectDojoDoNotReactivate: "true"
-      defectDojoEngagementName: engagement
-      defectDojoEvalEngagementName: "false"
-      defectDojoEvalProductName: "false"
-      defectDojoEvalProductTypeName: "false"
-      defectDojoEvalTestTitle: "false"
-      defectDojoMinimumSeverity: Info
-      defectDojoProductName: product
-      defectDojoProductTypeName: Research and Development
-      defectDojoPushToJira: "false"
-      defectDojoTestTitle: Kubernetes
-      defectDojoVerified: "false"
-    image:
-      repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.4.3
-    resources: {}
-  type: ClusterIP
+
+ports:
+  - name: metrics
+    port: 80
+    protocol: TCP
+    targetPort: metrics
+
+replicas: 1
+
+env:
+  kubernetesClusterDomain: cluster.local
+  defectDojoActive: "true"
+  defectDojoAutoCreateContext: "true"
+  defectDojoCloseOldFindings: "false"
+  defectDojoCloseOldFindingsProductScope: "false"
+  defectDojoDeduplicationOnEngagement: "true"
+  defectDojoDoNotReactivate: "true"
+  defectDojoEngagementName: engagement
+  defectDojoEvalEngagementName: "false"
+  defectDojoEvalProductName: "false"
+  defectDojoEvalProductTypeName: "false"
+  defectDojoEvalTestTitle: "false"
+  defectDojoMinimumSeverity: Info
+  defectDojoProductName: product
+  defectDojoProductTypeName: Research and Development
+  defectDojoPushToJira: "false"
+  defectDojoTestTitle: Kubernetes
+  defectDojoVerified: "false"
+
+image:
+  repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
+  tag: 0.4.3
+
+resources: {}
+
+serviceAccount:
+  annotations: {}
