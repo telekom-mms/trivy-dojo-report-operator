@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.3) (2024-01-28)
+## [0.4.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.3) (2024-01-30)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.4.2...0.4.3)
 
@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- Update dependency black to v24 [\#50](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/50) ([renovate[bot]](https://github.com/apps/renovate))
 - Ensure release actions do not run on forks, replace cr with helm boar… [\#48](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/48) ([szEvEz](https://github.com/szEvEz))
 
 ## [0.4.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.2) (2024-01-18)
