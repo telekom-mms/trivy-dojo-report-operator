@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- Update dependency pytest to v8 [\#51](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/51) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v24 [\#50](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/50) ([renovate[bot]](https://github.com/apps/renovate))
 - Ensure release actions do not run on forks, replace cr with helm boar… [\#48](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/48) ([szEvEz](https://github.com/szEvEz))
 
