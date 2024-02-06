@@ -56,3 +56,7 @@ DEFECT_DOJO_PRODUCT_NAME: str = os.getenv(
 DEFECT_DOJO_EVAL_PRODUCT_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_PRODUCT_NAME")
 
 DEFECT_DOJO_DO_NOT_REACTIVATE: bool = get_env_var_bool("DEFECT_DOJO_DO_NOT_REACTIVATE")
+
+LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
+
+REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
