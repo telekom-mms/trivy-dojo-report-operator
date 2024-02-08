@@ -81,6 +81,8 @@ spec:
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
             }}
+        - name: REPORTS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
@@ -92,7 +94,5 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
-        {{- if .Values.operator.trivyDojoReportOperator.resources }}
-        resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
-        {{- end }}
+        resources: {}
       serviceAccountName: {{ include "charts.fullname" . }}-account
