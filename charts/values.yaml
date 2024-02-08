@@ -7,10 +7,10 @@ defectDojoApiCredentials:
 kubernetesClusterDomain: cluster.local
 operator:
   ports:
-  - name: metrics
-    port: 80
-    protocol: TCP
-    targetPort: metrics
+    - name: metrics
+      port: 80
+      protocol: TCP
+      targetPort: metrics
   replicas: 1
   trivyDojoReportOperator:
     env:
@@ -34,5 +34,5 @@ operator:
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.4.3
+      tag: 0.5.0
   type: ClusterIP

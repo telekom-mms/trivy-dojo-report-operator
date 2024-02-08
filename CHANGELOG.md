@@ -1,12 +1,13 @@
 # Changelog
 
-## [0.4.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.4.3) (2024-02-08)
+## [0.5.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.0) (2024-02-08)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.4.2...0.4.3)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.4.2...0.5.0)
 
 **Implemented enhancements:**
 
 - \[Enhancement\] Create helm chart releases via actions [\#40](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/40)
+- Support multiple reports from trivy [\#53](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/53) ([rndmh3ro](https://github.com/rndmh3ro))
 
 **Merged pull requests:**
 
