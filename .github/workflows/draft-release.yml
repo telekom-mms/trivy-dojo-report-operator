@@ -39,7 +39,7 @@ jobs:
           futureRelease: ${{ steps.version.outputs.next-version }}
 
       - name: Update YAML File with next version
-        uses: mikefarah/yq@dd648994340a5d03225d97abf19c9bf1086c3f07 # v4.40.5
+        uses: mikefarah/yq@e19046273e37d1d4f5d3524f085db34be8174645 # v4.40.6
         with:
           cmd: |
             yq e '.operator.trivyDojoReportOperator.image.tag = "${{ steps.version.outputs.next-version }}"' -i charts/values.yaml
