@@ -34,5 +34,5 @@ operator:
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.5.1
+      tag: 0.5.2
   type: ClusterIP
