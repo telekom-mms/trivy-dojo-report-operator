@@ -9,6 +9,14 @@ The trivy-dojo-report-operator is a Kubernetes operator developed using Kopf and
 * Seamless integration with your existing Kubernetes cluster and security workflow.
 * Developed using the Pythonic Kopf framework for easy maintenance and extensibility.
 
+## Supported Reports
+
+* Vulnerability reports
+* RBAC Assessment reports
+* Infra Assessment reports
+* Config Audit reports
+* Exposed secrets
+
 ## Prerequisites
 
 * A running Kubernetes cluster (minikube, kind, or another environment)
@@ -82,30 +90,37 @@ You can also run the operator locally. This way you don't have to install anythi
 ```bash
 docker pull ghcr.io/telekom-mms/docker-trivy-dojo-operator
 
-docker run -it -v /path/to/your/.kube/config:/root/.kube/config -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL -e LABEL="trivy-operator.resource.name" -e LABEL_VALUE="master-live-server" ghcr.io/telekom-mms/docker-trivy-dojo-operator
+docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
+  -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY \
+  -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL \
+  -e LABEL="trivy-operator.resource.name" \
+  -e LABEL_VALUE="master-live-server" \
+  -e REPORTS="vulnerabilityreports"
+  ghcr.io/telekom-mms/docker-trivy-dojo-operator
 ```
 
 ## Configuration
 
-| Variable                             | Default Value          | Description                                                                                  |
-|--------------------------------------|------------------------|----------------------------------------------------------------------------------------------|
-| `defectDojoActive`                    | `"true"`               | Override the active setting from the tool.                                                  |
-| `defectDojoAutoCreateContext`         | `"true"`               | Specifies whether to automatically create Engagements, Products and Product_Types           |
-| `defectDojoCloseOldFindings`          | `"false"`              | Select if old findings no longer present in the report get closed as mitigated when importing. If service has been set, only the findings for this service will be closed. |
-| `defectDojoCloseOldFindingsProductScope` | `"false"`           | Select if close_old_findings applies to all findings of the same type in the product. By default, it is false meaning that only old findings of the same type in the engagement are in scope. |
-| `defectDojoDeduplicationOnEngagement` | `"true"`               | restrict deduplication for imported Findings to the newly created Engagement.               |
-| `defectDojoEngagementName`            | `engagement`           | The name of the engagement in DefectDojo.                                                   |
-| `defectDojoEvalEngagementName`        | `"false"`              | Specifies whether the engagement name should be evaluated as a python function.             |
-| `defectDojoEvalProductName`           | `"false"`              | Specifies whether the product name should be evaluated as a python function.                |
-| `defectDojoEvalProductTypeName`       | `"false"`              | Specifies whether the product type name should be evaluated as a python function.           |
-| `defectDojoEvalTestTitle`             | `"false"`              | Specifies whether the test title should be evaluated as a python function.                  |
-| `defectDojoMinimumSeverity`           | `Info`                 | The minimum severity level for findings in DefectDojo.                                      |
-| `defectDojoProductName`               | `product`              | The name of the product in DefectDojo.                                                      |
-| `defectDojoProductTypeName`           | `Research and Development` | The type of the product in DefectDojo.                                                  |
-| `defectDojoPushToJira`                | `"false"`              | Specifies whether findings should be pushed to Jira in DefectDojo.                          |
-| `defectDojoTestTitle`                 | `Kubernetes`           | The title of the test in DefectDojo.                                                        |
-| `defectDojoVerified`                  | `"false"`              | Specifies whether findings should be marked as verified in DefectDojo.                      |
-| `defectDojoDoNotReactivate`           | `"true"`               | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones                |
+| Variable                             | Default Value               | Description                                                                                  |
+|--------------------------------------|-----------------------------|----------------------------------------------------------------------------------------------|
+| `defectDojoActive`                    | `"true"`                   | Override the active setting from the tool.                                                   |
+| `defectDojoAutoCreateContext`         | `"true"`                   | Specifies whether to automatically create Engagements, Products and Product_Types            |
+| `defectDojoCloseOldFindings`          | `"false"`                  | Select if old findings no longer present in the report get closed as mitigated when importing. If service has been set, only the findings for this service will be closed. |
+| `defectDojoCloseOldFindingsProductScope` | `"false"`               | Select if close_old_findings applies to all findings of the same type in the product. By default, it is false meaning that only old findings of the same type in the engagement are in scope. |
+| `defectDojoDeduplicationOnEngagement` | `"true"`                   | restrict deduplication for imported Findings to the newly created Engagement.                |
+| `defectDojoEngagementName`            | `engagement`               | The name of the engagement in DefectDojo.                                                    |
+| `defectDojoEvalEngagementName`        | `"false"`                  | Specifies whether the engagement name should be evaluated as a python function.              |
+| `defectDojoEvalProductName`           | `"false"`                  | Specifies whether the product name should be evaluated as a python function.                 |
+| `defectDojoEvalProductTypeName`       | `"false"`                  | Specifies whether the product type name should be evaluated as a python function.            |
+| `defectDojoEvalTestTitle`             | `"false"`                  | Specifies whether the test title should be evaluated as a python function.                   |
+| `defectDojoMinimumSeverity`           | `Info`                     | The minimum severity level for findings in DefectDojo.                                       |
+| `defectDojoProductName`               | `product`                  | The name of the product in DefectDojo.                                                       |
+| `defectDojoProductTypeName`           | `Research and Development` | The type of the product in DefectDojo.                                                       |
+| `defectDojoPushToJira`                | `"false"`                  | Specifies whether findings should be pushed to Jira in DefectDojo.                           |
+| `defectDojoTestTitle`                 | `Kubernetes`               | The title of the test in DefectDojo.                                                         |
+| `defectDojoVerified`                  | `"false"`                  | Specifies whether findings should be marked as verified in DefectDojo.                       |
+| `defectDojoDoNotReactivate`           | `"true"`                   | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones             |
+| `reports`                             | `"vulnerabilityreports"`   | Comma-separated list of reports that should be sent to DefectDojo. Possibilities: vulnerabilityreports, rbacassessmentreports, infraassessmentreports, configauditreports, exposedsecrets |
 
 ### A note on eval
 

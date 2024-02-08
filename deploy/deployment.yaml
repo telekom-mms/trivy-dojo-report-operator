@@ -74,3 +74,5 @@ spec:
               value: "false"
             - name: DEFECT_DOJO_DO_NOT_REACTIVATE
               value: "true"
+            - name: REPORTS
+              value: "vulnerabilityreports"
