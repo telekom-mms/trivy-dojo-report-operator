@@ -97,19 +97,19 @@
 
 ## [trivy-dojo-report-operator-0.3.3+50eb81f](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/trivy-dojo-report-operator-0.3.3+50eb81f) (2023-11-02)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.3.2...trivy-dojo-report-operator-0.3.3+50eb81f)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/trivy-dojo-report-operator-0.3.2...trivy-dojo-report-operator-0.3.3+50eb81f)
 
 **Merged pull requests:**
 
 - add retry-logic [\#18](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/18) ([rndmh3ro](https://github.com/rndmh3ro))
 
-## [0.3.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.3.2) (2023-11-02)
-
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/trivy-dojo-report-operator-0.3.2...0.3.2)
-
 ## [trivy-dojo-report-operator-0.3.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/trivy-dojo-report-operator-0.3.2) (2023-11-02)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/trivy-dojo-report-operator-0.3.0...trivy-dojo-report-operator-0.3.2)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.3.2...trivy-dojo-report-operator-0.3.2)
+
+## [0.3.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.3.2) (2023-11-02)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/trivy-dojo-report-operator-0.3.0...0.3.2)
 
 ## [trivy-dojo-report-operator-0.3.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/trivy-dojo-report-operator-0.3.0) (2023-11-01)
 
