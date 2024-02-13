@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.2) (2024-02-13)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.1...0.5.2)
+
+**Implemented enhancements:**
+
+- \[Enhancement\] Separate Engagements by Namespace [\#54](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/54)
+
 ## [0.5.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.1) (2024-02-08)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.0...0.5.1)
