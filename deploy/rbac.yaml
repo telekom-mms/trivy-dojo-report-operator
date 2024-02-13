@@ -11,7 +11,7 @@ metadata:
   name: trivy-dojo-report-role-cluster
 rules:
   - apiGroups: [aquasecurity.github.io]
-    resources: [vulnerabilityreports]
+    resources: [vulnerabilityreports, rbacassessmentreports, configauditreports, infraassessmentreports, exposedsecretreports]
     verbs: [list, watch, patch, get]
 
   # Framework: runtime observation of namespaces & CRDs (addition/deletion).

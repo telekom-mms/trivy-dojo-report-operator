@@ -18,6 +18,10 @@ rules:
   - aquasecurity.github.io
   resources:
   - vulnerabilityreports
+  - rbacassessmentreports
+  - configauditreports
+  - infraassessmentreports
+  - exposedsecretreports
   verbs:
   - list
   - watch
