@@ -7,6 +7,11 @@
 **Implemented enhancements:**
 
 - \[Enhancement\] Separate Engagements by Namespace [\#54](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/54)
+- \[Enhancement\] Add more kind of reports and make them configurables [\#52](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/52)
+
+**Merged pull requests:**
+
+- Fix ClusterRole permissions [\#55](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/55) ([corvusmod](https://github.com/corvusmod))
 
 ## [0.5.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.1) (2024-02-08)
 
