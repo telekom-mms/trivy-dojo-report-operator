@@ -1,22 +1,22 @@
-name: Release
+name: Publish Release
 on:
   release:
     types:
       - published
 
 jobs:
-  release:
+  publish-release:
     if: github.repository_owner == 'telekom-mms' # do not run this elsewhere
     permissions:
       contents: write
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout repository
+      - name: Checkout repo main-branch, because there is the up-to-date Chart.yaml
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0
-          ref: ${{ github.event.release.tag_name }}
+          ref: main
 
       - name: Install Helm
         uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
@@ -31,20 +31,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout Branch gh-pages
+      - name: Checkout Branch gh-pages because that's where the chart-repo exists
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: gh-pages
+          # we do not want to delete the created chart
+          clean: false
 
       - name: Update index.yaml
-        run: helm repo index . --merge index.yaml --url "https://github.com/telekom-mms/trivy-dojo-report-operator/releases/download/${VERSION_TAG}/"
+        run: helm repo index . --merge index.yaml
 
       - name: Push Updated index.yaml
         uses: github-actions-x/commit@722d56b8968bf00ced78407bbe2ead81062d8baa # v2.9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           push-branch: gh-pages
-          commit-message: Update version to $VERSION_TAG
+          commit-message: Update version to new version
           force-add: 'true'
           files: index.yaml
           name: Deutsche Telekom MMS
