@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.3) (2024-02-14)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.2...0.5.3)
+
+**Merged pull requests:**
+
+- fix release jobs [\#56](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/56) ([rndmh3ro](https://github.com/rndmh3ro))
+
 ## [0.5.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.2) (2024-02-13)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.1...0.5.2)
