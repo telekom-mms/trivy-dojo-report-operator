@@ -36,7 +36,7 @@ jobs:
         with:
           ref: gh-pages
           # we do not want to delete the created chart
-          clean: false
+          clean: "false"
 
       - name: Update index.yaml
         run: helm repo index . --merge index.yaml
@@ -51,3 +51,8 @@ jobs:
           files: index.yaml
           name: Deutsche Telekom MMS
           email: mms@telekom.de
+
+      - name: Delete old drafts
+        uses: hugo19941994/delete-draft-releases@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
