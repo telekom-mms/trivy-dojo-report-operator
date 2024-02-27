@@ -42,11 +42,11 @@ DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME"
 )
 
-DEFECT_DOJO_TEST_TITLE: str = os.getenv(
-    "DEFECT_DOJO_TEST_TITLE", "Test"
+DEFECT_DOJO_ENV_NAME: str = os.getenv(
+    "DEFECT_DOJO_ENV_NAME", "Test"
 )
-DEFECT_DOJO_EVAL_TEST_TITLE: bool = get_env_var_bool(
-    "DEFECT_DOJO_EVAL_TEST_TITLE"
+DEFECT_DOJO_EVAL_ENV_NAME: bool = get_env_var_bool(
+    "DEFECT_DOJO_EVAL_ENV_NAME"
 )
 
 DEFECT_DOJO_TEST_TITLE: str = os.getenv("DEFECT_DOJO_TEST_TITLE", "Kubernetes")
