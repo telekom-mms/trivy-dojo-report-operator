@@ -112,7 +112,7 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
 | `defectDojoEvalEngagementName`        | `"false"`                  | Specifies whether the engagement name should be evaluated as a python function.              |
 | `defectDojoEvalProductName`           | `"false"`                  | Specifies whether the product name should be evaluated as a python function.                 |
 | `defectDojoEvalProductTypeName`       | `"false"`                  | Specifies whether the product type name should be evaluated as a python function.            |
-| `defectDojoEvalEnvName`               | `"false"`                  | Specifies whether the enviroment type name should be evaluated as a python function.           |
+| `defectDojoEvalEnvName`               | `"false"`                  | Specifies whether the enviroment type name should be evaluated as a python function.         |
 | `defectDojoEvalTestTitle`             | `"false"`                  | Specifies whether the test title should be evaluated as a python function.                   |
 | `defectDojoMinimumSeverity`           | `Info`                     | The minimum severity level for findings in DefectDojo.                                       |
 | `defectDojoProductName`               | `product`                  | The name of the product in DefectDojo.                                                       |
