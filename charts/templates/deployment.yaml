@@ -60,6 +60,12 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductTypeName
             }}
+        - name: DEFECT_DOJO_ENV_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEnvName
+            }}
+        - name: DEFECT_DOJO_EVAL_ENV_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalEnvName
+            }}
         - name: DEFECT_DOJO_TEST_TITLE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTestTitle
             }}

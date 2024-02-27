@@ -60,6 +60,10 @@ spec:
               value: "Research and Development"
             - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
               value: "false"
+            - name: DEFECT_DOJO_ENV_NAME
+              value: "Test"
+            - name: DEFECT_DOJO_EVAL_ENV_NAME
+              value: "false"
             - name: DEFECT_DOJO_TEST_TITLE
               value: "Kubernetes"
             - name: DEFECT_DOJO_EVAL_TEST_TITLE
