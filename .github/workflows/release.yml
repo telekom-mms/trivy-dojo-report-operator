@@ -19,7 +19,7 @@ jobs:
           ref: main
 
       - name: Install Helm
-        uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
+        uses: azure/setup-helm@29960d0f5f19214b88e1d9ba750a9914ab0f1a2f # v4
 
       - name: Get the version tag
         run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
