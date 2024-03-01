@@ -61,7 +61,7 @@ spec:
             - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
               value: "false"
             - name: DEFECT_DOJO_ENV_NAME
-              value: "Test"
+              value: "Development"
             - name: DEFECT_DOJO_EVAL_ENV_NAME
               value: "false"
             - name: DEFECT_DOJO_TEST_TITLE

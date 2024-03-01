@@ -117,7 +117,7 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
 | `defectDojoMinimumSeverity`           | `Info`                     | The minimum severity level for findings in DefectDojo.                                       |
 | `defectDojoProductName`               | `product`                  | The name of the product in DefectDojo.                                                       |
 | `defectDojoProductTypeName`           | `Research and Development` | The type of the product in DefectDojo.                                                       |
-| `defectDojoEnvName`                   | `Test`                     | The type of the env in DefectDojo.                                                           |
+| `defectDojoEnvName`                   | `Development`              | The type of the env in DefectDojo.                                                           |
 | `defectDojoPushToJira`                | `"false"`                  | Specifies whether findings should be pushed to Jira in DefectDojo.                           |
 | `defectDojoTestTitle`                 | `Kubernetes`               | The title of the test in DefectDojo.                                                         |
 | `defectDojoVerified`                  | `"false"`                  | Specifies whether findings should be marked as verified in DefectDojo.                       |

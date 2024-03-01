@@ -29,7 +29,7 @@ operator:
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
-      defectDojoEnvName: Tests
+      defectDojoEnvName: Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
