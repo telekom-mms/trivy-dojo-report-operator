@@ -24,10 +24,12 @@ operator:
       defectDojoEvalEngagementName: "false"
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
+      defectDojoEvalEnvName: "false"
       defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
+      defectDojoEnvName: Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
