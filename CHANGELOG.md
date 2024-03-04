@@ -7,6 +7,7 @@
 **Merged pull requests:**
 
 - Update azure/setup-helm action to v4 [\#59](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/59) ([renovate[bot]](https://github.com/apps/renovate))
+- Add dojo development enviroment [\#58](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/58) ([C4tWithShell](https://github.com/C4tWithShell))
 
 ## [0.5.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.4) (2024-02-14)
 
