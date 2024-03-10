@@ -122,7 +122,7 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
 | `defectDojoTestTitle`                 | `Kubernetes`               | The title of the test in DefectDojo.                                                         |
 | `defectDojoVerified`                  | `"false"`                  | Specifies whether findings should be marked as verified in DefectDojo.                       |
 | `defectDojoDoNotReactivate`           | `"true"`                   | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones             |
-| `reports`                             | `"vulnerabilityreports"`   | Comma-separated list of reports that should be sent to DefectDojo. Possibilities: vulnerabilityreports, rbacassessmentreports, infraassessmentreports, configauditreports, exposedsecrets |
+| `reports`                             | `"vulnerabilityreports"`   | Comma-separated list of reports that should be sent to DefectDojo. Possibilities: vulnerabilityreports, rbacassessmentreports, infraassessmentreports, configauditreports, exposedsecretreports |
 
 ### A note on eval
 
