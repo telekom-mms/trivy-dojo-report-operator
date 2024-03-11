@@ -1,12 +1,16 @@
 # Changelog
 
-## [0.5.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.6) (2024-03-09)
+## [0.5.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.6) (2024-03-11)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.5...0.5.6)
 
 **Implemented enhancements:**
 
 - Add a environment to the import\_test [\#57](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/57)
+
+**Merged pull requests:**
+
+- Update README.md \(exposedsecretreports\) [\#61](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/61) ([Pionerd](https://github.com/Pionerd))
 
 ## [0.5.5](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.5) (2024-03-04)
 
