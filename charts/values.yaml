@@ -26,10 +26,12 @@ operator:
       defectDojoEvalEngagementName: "false"
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
+      defectDojoEvalEnvName: "false"
       defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
+      defectDojoEnvName: Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
@@ -47,5 +49,5 @@ operator:
         - ALL
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.5.5
+      tag: 0.5.6
   type: ClusterIP

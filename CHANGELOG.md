@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.6) (2024-03-14)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.5...0.5.6)
+
+**Implemented enhancements:**
+
+- Add a environment to the import\_test [\#57](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/57)
+
+**Fixed bugs:**
+
+- \[Bug\] Mitigation / Reimport failing [\#62](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/62)
+
+**Merged pull requests:**
+
+- Update README.md \(exposedsecretreports\) [\#61](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/61) ([Pionerd](https://github.com/Pionerd))
+
+## [0.5.5](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.5) (2024-03-04)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.4...0.5.5)
+
+**Merged pull requests:**
+
+- Update azure/setup-helm action to v4 [\#59](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/59) ([renovate[bot]](https://github.com/apps/renovate))
+- Add dojo development enviroment [\#58](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/58) ([C4tWithShell](https://github.com/C4tWithShell))
+
 ## [0.5.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.4) (2024-02-14)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.3...0.5.4)

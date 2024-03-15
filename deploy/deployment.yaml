@@ -19,7 +19,7 @@ spec:
       serviceAccountName: trivy-dojo-report-account
       containers:
         - name: trivy-dojo-report-operator
-          image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.5
+          image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.6
           securityContext:
             securityContext:
             runAsUser: 1000
@@ -71,6 +71,10 @@ spec:
             - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
               value: "Research and Development"
             - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+              value: "false"
+            - name: DEFECT_DOJO_ENV_NAME
+              value: "Development"
+            - name: DEFECT_DOJO_EVAL_ENV_NAME
               value: "false"
             - name: DEFECT_DOJO_TEST_TITLE
               value: "Kubernetes"

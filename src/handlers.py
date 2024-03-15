@@ -107,6 +107,12 @@ for report in settings.REPORTS:
             else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
         )
 
+        _DEFECT_DOJO_ENV_NAME = (
+            eval(settings.DEFECT_DOJO_ENV_NAME)
+            if settings.DEFECT_DOJO_EVAL_ENV_NAME
+            else settings.DEFECT_DOJO_ENV_NAME
+        )
+
         _DEFECT_DOJO_TEST_TITLE = (
             eval(settings.DEFECT_DOJO_TEST_TITLE)
             if settings.DEFECT_DOJO_EVAL_TEST_TITLE
@@ -136,6 +142,7 @@ for report in settings.REPORTS:
             "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
             "product_name": _DEFECT_DOJO_PRODUCT_NAME,
             "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
+            "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
         }
