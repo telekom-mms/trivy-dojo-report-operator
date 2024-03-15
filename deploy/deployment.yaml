@@ -21,7 +21,6 @@ spec:
         - name: trivy-dojo-report-operator
           image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.6
           securityContext:
-            securityContext:
             runAsUser: 1000
             runAsNonRoot: true
             privileged: false
