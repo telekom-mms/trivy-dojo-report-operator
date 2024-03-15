@@ -20,6 +20,18 @@ spec:
       containers:
         - name: trivy-dojo-report-operator
           image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.5
+          securityContext:
+            securityContext:
+            runAsUser: 1000
+            runAsNonRoot: true
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+              - ALL
           resources: {}
           livenessProbe:
             httpGet:

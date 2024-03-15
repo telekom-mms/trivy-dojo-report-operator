@@ -5,6 +5,8 @@ defectDojoApiCredentials:
   apiKey: ""
   url: ""
 kubernetesClusterDomain: cluster.local
+securityContext:
+  enabled: true
 operator:
   ports:
     - name: metrics
@@ -32,6 +34,17 @@ operator:
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
+    securityContext:
+      runAsUser: 1000
+      runAsNonRoot: true
+      privileged: false
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+        - ALL
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.5.5

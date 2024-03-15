@@ -11,8 +11,15 @@ RUN poetry install --no-ansi
 
 FROM python:3.12-slim@sha256:5c73034c2bc151596ee0f1335610735162ee2b148816710706afec4757ad5b1e
 
+RUN groupadd --gid 1000 app && \
+    useradd --create-home --gid 1000 --uid 1000 app
+
+WORKDIR /home/app
+
 COPY --from=build /app /app
 
 COPY src/* /app/
+
+USER app
 
 CMD ["/app/.venv/bin/kopf", "run", "--liveness=http://0.0.0.0:8080/healthz", "/app/handlers.py", "--all-namespaces"]

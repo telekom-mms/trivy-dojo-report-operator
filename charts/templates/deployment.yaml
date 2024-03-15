@@ -87,6 +87,10 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
           | default .Chart.AppVersion }}
+        {{- if .Values.securityContext.enabled }}
+        securityContext:
+          {{- toYaml .Values.operator.trivyDojoReportOperator.securityContext | nindent 10 }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /healthz
