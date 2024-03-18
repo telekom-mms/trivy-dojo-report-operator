@@ -5,8 +5,12 @@ defectDojoApiCredentials:
   apiKey: ""
   url: ""
 kubernetesClusterDomain: cluster.local
-securityContext:
+podSecurityContext:
   enabled: true
+  fsGroupChangePolicy: Always
+  sysctls: []
+  supplementalGroups: []
+  fsGroup: 1001
 operator:
   ports:
     - name: metrics
@@ -38,6 +42,7 @@ operator:
       reports: vulnerabilityreports
     securityContext:
       runAsUser: 1000
+      runAsGroup: 1000
       runAsNonRoot: true
       privileged: false
       readOnlyRootFilesystem: true

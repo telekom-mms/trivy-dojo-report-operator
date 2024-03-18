@@ -16,6 +16,7 @@ spec:
         application: trivy-dojo-report-operator
       {{- include "charts.selectorLabels" . | nindent 8 }}
     spec:
+      securityContext: {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - env:
         - name: DEFECT_DOJO_API_KEY
@@ -93,10 +94,8 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
           | default .Chart.AppVersion }}
-        {{- if .Values.securityContext.enabled }}
         securityContext:
           {{- toYaml .Values.operator.trivyDojoReportOperator.securityContext | nindent 10 }}
-        {{- end }}
         livenessProbe:
           httpGet:
             path: /healthz

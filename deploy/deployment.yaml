@@ -17,6 +17,12 @@ spec:
         application: trivy-dojo-report-operator
     spec:
       serviceAccountName: trivy-dojo-report-account
+      podSecurityContext:
+        enabled: true
+        fsGroupChangePolicy: Always
+        sysctls: []
+        supplementalGroups: []
+        fsGroup: 1001
       containers:
         - name: trivy-dojo-report-operator
           image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.6
