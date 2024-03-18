@@ -21,7 +21,7 @@ operator:
       privileged: false
       readOnlyRootFilesystem: true
       runAsGroup: 1000
-      runAsNonRoot: true
+      fsGroup: 1000
       runAsUser: 1000
       seccompProfile:
         type: RuntimeDefault
@@ -51,5 +51,5 @@ operator:
       tag: 0.5.7
   type: ClusterIP
   podSecurityContext:
-    fsGroup: 1000
+    runAsNonRoot: true
     fsGroupChangePolicy: Always
