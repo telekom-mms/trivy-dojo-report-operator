@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.7) (2024-03-18)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.6...0.5.7)
+
+**Fixed bugs:**
+
+- Helm chart index contains wrong url [\#63](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/63)
+
 ## [0.5.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.6) (2024-03-18)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.5...0.5.6)

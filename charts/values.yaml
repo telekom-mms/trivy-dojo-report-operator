@@ -54,5 +54,5 @@ operator:
         - ALL
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.5.6
+      tag: 0.5.7
   type: ClusterIP
