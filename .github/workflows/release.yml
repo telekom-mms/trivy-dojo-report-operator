@@ -39,7 +39,7 @@ jobs:
           clean: "false"
 
       - name: Update index.yaml
-        run: helm repo index . --merge index.yaml
+        run: helm repo index . --merge index.yaml --url "https://github.com/telekom-mms/trivy-dojo-report-operator/releases/download/${VERSION_TAG}/"
 
       - name: Push Updated index.yaml
         uses: github-actions-x/commit@722d56b8968bf00ced78407bbe2ead81062d8baa # v2.9
