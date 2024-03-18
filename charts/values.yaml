@@ -1,24 +1,30 @@
-account:
-  serviceAccount:
-    annotations: {}
 defectDojoApiCredentials:
   apiKey: ""
   url: ""
 kubernetesClusterDomain: cluster.local
-podSecurityContext:
-  enabled: true
-  fsGroupChangePolicy: Always
-  sysctls: []
-  supplementalGroups: []
-  fsGroup: 1001
+account:
+  serviceAccount:
+    annotations: {}
 operator:
   ports:
-    - name: metrics
-      port: 80
-      protocol: TCP
-      targetPort: metrics
+  - name: metrics
+    port: 80
+    protocol: TCP
+    targetPort: metrics
   replicas: 1
   trivyDojoReportOperator:
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
     env:
       defectDojoActive: "true"
       defectDojoAutoCreateContext: "true"
@@ -27,32 +33,23 @@ operator:
       defectDojoDeduplicationOnEngagement: "true"
       defectDojoDoNotReactivate: "true"
       defectDojoEngagementName: engagement
+      defectDojoEnvName: Development
       defectDojoEvalEngagementName: "false"
+      defectDojoEvalEnvName: "false"
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
-      defectDojoEvalEnvName: "false"
       defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
-      defectDojoEnvName: Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      runAsNonRoot: true
-      privileged: false
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-      seccompProfile:
-        type: RuntimeDefault
-      capabilities:
-        drop:
-        - ALL
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.5.7
   type: ClusterIP
+  podSecurityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: Always
