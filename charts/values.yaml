@@ -21,7 +21,6 @@ operator:
       privileged: false
       readOnlyRootFilesystem: true
       runAsGroup: 1000
-      fsGroup: 1000
       runAsUser: 1000
       seccompProfile:
         type: RuntimeDefault
