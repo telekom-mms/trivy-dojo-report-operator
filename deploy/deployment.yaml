@@ -23,7 +23,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: trivy-dojo-report-operator
-          image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.6.0
+          image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.6.1
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
