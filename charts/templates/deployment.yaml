@@ -101,4 +101,7 @@ spec:
           periodSeconds: 30
         name: trivy-dojo-report-operator
         resources: {}
+        securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
+          | nindent 10 }}
+      securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
