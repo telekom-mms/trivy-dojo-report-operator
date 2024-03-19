@@ -20,6 +20,7 @@ spec:
       securityContext:
         runAsNonRoot: true
         fsGroupChangePolicy: Always
+        fsGroup: 1000
       containers:
         - name: trivy-dojo-report-operator
           image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.5.7
