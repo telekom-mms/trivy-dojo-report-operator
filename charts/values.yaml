@@ -7,17 +7,17 @@ account:
     annotations: {}
 operator:
   ports:
-  - name: metrics
-    port: 80
-    protocol: TCP
-    targetPort: metrics
+    - name: metrics
+      port: 80
+      protocol: TCP
+      targetPort: metrics
   replicas: 1
   trivyDojoReportOperator:
     containerSecurityContext:
       allowPrivilegeEscalation: false
       capabilities:
         drop:
-        - ALL
+          - ALL
       privileged: false
       readOnlyRootFilesystem: true
       runAsGroup: 1000
@@ -47,7 +47,7 @@ operator:
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.5.7
+      tag: 0.6.0
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true

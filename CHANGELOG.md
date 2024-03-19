@@ -1,8 +1,12 @@
 # Changelog
 
-## [0.5.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.7) (2024-03-18)
+## [0.6.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.0) (2024-03-19)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.6...0.5.7)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.6...0.6.0)
+
+**Implemented enhancements:**
+
+- Rootless container, securityContext [\#64](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/64) ([C4tWithShell](https://github.com/C4tWithShell))
 
 **Fixed bugs:**
 
