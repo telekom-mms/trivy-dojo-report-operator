@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.1) (2024-04-02)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.0...0.6.1)
+
+**Merged pull requests:**
+
+- Update dependency pytest-cov to v5 [\#65](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/65) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.6.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.0) (2024-03-19)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.6...0.6.0)
