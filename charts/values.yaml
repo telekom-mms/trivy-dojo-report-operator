@@ -24,6 +24,7 @@ operator:
       runAsUser: 1000
       seccompProfile:
         type: RuntimeDefault
+    resources: {}
     env:
       defectDojoActive: "true"
       defectDojoAutoCreateContext: "true"
