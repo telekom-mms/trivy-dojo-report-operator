@@ -46,6 +46,9 @@ jobs:
             yq e '.appVersion = "${{ steps.version.outputs.next-version }}"' -i charts/Chart.yaml
             yq e '.version = "${{ steps.version.outputs.next-version }}"' -i charts/Chart.yaml
 
+      - name: Generate manifests from helm chart
+        run: helm template telekom-mms charts --values charts/values.yaml > deploy/trivy-dojo-report-operator.yaml
+
       - name: Push Updates to YAML Files with next version
         uses: github-actions-x/commit@722d56b8968bf00ced78407bbe2ead81062d8baa # v2.9
         with:
@@ -53,7 +56,7 @@ jobs:
           push-branch: main
           commit-message: Update version to ${{ steps.version.outputs.next-version }}
           force-add: 'true'
-          files: charts/values.yaml charts/Chart.yaml CHANGELOG.md
+          files: charts/values.yaml charts/Chart.yaml CHANGELOG.md deploy/trivy-dojo-report-operator.yaml
           name: Deutsche Telekom MMS
           email: mms@telekom.de
 

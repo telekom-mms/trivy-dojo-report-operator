@@ -1,0 +1,226 @@
+---
+# Source: trivy-dojo-report-operator/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-account
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+---
+# Source: trivy-dojo-report-operator/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+stringData:
+  apiKey: "YOUR_DEFECTDOJO_API_KEY"
+  url: "YOUR_DEFECTDOJO_URL"
+type: Opaque
+---
+# Source: trivy-dojo-report-operator/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-role-cluster
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+rules:
+- apiGroups:
+  - aquasecurity.github.io
+  resources:
+  - vulnerabilityreports
+  - rbacassessmentreports
+  - configauditreports
+  - infraassessmentreports
+  - exposedsecretreports
+  verbs:
+  - list
+  - watch
+  - patch
+  - get
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+---
+# Source: trivy-dojo-report-operator/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-rolebinding-cluster
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'telekom-mms-trivy-dojo-report-operator-role-cluster'
+subjects:
+- kind: ServiceAccount
+  name: 'telekom-mms-trivy-dojo-report-operator-account'
+  namespace: 'mgmt'
+---
+# Source: trivy-dojo-report-operator/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-operator
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: trivy-dojo-report-operator
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+  ports:
+  - name: metrics
+    port: 80
+    protocol: TCP
+    targetPort: metrics
+---
+# Source: trivy-dojo-report-operator/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telekom-mms-trivy-dojo-report-operator-operator
+  labels:
+    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    app.kubernetes.io/name: trivy-dojo-report-operator
+    app.kubernetes.io/instance: telekom-mms
+    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: trivy-dojo-report-operator
+      app.kubernetes.io/name: trivy-dojo-report-operator
+      app.kubernetes.io/instance: telekom-mms
+  template:
+    metadata:
+      labels:
+        application: trivy-dojo-report-operator
+        app.kubernetes.io/name: trivy-dojo-report-operator
+        app.kubernetes.io/instance: telekom-mms
+    spec:
+      containers:
+      - env:
+        - name: DEFECT_DOJO_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: apiKey
+              name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
+              optional: false
+        - name: DEFECT_DOJO_URL
+          valueFrom:
+            secretKeyRef:
+              key: url
+              name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
+              optional: false
+        - name: DEFECT_DOJO_ACTIVE
+          value: "true"
+        - name: DEFECT_DOJO_VERIFIED
+          value: "false"
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
+          value: "false"
+        - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE
+          value: "false"
+        - name: DEFECT_DOJO_PUSH_TO_JIRA
+          value: "false"
+        - name: DEFECT_DOJO_MINIMUM_SEVERITY
+          value: "Info"
+        - name: DEFECT_DOJO_AUTO_CREATE_CONTEXT
+          value: "true"
+        - name: DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
+          value: "true"
+        - name: DEFECT_DOJO_PRODUCT_TYPE_NAME
+          value: "Research and Development"
+        - name: DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+          value: "false"
+        - name: DEFECT_DOJO_ENV_NAME
+          value: "Development"
+        - name: DEFECT_DOJO_EVAL_ENV_NAME
+          value: "false"
+        - name: DEFECT_DOJO_TEST_TITLE
+          value: "Kubernetes"
+        - name: DEFECT_DOJO_EVAL_TEST_TITLE
+          value: "false"
+        - name: DEFECT_DOJO_ENGAGEMENT_NAME
+          value: "engagement"
+        - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+          value: "false"
+        - name: DEFECT_DOJO_PRODUCT_NAME
+          value: "product"
+        - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
+          value: "false"
+        - name: DEFECT_DOJO_DO_NOT_REACTIVATE
+          value: "true"
+        - name: REPORTS
+          value: "vulnerabilityreports"
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: "cluster.local"
+        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.6.1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        name: trivy-dojo-report-operator
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsGroup: 1000
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      serviceAccountName: telekom-mms-trivy-dojo-report-operator-account

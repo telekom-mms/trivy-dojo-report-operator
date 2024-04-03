@@ -36,14 +36,15 @@ the options in the `import-scan` API-call found
 
 ```yml
 defectDojoApiCredentials:
-  apiKey: "your_defect_dojo_api_key"
-  url: "https://your.defectdojo.instance"
+  apiKey: "YOUR_DEFECTDOJO_API_KEY"
+  url: "https://YOUR.DEFECTDOJO.URL"
 ```
 
 * Deploy the chart from the repository:
 
 ```bash
 helm repo add trivy-dojo-report-operator https://telekom-mms.github.io/trivy-dojo-report-operator/
+helm repo update
 helm install chart-name trivy-dojo-report-operator/trivy-dojo-report-operator --values your_values.yaml
 ```
 
@@ -134,6 +135,7 @@ helm uninstall chart-name
 * On push to main
   * a new release version is calculated
   * versions in all files are automatically updated
+  * k8s manifests are rendered from the helm chart and updated in deploy/
   * a draft release is created
 
 * On publish of the release a

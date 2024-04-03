@@ -1,6 +1,6 @@
 defectDojoApiCredentials:
-  apiKey: ""
-  url: ""
+  apiKey: "YOUR_DEFECTDOJO_API_KEY"
+  url: "YOUR_DEFECTDOJO_URL"
 kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:
