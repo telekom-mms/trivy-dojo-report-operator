@@ -56,7 +56,7 @@ cd trivy-dojo-report-operator
 helm install chart-name charts/
 ```
 
-* or Deploy the trivy-dojo-report-operator using the Kubernetes manifests
+* or deploy the trivy-dojo-report-operator using the Kubernetes manifests
   * update the secret in the [manifest](deploy/trivy-dojo-report-operator.yaml)
   * apply manifests
 
