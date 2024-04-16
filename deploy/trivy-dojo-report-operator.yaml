@@ -93,7 +93,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: 'telekom-mms-trivy-dojo-report-operator-account'
-  namespace: 'mgmt'
+  namespace: 'default'
 ---
 # Source: trivy-dojo-report-operator/templates/service.yaml
 apiVersion: v1

@@ -1,11 +1,12 @@
 # Changelog
 
-## [0.6.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.1) (2024-04-15)
+## [0.6.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.1) (2024-04-16)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.0...0.6.1)
 
 **Merged pull requests:**
 
+- Re-add configuration for resource requests and limits, remove kubernetes manifest [\#67](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/67) ([szEvEz](https://github.com/szEvEz))
 - Update dependency pytest-cov to v5 [\#65](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/65) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.6.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.0) (2024-03-19)
