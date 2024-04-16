@@ -48,7 +48,7 @@ helm repo update
 helm install chart-name trivy-dojo-report-operator/trivy-dojo-report-operator --values your_values.yaml
 ```
 
-* or Deploy the chart manually after cloning the git-repository:
+* or deploy the chart manually after cloning the git-repository:
 
 ```bash
 git clone https://github.com/telekom-mms/trivy-dojo-report-operator.git
