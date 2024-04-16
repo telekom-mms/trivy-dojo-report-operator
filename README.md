@@ -48,12 +48,21 @@ helm repo update
 helm install chart-name trivy-dojo-report-operator/trivy-dojo-report-operator --values your_values.yaml
 ```
 
-* Deploy the chart manually after cloning the git-repository:
+* or Deploy the chart manually after cloning the git-repository:
 
 ```bash
 git clone https://github.com/telekom-mms/trivy-dojo-report-operator.git
 cd trivy-dojo-report-operator
 helm install chart-name charts/
+```
+
+* or Deploy the trivy-dojo-report-operator using the Kubernetes manifests
+  * update the secret in the [manifest](deploy/trivy-dojo-report-operator.yaml)
+  * apply manifests
+
+```bash
+kubectl create ns mgmt
+kubectl apply -f deploy/trivy-dojo-report-operator.yaml
 ```
 
 The operator is now running in your cluster and will monitor for Trivy
