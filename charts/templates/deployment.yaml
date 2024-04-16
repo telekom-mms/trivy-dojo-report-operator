@@ -91,8 +91,7 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
-        image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag
-          | default .Chart.AppVersion }}
+        image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
             path: /healthz
@@ -100,7 +99,9 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
-        resources: {}
+        {{- if .Values.operator.trivyDojoReportOperator.resources }}
+        resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
+        {{- end }}
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
