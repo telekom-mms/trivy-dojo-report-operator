@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-account
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -19,10 +19,10 @@ kind: Secret
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
 stringData:
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
@@ -35,10 +35,10 @@ kind: ClusterRole
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-role-cluster
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -81,10 +81,10 @@ kind: ClusterRoleBinding
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-rolebinding-cluster
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -101,10 +101,10 @@ kind: Service
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-operator
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -125,10 +125,10 @@ kind: Deployment
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-operator
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.6.1
+    helm.sh/chart: trivy-dojo-report-operator-0.6.2
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.6.1"
+    app.kubernetes.io/version: "0.6.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -200,7 +200,7 @@ spec:
           value: "vulnerabilityreports"
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: "cluster.local"
-        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.6.1
+        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.6.2
         livenessProbe:
           httpGet:
             path: /healthz
