@@ -109,8 +109,6 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/instance: trivy-dojo-report-operator
-    app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
   ports:
