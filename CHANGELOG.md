@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.7.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.0) (2024-07-30)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.2...0.7.0)
+
+**Implemented enhancements:**
+
+- :tada: improve Dockerfile and implement hadolint [\#73](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/73) ([manuel-sommer](https://github.com/manuel-sommer))
+
+**Merged pull requests:**
+
+- Update tj-actions/changed-files action to v44 [\#74](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/74) ([renovate[bot]](https://github.com/apps/renovate))
+- Update docker/build-push-action action to v6 [\#70](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/70) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency kubernetes to v30 [\#69](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/69) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.6.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.2) (2024-05-28)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.1...0.6.2)
