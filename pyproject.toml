@@ -13,7 +13,7 @@ documentation = "https://github.com/telekom-mms/trivy-dojo-report-operator/"
 python = "^3.9"
 kopf = "^1.36.2"
 requests = "^2.31.0"
-kubernetes = "^29.0.0"
+kubernetes = "^30.0.0"
 prometheus-client = "^0.20.0"
 aiohttp = "^3.9.3"
 
