@@ -34,13 +34,13 @@ jobs:
         if: github.event_name == 'release'
       -
         name: Build the container
-        uses: docker/build-push-action@4f7cdeb0f05278b464e71357394bf2c61f94138e # v6
+        uses: docker/build-push-action@16ebe778df0e7752d2cfcbd924afdbbd89c1a755 # v6
         with:
           context: .
           push: false
       -
         name: Build and push to ghcr.io
-        uses: docker/build-push-action@4f7cdeb0f05278b464e71357394bf2c61f94138e # v6
+        uses: docker/build-push-action@16ebe778df0e7752d2cfcbd924afdbbd89c1a755 # v6
         with:
           context: .
           push: true
