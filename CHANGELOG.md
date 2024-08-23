@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.2) (2024-08-23)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.1...0.7.2)
+
+**Merged pull requests:**
+
+- Update dependency aiohttp to v3.10.5 [\#76](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/76) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.7.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.1) (2024-08-17)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.0...0.7.1)
