@@ -119,6 +119,12 @@ for report in settings.REPORTS:
             else settings.DEFECT_DOJO_TEST_TITLE
         )
 
+        _DEFECT_DOJO_BRANCH_TAG = (
+            eval(settings.DEFECT_DOJO_BRANCH_TAG)
+            if settings.DEFECT_DOJO_EVAL_BRANCH_TAG
+            else settings.DEFECT_DOJO_BRANCH_TAG
+        )
+
         # define the vulnerabilityreport as a json-file so DD accepts it
         json_string: str = json.dumps(full_object)
         json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
@@ -142,6 +148,7 @@ for report in settings.REPORTS:
             "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
             "product_name": _DEFECT_DOJO_PRODUCT_NAME,
             "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
+            "branch_tag": _DEFECT_DOJO_BRANCH_TAG,
             "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
@@ -155,7 +162,7 @@ for report in settings.REPORTS:
                 headers=headers,
                 data=data,
                 files=report_file,
-                verify=True,
+                verify=settings.DEFECT_DOJO_VERIFY_SSL,
             )
             response.raise_for_status()
         except HTTPError as http_err:
