@@ -21,7 +21,7 @@ aiohttp = "^3.9.3"
 black = "^24.0.0"
 mypy = "^1.0.0"
 pytest = "^8.0.0"
-pytest-cov = "^5.0.0"
+pytest-cov = "^6.0.0"
 types-PyYAML = "^6.0.12"
 isort = "^5.10.1"
 
