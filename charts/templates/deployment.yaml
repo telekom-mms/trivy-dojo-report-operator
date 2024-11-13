@@ -97,6 +97,10 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
+        {{- if .Values.remoteClusterKubeconfig }}
+        - name: KUBECONFIG
+          value: "/app/.kube/config"
+        {{- end }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
@@ -110,7 +114,22 @@ spec:
         {{- end }}
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
+        {{- if .Values.remoteClusterKubeconfig }}
+        volumeMounts:
+        - name: kubeconfig
+          mountPath: /app/.kube
+        {{- end }}
+      {{- if .Values.remoteClusterKubeconfig }}
+      volumes:
+      - name: kubeconfig
+        secret:
+          secretName: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
+          items:
+          - key: kubeconfig
+            path: config
+      {{- end }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
+      {{- if .Values.createRBAC }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
       {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
       nodeSelector:

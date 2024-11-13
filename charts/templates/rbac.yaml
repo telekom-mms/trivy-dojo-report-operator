@@ -1,3 +1,4 @@
+{{- if .Values.createRBAC }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -62,3 +63,4 @@ subjects:
 - kind: ServiceAccount
   name: '{{ include "charts.fullname" . }}-account'
   namespace: '{{ .Release.Namespace }}'
+{{- end }}
