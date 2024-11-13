@@ -1,4 +1,4 @@
-FROM python:3.12@sha256:f2268d7eaa0ffed6f078159432baa81db9be1a6748bec566153e1c20a46a2715 as build
+FROM python:3.12@sha256:d2baf6cdd7adfa1a5a12effd42b7a2e18443e47ba780942f41d620c189e659b7 as build
 
 WORKDIR /app
 
