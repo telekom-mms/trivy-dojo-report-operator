@@ -1,8 +1,12 @@
 # Changelog
 
-## [0.7.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.4) (2024-11-13)
+## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-13)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.7.4)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.8.0)
+
+**Implemented enhancements:**
+
+- Allow variable DEFECT\_DOJO\_PRODUCT\_TYPE\_NAME empty [\#83](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/83) ([tidusete](https://github.com/tidusete))
 
 **Fixed bugs:**
 
@@ -10,8 +14,8 @@
 
 **Merged pull requests:**
 
-- Allow variable DEFECT\_DOJO\_PRODUCT\_TYPE\_NAME empty [\#83](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/83) ([tidusete](https://github.com/tidusete))
-- Update dependency pytest-cov to v6 [\#81](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/81) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-cov to v6 - autoclosed [\#81](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/81) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency kubernetes to v31 [\#79](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/79) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.7.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.3) (2024-10-23)
 
