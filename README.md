@@ -81,6 +81,7 @@ docker pull ghcr.io/telekom-mms/docker-trivy-dojo-operator
 docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
   -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY \
   -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL \
+  -e DEFECT_DOJO_PRODUCT_TYPE_NAME="Research and Development" \
   -e LABEL="trivy-operator.resource.name" \
   -e LABEL_VALUE="master-live-server" \
   -e REPORTS="vulnerabilityreports"
@@ -104,7 +105,7 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
 | `defectDojoEvalTestTitle`             | `"false"`                  | Specifies whether the test title should be evaluated as a python function.                   |
 | `defectDojoMinimumSeverity`           | `Info`                     | The minimum severity level for findings in DefectDojo.                                       |
 | `defectDojoProductName`               | `product`                  | The name of the product in DefectDojo.                                                       |
-| `defectDojoProductTypeName`           | `Research and Development` | The type of the product in DefectDojo.                                                       |
+| `defectDojoProductTypeName`           | `` | The type of the product in DefectDojo.                                                       |
 | `defectDojoEnvName`                   | `Development`              | The type of the env in DefectDojo.                                                           |
 | `defectDojoPushToJira`                | `"false"`                  | Specifies whether findings should be pushed to Jira in DefectDojo.                           |
 | `defectDojoTestTitle`                 | `Kubernetes`               | The title of the test in DefectDojo.                                                         |
