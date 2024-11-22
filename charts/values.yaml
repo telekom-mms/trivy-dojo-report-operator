@@ -1,6 +1,7 @@
 defectDojoApiCredentials:
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
   url: "YOUR_DEFECTDOJO_URL"
+  verifySSL: "true"
 kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:
@@ -36,9 +37,11 @@ operator:
       defectDojoEnvName: Development
       defectDojoEvalEngagementName: "false"
       defectDojoEvalEnvName: "false"
+      defectDojoEvalBranchTag: "false"
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
       defectDojoEvalTestTitle: "false"
+      defectDojoBranchTag: "branch-tag"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
