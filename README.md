@@ -81,6 +81,7 @@ docker pull ghcr.io/telekom-mms/docker-trivy-dojo-operator
 docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
   -e DEFECT_DOJO_API_KEY=$DEFECT_DOJO_API_KEY \
   -e DEFECT_DOJO_URL=$DEFECT_DOJO_URL \
+  -e DEFECT_DOJO_PRODUCT_TYPE_NAME="Research and Development" \
   -e LABEL="trivy-operator.resource.name" \
   -e LABEL_VALUE="master-live-server" \
   -e REPORTS="vulnerabilityreports"

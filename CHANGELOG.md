@@ -1,6 +1,27 @@
 # Changelog
 
-## [0.7.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.2) (2024-09-06)
+## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-21)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.8.0)
+
+**Implemented enhancements:**
+
+- Allow variable DEFECT\_DOJO\_PRODUCT\_TYPE\_NAME empty [\#83](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/83) ([tidusete](https://github.com/tidusete))
+
+**Fixed bugs:**
+
+- \[Bug\] Image docker-trivy-dojo-operator:0.7.3 does not exist? [\#82](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/82)
+
+**Merged pull requests:**
+
+- Update dependency pytest-cov to v6 - autoclosed [\#81](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/81) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency kubernetes to v31 [\#79](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/79) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.7.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.3) (2024-10-23)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.2...0.7.3)
+
+## [0.7.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.2) (2024-09-27)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.1...0.7.2)
 

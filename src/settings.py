@@ -36,7 +36,7 @@ DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT: bool = get_env_var_bool(
 )
 
 DEFECT_DOJO_PRODUCT_TYPE_NAME: str = os.getenv(
-    "DEFECT_DOJO_PRODUCT_TYPE_NAME", "Research and Development"
+    "DEFECT_DOJO_PRODUCT_TYPE_NAME", ""
 )
 DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME"
@@ -65,7 +65,7 @@ DEFECT_DOJO_EVAL_ENGAGEMENT_NAME: bool = get_env_var_bool(
 )
 
 DEFECT_DOJO_PRODUCT_NAME: str = os.getenv(
-    "DEFECT_DOJO_PRODUCT_NAME", "Research and Development"
+    "DEFECT_DOJO_PRODUCT_NAME", "product"
 )
 DEFECT_DOJO_EVAL_PRODUCT_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_PRODUCT_NAME")
 
