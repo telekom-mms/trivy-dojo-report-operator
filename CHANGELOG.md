@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-21)
+## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-25)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.8.0)
 
@@ -16,6 +16,7 @@
 
 - Update dependency pytest-cov to v6 - autoclosed [\#81](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/81) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency kubernetes to v31 [\#79](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/79) ([renovate[bot]](https://github.com/apps/renovate))
+- feat: add support for setting 'Service' [\#78](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/78) ([donbowman](https://github.com/donbowman))
 
 ## [0.7.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.3) (2024-10-23)
 
