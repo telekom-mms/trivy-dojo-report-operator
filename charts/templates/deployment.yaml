@@ -106,3 +106,15 @@ spec:
           | nindent 10 }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
+      {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
