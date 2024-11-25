@@ -84,6 +84,12 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
             }}
+        - name: DEFECT_DOJO_SERVICE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoServiceName
+            }}
+        - name: DEFECT_DOJO_EVAL_SERVICE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalServiceName
+            }}
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
             }}

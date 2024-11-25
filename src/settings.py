@@ -42,6 +42,13 @@ DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME"
 )
 
+DEFECT_DOJO_SERVICE_NAME: str = os.getenv(
+    "DEFECT_DOJO_SERVICE_NAME", ""
+)
+DEFECT_DOJO_EVAL_SERVICE_NAME: bool = get_env_var_bool(
+    "DEFECT_DOJO_EVAL_SERVICE_TYPE_NAME"
+)
+
 DEFECT_DOJO_ENV_NAME: str = os.getenv(
     "DEFECT_DOJO_ENV_NAME", "Development"
 )
