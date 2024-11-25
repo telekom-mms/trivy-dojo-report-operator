@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.1) (2024-11-25)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.0...0.8.1)
+
+**Merged pull requests:**
+
+- Add affinity, nodeselector and tolerations to deployment [\#86](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/86) ([lbi22](https://github.com/lbi22))
+
 ## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-25)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.8.0)

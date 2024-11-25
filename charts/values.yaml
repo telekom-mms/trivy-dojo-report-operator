@@ -51,7 +51,7 @@ operator:
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.8.0
+      tag: 0.8.1
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true
