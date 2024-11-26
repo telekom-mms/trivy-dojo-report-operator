@@ -131,6 +131,7 @@ spec:
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       {{- if .Values.createRBAC }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
+      {{- end }}
       {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
