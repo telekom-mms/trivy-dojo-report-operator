@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.2) (2024-11-27)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.1...0.8.2)
+
+**Merged pull requests:**
+
+- Fix: correct DEFECT\_DOJO\_EVAL\_SERVICE\_NAME environment variable [\#88](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/88) ([tidusete](https://github.com/tidusete))
+
 ## [0.8.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.1) (2024-11-25)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.0...0.8.1)
