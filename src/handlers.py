@@ -179,3 +179,106 @@ for report in settings.REPORTS:
             c.labels("success").inc()
             logger.info(f"Finished {body['kind']} {meta['name']}")
             logger.debug(response.content)
+
+    if settings.DEFECT_DOJO_MITIGATE_FINDINGS: 
+        @kopf.on.delete(report.lower() + ".aquasecurity.github.io", labels=labels)
+        def close_on_dojo(body, meta, logger, **_):
+            """
+            This is the function that checks if a report was deleted or not
+            """
+
+            logger.info(f"Working on {body['kind']} {meta['name']}")
+
+            # body is the whole kubernetes manifest of a vulnerabilityreport
+            # body is a Python-Object that is not json-serializable,
+            # but body[kind], body[metadata] and so on are
+            full_object: dict = {}
+            for i in body:
+                full_object[i] = body[i]
+
+            logger.debug(full_object)
+
+            _DEFECT_DOJO_ENGAGEMENT_NAME = (
+                eval(settings.DEFECT_DOJO_ENGAGEMENT_NAME)
+                if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+                else settings.DEFECT_DOJO_ENGAGEMENT_NAME
+            )
+
+            _DEFECT_DOJO_PRODUCT_NAME = (
+                eval(settings.DEFECT_DOJO_PRODUCT_NAME)
+                if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME
+                else settings.DEFECT_DOJO_PRODUCT_NAME
+            )
+
+            _DEFECT_DOJO_PRODUCT_TYPE_NAME = (
+                eval(settings.DEFECT_DOJO_PRODUCT_TYPE_NAME)
+                if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+                else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
+            )
+
+            _DEFECT_DOJO_ENV_NAME = (
+                eval(settings.DEFECT_DOJO_ENV_NAME)
+                if settings.DEFECT_DOJO_EVAL_ENV_NAME
+                else settings.DEFECT_DOJO_ENV_NAME
+            )
+
+            _DEFECT_DOJO_TEST_TITLE = (
+                eval(settings.DEFECT_DOJO_TEST_TITLE)
+                if settings.DEFECT_DOJO_EVAL_TEST_TITLE
+                else settings.DEFECT_DOJO_TEST_TITLE
+            )
+
+            # define the vulnerabilityreport as a json-file so DD accepts it
+            json_string: str = json.dumps(full_object)
+            json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
+            report_file: dict = {"file": ("report.json", json_file)}
+
+            headers: dict = {
+                "Authorization": "Token " + settings.DEFECT_DOJO_API_KEY,
+                "Accept": "application/json",
+            }
+
+            data: dict = {
+                "active": False,
+                "verified": settings.DEFECT_DOJO_VERIFIED,
+                "close_old_findings": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS,
+                "close_old_findings_product_scope": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE,
+                "push_to_jira": settings.DEFECT_DOJO_PUSH_TO_JIRA,
+                "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
+                "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
+                "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
+                "scan_type": "Trivy Operator Scan",
+                "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
+                "product_name": _DEFECT_DOJO_PRODUCT_NAME,
+                "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
+                "environment": _DEFECT_DOJO_ENV_NAME,
+                "test_title": _DEFECT_DOJO_TEST_TITLE,
+                "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
+            }
+
+            logger.debug(data)
+
+            try:
+                response: requests.Response = requests.post(
+                    settings.DEFECT_DOJO_URL + "/api/v2/reimport-scan/",
+                    headers=headers,
+                    data=data,
+                    files=report_file,
+                    verify=True,
+                )
+                response.raise_for_status()
+            except HTTPError as http_err:
+                c.labels("failed").inc()
+                raise kopf.TemporaryError(
+                    f"HTTP error occurred: {http_err} - {response.content}. Retrying in 60 seconds",
+                    delay=60,
+                )
+            except Exception as err:
+                c.labels("failed").inc()
+                raise kopf.TemporaryError(
+                    f"Other error occurred: {err}. Retrying in 60 seconds", delay=60
+                )
+            else:
+                c.labels("success").inc()
+                logger.info(f"Finished {body['kind']} {meta['name']}")
+                logger.debug(response.content)

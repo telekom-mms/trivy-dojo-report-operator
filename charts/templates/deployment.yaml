@@ -33,6 +33,9 @@ spec:
         - name: DEFECT_DOJO_ACTIVE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
             }}
+        - name: DEFECT_DOJO_MITIGATE_FINDINGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoMitigateFindings
+            }}
         - name: DEFECT_DOJO_VERIFIED
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoVerified
             }}
