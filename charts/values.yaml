@@ -1,6 +1,8 @@
 defectDojoApiCredentials:
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
   url: "YOUR_DEFECTDOJO_URL"
+# -- Kubeconfig remote cluster already in base64
+remoteClusterKubeconfig: ""
 kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:
@@ -57,3 +59,4 @@ operator:
     runAsNonRoot: true
     fsGroupChangePolicy: Always
     fsGroup: 1000
+createRBAC: true

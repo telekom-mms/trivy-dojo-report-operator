@@ -32,6 +32,12 @@ def check_allowed_reports(report: str):
         )
         exit(1)
 
+@kopf.on.login()
+def login_fn(**kwargs):
+    if settings.KUBECONFIG:
+        return kopf.login_with_kubeconfig(**kwargs)
+    else:
+        return kopf.login_via_client(**kwargs)
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
