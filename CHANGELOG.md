@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.3) (2024-12-11)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.2...0.8.3)
+
+**Merged pull requests:**
+
+- feat\(multiplatform-images\): Build images for arm64 platform [\#90](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/90) ([guipal](https://github.com/guipal))
+
 ## [0.8.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.2) (2024-11-27)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.1...0.8.2)
