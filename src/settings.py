@@ -17,7 +17,7 @@ else:
 
 DEFECT_DOJO_API_KEY: str = get_required_env_var("DEFECT_DOJO_API_KEY")
 DEFECT_DOJO_URL: str = get_required_env_var("DEFECT_DOJO_URL")
-
+DEFECT_DOJO_MITIGATE_FINDINGS: str = get_required_env_var("DEFECT_DOJO_MITIGATE_FINDINGS")
 DEFECT_DOJO_ACTIVE: bool = get_env_var_bool("DEFECT_DOJO_ACTIVE")
 DEFECT_DOJO_VERIFIED: bool = get_env_var_bool("DEFECT_DOJO_VERIFIED")
 DEFECT_DOJO_CLOSE_OLD_FINDINGS: bool = get_env_var_bool(

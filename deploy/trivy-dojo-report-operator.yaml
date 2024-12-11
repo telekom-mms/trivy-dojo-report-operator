@@ -158,6 +158,8 @@ spec:
               optional: false
         - name: DEFECT_DOJO_ACTIVE
           value: "true"
+        - name: DEFECT_DOJO_MITIGATE_FINDINGS
+          value: "false"
         - name: DEFECT_DOJO_VERIFIED
           value: "false"
         - name: DEFECT_DOJO_CLOSE_OLD_FINDINGS
