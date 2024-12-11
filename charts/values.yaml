@@ -28,6 +28,8 @@ operator:
     affinity: {}
     nodeSelector: {}
     tolerations: []
+    extraVolumeMounts: []
+    extraVolumes: [] 
     env:
       defectDojoActive: "true"
       defectDojoAutoCreateContext: "true"

@@ -110,7 +110,16 @@ spec:
         {{- end }}
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
+        {{- with .Values.operator.trivyDojoReportOperator.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}  
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
+      # Additional volumes on the output Deployment definition.
+      {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
       {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
       nodeSelector:
