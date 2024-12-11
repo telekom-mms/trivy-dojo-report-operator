@@ -29,7 +29,7 @@ operator:
     nodeSelector: {}
     tolerations: []
     extraVolumeMounts: []
-    extraVolumes: [] 
+    extraVolumes: []
     env:
       defectDojoActive: "true"
       defectDojoAutoCreateContext: "true"
@@ -53,7 +53,7 @@ operator:
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.8.3
+      tag: 0.8.4
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true

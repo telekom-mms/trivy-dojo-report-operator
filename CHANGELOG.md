@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.4) (2024-12-11)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.3...0.8.4)
+
+**Merged pull requests:**
+
+- feat\(extravolumes\): Add possibility to define extra volumes to the de… [\#91](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/91) ([guipal](https://github.com/guipal))
+
 ## [0.8.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.3) (2024-12-11)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.2...0.8.3)
