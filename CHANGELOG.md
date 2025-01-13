@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.5](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.5) (2025-01-13)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.4...0.8.5)
+
+**Merged pull requests:**
+
+- Conditional generation of secret [\#96](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/96) ([guipal](https://github.com/guipal))
+
 ## [0.8.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.4) (2024-12-30)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.3...0.8.4)
