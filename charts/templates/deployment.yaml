@@ -113,7 +113,11 @@ spec:
         {{- with .Values.operator.trivyDojoReportOperator.extraVolumeMounts }}
         volumeMounts:
           {{- toYaml . | nindent 10 }}
-        {{- end }}  
+        {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       # Additional volumes on the output Deployment definition.
       {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
