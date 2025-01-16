@@ -1,11 +1,12 @@
 # Changelog
 
-## [0.8.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.6) (2025-01-15)
+## [0.8.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.6) (2025-01-16)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.5...0.8.6)
 
 **Merged pull requests:**
 
+- FEATURE: Allow Pull an Image from a Private Registry [\#101](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/101) ([tidusete](https://github.com/tidusete))
 - chore\(deps\): update python:3.12-slim docker digest to 123be56 [\#99](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/99) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update python:3.12 docker digest to 044cfd8 [\#98](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/98) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update mikefarah/yq action to v4.45.1 [\#97](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/97) ([renovate[bot]](https://github.com/apps/renovate))

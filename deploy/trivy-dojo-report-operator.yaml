@@ -220,7 +220,7 @@ spec:
           runAsGroup: 1000
           runAsUser: 1000
           seccompProfile:
-            type: RuntimeDefault  
+            type: RuntimeDefault
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
