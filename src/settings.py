@@ -74,3 +74,6 @@ DEFECT_DOJO_DO_NOT_REACTIVATE: bool = get_env_var_bool("DEFECT_DOJO_DO_NOT_REACT
 LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
+
+HTTP_PROXY: str = get_env_var_bool("HTTP_PROXY") or get_env_var_bool("http_proxy")
+HTTPS_PROXY: str = get_env_var_bool("HTTPS_PROXY") or get_env_var_bool("https_proxy")

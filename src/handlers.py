@@ -16,6 +16,11 @@ PROMETHEUS_DISABLE_CREATED_SERIES = True
 
 c = prometheus.Counter("requests_total", "HTTP Requests", ["status"])
 
+if settings.HTTP_PROXY or settings.HTTPS_PROXY:
+    proxies = {
+        "http": settings.HTTP_PROXY,
+        "https": settings.HTTPS_PROXY,
+    }
 
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
@@ -162,6 +167,7 @@ for report in settings.REPORTS:
                 data=data,
                 files=report_file,
                 verify=True,
+                proxies=proxies,
             )
             response.raise_for_status()
         except HTTPError as http_err:
