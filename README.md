@@ -114,6 +114,8 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
 | `defectDojoVerified`                  | `"false"`                  | Specifies whether findings should be marked as verified in DefectDojo.                       |
 | `defectDojoDoNotReactivate`           | `"true"`                   | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones             |
 | `reports`                             | `"vulnerabilityreports"`   | Comma-separated list of reports that should be sent to DefectDojo. Possibilities: vulnerabilityreports, rbacassessmentreports, infraassessmentreports, configauditreports, exposedsecretreports |
+| `http_proxy`                          | `""`   | Option to set http_proxy variables to send requests through a proxy                                              |
+| `https_proxy`                         | `""`   | Option to set https_proxy variables to send requests through a proxy                                             |
 
 ### A note on eval
 

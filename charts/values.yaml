@@ -52,6 +52,8 @@ operator:
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
+      http_proxy: ""
+      https_proxy: ""
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.8.6

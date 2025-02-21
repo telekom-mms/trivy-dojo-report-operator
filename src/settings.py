@@ -75,5 +75,5 @@ LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
 
-HTTP_PROXY: str = get_env_var_bool("HTTP_PROXY") or get_env_var_bool("http_proxy")
-HTTPS_PROXY: str = get_env_var_bool("HTTPS_PROXY") or get_env_var_bool("https_proxy")
+HTTP_PROXY: str = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
+HTTPS_PROXY: str = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
