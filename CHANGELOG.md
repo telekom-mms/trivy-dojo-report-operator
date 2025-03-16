@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.7) (2025-03-16)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.6...0.8.7)
+
+**Merged pull requests:**
+
+- chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.6) (2025-01-16)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.5...0.8.6)
