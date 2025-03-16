@@ -22,7 +22,7 @@ environment for this operator.
 - Deploy the Trivy Operator
 
   ```bash
-  kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.16.4/deploy/static/trivy-operator.yaml
+  kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.25.0/deploy/static/trivy-operator.yaml
   ```
 
 - Setup and deploy
@@ -92,7 +92,7 @@ environment for this operator.
 - Run Kopf
 
   ```bash
-  $ poetry run kopf run src/handlers.py --all-namespaces
+  poetry run kopf run src/handlers.py --all-namespaces
 
   [2023-11-06 15:56:49,610] settings             [INFO    ] Looking for resources with LABEL 'trivy-operator.resource.name' and LABEL_VALUE 'your-label-value'
   [2023-11-06 15:56:49,646] kopf.activities.star [INFO    ] Activity 'configure' succeeded.
@@ -123,7 +123,8 @@ environment for this operator.
 Issue:
 
 ```bash
-$ minikube addons enable ingress
+minikube addons enable ingress
+
 Exiting due to MK_ADDON_ENABLE: enable failed: run callbacks: running callbacks: [waiting for app.kubernetes.io/name=ingress-nginx pods: context deadline exceeded]
 ```
 
@@ -132,5 +133,5 @@ Solution:
 Completely clean up your minikube environment and start over
 
 ```bash
-$ minikube delete --all
+minikube delete --all
 ```

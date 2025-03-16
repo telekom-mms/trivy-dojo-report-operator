@@ -1,8 +1,8 @@
-FROM python:3.12@sha256:044cfd88c6740313ae0de09e18d77a54475b36ef5e0dfb7dd604663e5aa42bf2 as build
+FROM python:3.12@sha256:044cfd88c6740313ae0de09e18d77a54475b36ef5e0dfb7dd604663e5aa42bf2 AS build
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir poetry==1.8.3
+RUN pip install --no-cache-dir poetry==2.1.1
 
 COPY poetry.lock pyproject.toml /app/
 

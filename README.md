@@ -88,6 +88,11 @@ docker run -it -v /path/to/your/.kube/config:/root/.kube/config \
   ghcr.io/telekom-mms/docker-trivy-dojo-operator
 ```
 
+## Local Development
+
+For a local development setup, please take a look at
+[LOCAL-DEVELOPMENT.md](docs/LOCAL-DEVELOPMENT.md).
+
 ## Configuration
 
 | Variable                             | Default Value               | Description                                                                                  |
