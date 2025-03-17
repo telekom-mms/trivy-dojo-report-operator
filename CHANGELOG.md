@@ -10,6 +10,7 @@
 - feat: Update poetry, fix workflow and update docs [\#114](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/114) ([szEvEz](https://github.com/szEvEz))
 - chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): pin dependencies [\#103](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/103) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update docker/build-push-action digest to 471d1dc [\#100](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/100) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.6) (2025-01-16)
 
