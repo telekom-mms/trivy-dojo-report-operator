@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): update azure/setup-helm digest to b9e5190 [\#115](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/115) ([renovate[bot]](https://github.com/apps/renovate))
 - feat: Update poetry, fix workflow and update docs [\#114](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/114) ([szEvEz](https://github.com/szEvEz))
 - chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): pin dependencies [\#103](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/103) ([renovate[bot]](https://github.com/apps/renovate))
