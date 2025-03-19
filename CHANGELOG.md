@@ -11,6 +11,7 @@
 - chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update python:3.12-slim docker digest to a866731 [\#105](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/105) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): pin dependencies [\#103](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/103) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update python:3.12 docker digest to 4e7024d [\#102](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/102) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/build-push-action digest to 471d1dc [\#100](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/100) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/setup-qemu-action digest to 2910929 [\#95](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/95) ([renovate[bot]](https://github.com/apps/renovate))
 
