@@ -97,6 +97,10 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
+        - name: HTTP_PROXY
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.http_proxy }}
+        - name: HTTPS_PROXY
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.https_proxy }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:

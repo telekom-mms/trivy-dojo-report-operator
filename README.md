@@ -119,6 +119,8 @@ For a local development setup, please take a look at
 | `defectDojoVerified`                  | `"false"`                  | Specifies whether findings should be marked as verified in DefectDojo.                       |
 | `defectDojoDoNotReactivate`           | `"true"`                   | If true the importing/reimporting will ignore uploaded active findings and not reactivate previously closed findings, while still creating new findings if there are new ones             |
 | `reports`                             | `"vulnerabilityreports"`   | Comma-separated list of reports that should be sent to DefectDojo. Possibilities: vulnerabilityreports, rbacassessmentreports, infraassessmentreports, configauditreports, exposedsecretreports |
+| `http_proxy`                          | `""`   | Option to set http_proxy variable                                             |
+| `https_proxy`                         | `""`   | Option to set https_proxy variable                                             |
 
 ### A note on eval
 
