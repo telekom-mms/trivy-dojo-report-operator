@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.8.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.7) (2025-04-21)
+## [0.8.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.7) (2025-04-22)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.6...0.8.7)
 
@@ -8,6 +8,7 @@
 
 - chore\(deps\): update azure/setup-helm digest to b9e5190 [\#115](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/115) ([renovate[bot]](https://github.com/apps/renovate))
 - feat: Update poetry, fix workflow and update docs [\#114](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/114) ([szEvEz](https://github.com/szEvEz))
+- feat: provide option to set http\_proxy variable [\#112](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/112) ([MPritsch](https://github.com/MPritsch))
 - chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency black to v25 [\#107](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/107) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency isort to v6 [\#106](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/106) ([renovate[bot]](https://github.com/apps/renovate))

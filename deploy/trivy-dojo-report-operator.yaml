@@ -202,6 +202,10 @@ spec:
           value: "vulnerabilityreports"
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: "cluster.local"
+        - name: HTTP_PROXY
+          value: ""
+        - name: HTTPS_PROXY
+          value: ""
         image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.8.7
         livenessProbe:
           httpGet:
