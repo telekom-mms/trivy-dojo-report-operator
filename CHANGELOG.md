@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.8](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.8) (2025-04-24)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.7...0.8.8)
+
+**Merged pull requests:**
+
+- Fix: Error when `proxies` is not defined. [\#117](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/117) ([codeshard](https://github.com/codeshard))
+
 ## [0.8.7](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.7) (2025-04-22)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.6...0.8.7)
