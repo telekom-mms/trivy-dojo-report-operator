@@ -13,6 +13,11 @@ def get_required_env_var(name):
         exit(1)
 
 
-def get_env_var_bool(name):
-    """Gets value of environment variable as a boolean. If not 'true', returns False"""
-    return os.getenv(name) == "true"
+def get_env_var_bool(name, default_value:bool=False):
+    """Gets value of environment variable as a boolean. If not 'true', returns False.
+        In case the environment variable does not exist, returns a default value of False or True if specified."""
+
+    if os.getenv(name) is not None:
+        return os.getenv(name) == "true"
+    else:
+        return default_value

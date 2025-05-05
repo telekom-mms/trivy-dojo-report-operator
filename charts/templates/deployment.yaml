@@ -30,6 +30,12 @@ spec:
               key: url
               name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
               optional: false
+        - name: DEFECT_DOJO_VERIFY_SSL
+          valueFrom:
+            secretKeyRef:
+              key: verifySSL
+              name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
+              optional: true
         - name: DEFECT_DOJO_ACTIVE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
             }}
@@ -77,6 +83,12 @@ spec:
             }}
         - name: DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalEngagementName
+            }}
+        - name: DEFECT_DOJO_GIT_REF
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoGitRef
+            }}
+        - name: DEFECT_DOJO_EVAL_GIT_REF
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalGitRef
             }}
         - name: DEFECT_DOJO_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductName
