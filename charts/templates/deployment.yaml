@@ -12,6 +12,8 @@ spec:
     {{- include "charts.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         application: trivy-dojo-report-operator
       {{- include "charts.selectorLabels" . | nindent 8 }}
@@ -101,6 +103,8 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.http_proxy }}
         - name: HTTPS_PROXY
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.https_proxy }}
+        - name: RATE_LIMIT
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.rate_limit }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:

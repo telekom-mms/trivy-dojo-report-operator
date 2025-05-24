@@ -54,6 +54,7 @@ operator:
       reports: vulnerabilityreports
       http_proxy: ""
       https_proxy: ""
+      rate_limit: 0 # delay in seconds between request creation
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.8.9
