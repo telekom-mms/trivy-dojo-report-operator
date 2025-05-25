@@ -1,6 +1,6 @@
 import logging
 import os
-from env_vars import get_required_env_var, get_env_var_bool
+from env_vars import get_env_value_as_int, get_required_env_var, get_env_var_bool
 
 logger = logging.getLogger(__name__)
 
@@ -78,4 +78,4 @@ REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
 HTTP_PROXY: str = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
 HTTPS_PROXY: str = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
 
-RATE_LIMIT: str = os.getenv("RATE_LIMIT")
+RATE_LIMIT: int = get_env_value_as_int("RATE_LIMIT")

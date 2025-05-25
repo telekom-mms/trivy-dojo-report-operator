@@ -170,11 +170,10 @@ for report in settings.REPORTS:
                 proxies=proxies,
             )
             response.raise_for_status()
-            try:
-                if int(settings.RATE_LIMIT) > 0:
-                    sleep(int(settings.RATE_LIMIT))
-            except ValueError:
-                logger.warn(f'Invalid value: {settings.RATE_LIMIT} provided for RATE_LIMIT. Expecting a positive number')
+
+            if settings.RATE_LIMIT > 0:
+                sleep(settings.RATE_LIMIT)
+
         except HTTPError as http_err:
             c.labels("failed").inc()
             raise kopf.TemporaryError(
