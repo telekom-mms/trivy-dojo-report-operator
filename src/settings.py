@@ -17,6 +17,7 @@ else:
 
 DEFECT_DOJO_API_KEY: str = get_required_env_var("DEFECT_DOJO_API_KEY")
 DEFECT_DOJO_URL: str = get_required_env_var("DEFECT_DOJO_URL")
+DEFECT_DOJO_VERIFY_SSL: bool = get_env_var_bool("DEFECT_DOJO_VERIFY_SSL", True)
 
 DEFECT_DOJO_ACTIVE: bool = get_env_var_bool("DEFECT_DOJO_ACTIVE")
 DEFECT_DOJO_VERIFIED: bool = get_env_var_bool("DEFECT_DOJO_VERIFIED")
@@ -62,6 +63,11 @@ DEFECT_DOJO_EVAL_TEST_TITLE: bool = get_env_var_bool("DEFECT_DOJO_EVAL_TEST_TITL
 DEFECT_DOJO_ENGAGEMENT_NAME: str | None = os.getenv("DEFECT_DOJO_ENGAGEMENT_NAME")
 DEFECT_DOJO_EVAL_ENGAGEMENT_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_ENGAGEMENT_NAME"
+)
+
+DEFECT_DOJO_GIT_REF: str | None = os.getenv("DEFECT_DOJO_GIT_REF")
+DEFECT_DOJO_EVAL_GIT_REF: bool = get_env_var_bool(
+    "DEFECT_DOJO_EVAL_GIT_REF"
 )
 
 DEFECT_DOJO_PRODUCT_NAME: str = os.getenv(

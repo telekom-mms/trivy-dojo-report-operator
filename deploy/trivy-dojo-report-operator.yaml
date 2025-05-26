@@ -27,6 +27,7 @@ metadata:
 stringData:
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
   url: "YOUR_DEFECTDOJO_URL"
+  verifySSL: "true"
 type: Opaque
 ---
 # Source: trivy-dojo-report-operator/templates/rbac.yaml
@@ -156,6 +157,12 @@ spec:
               key: url
               name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
               optional: false
+        - name: DEFECT_DOJO_VERIFY_SSL
+          valueFrom:
+            secretKeyRef:
+              key: verifySSL
+              name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
+              optional: true
         - name: DEFECT_DOJO_ACTIVE
           value: "true"
         - name: DEFECT_DOJO_VERIFIED
@@ -198,6 +205,10 @@ spec:
           value: 
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
+        - name: DEFECT_DOJO_GIT_REF
+          value: "development"
+        - name: DEFECT_DOJO_EVAL_GIT_REF
+          value: "false"
         - name: REPORTS
           value: "vulnerabilityreports"
         - name: KUBERNETES_CLUSTER_DOMAIN
