@@ -16,3 +16,13 @@ def get_required_env_var(name):
 def get_env_var_bool(name):
     """Gets value of environment variable as a boolean. If not 'true', returns False"""
     return os.getenv(name) == "true"
+
+def get_env_value_as_int(name):
+    value = os.getenv(name)
+    if value is None:
+        return 0
+    try:
+        return int(value)
+    except ValueError:
+        logger.warning(f'Invalid value: {os.getenv(name)} provided for {name}. Expecting a number')
+        return 0
