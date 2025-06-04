@@ -15,14 +15,18 @@ environment for this operator.
 - Create and start a local Cluster and enable ingress
 
   ```bash
-  minikube start
+  minikube start --kubernetes-version=v1.32
   minikube addons enable ingress
   ```
 
 - Deploy the Trivy Operator
 
   ```bash
-  kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.25.0/deploy/static/trivy-operator.yaml
+   helm repo add aqua https://aquasecurity.github.io/helm-charts/
+   helm repo update
+   helm install trivy-operator aqua/trivy-operator \
+     --namespace trivy-system \
+     --create-namespace
   ```
 
 - Setup and deploy
@@ -55,6 +59,7 @@ environment for this operator.
     --set host=localhost
   ```
 
+
 - Retrieve DefectDojo admin password
 
   ```bash
@@ -81,12 +86,13 @@ environment for this operator.
   export DEFECT_DOJO_ENGAGEMENT_NAME="test"
   export DEFECT_DOJO_AUTO_CREATE_CONTEXT=true
   export DEFECT_DOJO_ACTIVE=true
+  export DEFECT_DOJO_PRODUCT_NAME="Research and Development"
   ```
 
 - Install the Python dependencies
 
   ```bash
-  poetry install
+  poetry install --no-root
   ```
 
 - Run Kopf
@@ -104,7 +110,7 @@ environment for this operator.
 - Create a pod, thus a VulnerabilityReport
 
   ```bash
-  kubectl run --image debian:11 your-label-value bash
+  kubectl run --image debian:12 your-label-value bash
   ```
 
 - Check the logs in kopf:
