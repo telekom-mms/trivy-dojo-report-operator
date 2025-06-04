@@ -171,8 +171,7 @@ for report in settings.REPORTS:
             )
             response.raise_for_status()
 
-            if settings.RATE_LIMIT > 0:
-                sleep(settings.RATE_LIMIT)
+            sleep(settings.RATE_LIMIT)
 
         except HTTPError as http_err:
             c.labels("failed").inc()
