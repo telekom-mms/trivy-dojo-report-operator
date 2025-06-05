@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.9](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.9) (2025-06-05)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.8...0.8.9)
+
+**Merged pull requests:**
+
+- chore\(deps\): update python docker tag to v3.13 [\#80](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/80) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.8](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.8) (2025-04-24)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.7...0.8.8)
