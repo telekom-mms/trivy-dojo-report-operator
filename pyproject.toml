@@ -22,7 +22,7 @@ aiohttp = "^3.9.3"
 black = "25.1.0"
 mypy = "1.16.0"
 pytest = "8.4.0"
-pytest-cov = "6.1.1"
+pytest-cov = "6.2.1"
 types-PyYAML = "6.0.12.20250516"
 isort = "6.0.1"
 
