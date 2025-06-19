@@ -726,14 +726,14 @@ uvloop = ["uvloop", "uvloop (>=0.18.0) ; python_version >= \"3.12\""]
 
 [[package]]
 name = "kubernetes"
-version = "31.0.0"
+version = "33.1.0"
 description = "Kubernetes python client"
 optional = false
 python-versions = ">=3.6"
 groups = ["main"]
 files = [
-    {file = "kubernetes-31.0.0-py2.py3-none-any.whl", hash = "sha256:bf141e2d380c8520eada8b351f4e319ffee9636328c137aa432bc486ca1200e1"},
-    {file = "kubernetes-31.0.0.tar.gz", hash = "sha256:28945de906c8c259c1ebe62703b56a03b714049372196f854105afe4e6d014c0"},
+    {file = "kubernetes-33.1.0-py2.py3-none-any.whl", hash = "sha256:544de42b24b64287f7e0aa9513c93cb503f7f40eea39b20f66810011a86eabc5"},
+    {file = "kubernetes-33.1.0.tar.gz", hash = "sha256:f64d829843a54c251061a8e7a14523b521f2dc5c896cf6d65ccf348648a88993"},
 ]
 
 [package.dependencies]
@@ -1608,4 +1608,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "82e8806f73cf4970a558c3a85fe8f20d1d5eeea2313dce357b8e556cc3176b5f"
+content-hash = "efe382a7bc4c3bfa041384f3a8bed2dcecba3fa4d7ac439788f9fb83bb02dbc7"
