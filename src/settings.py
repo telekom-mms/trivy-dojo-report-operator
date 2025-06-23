@@ -1,5 +1,6 @@
 import logging
 import os
+
 from env_vars import get_required_env_var, get_env_var_bool
 
 logger = logging.getLogger(__name__)
@@ -35,26 +36,16 @@ DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT: bool = get_env_var_bool(
     "DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT"
 )
 
-DEFECT_DOJO_PRODUCT_TYPE_NAME: str = os.getenv(
-    "DEFECT_DOJO_PRODUCT_TYPE_NAME", ""
-)
+DEFECT_DOJO_PRODUCT_TYPE_NAME: str = os.getenv("DEFECT_DOJO_PRODUCT_TYPE_NAME", "")
 DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME"
 )
 
-DEFECT_DOJO_SERVICE_NAME: str = os.getenv(
-    "DEFECT_DOJO_SERVICE_NAME", ""
-)
-DEFECT_DOJO_EVAL_SERVICE_NAME: bool = get_env_var_bool(
-    "DEFECT_DOJO_EVAL_SERVICE_NAME"
-)
+DEFECT_DOJO_SERVICE_NAME: str = os.getenv("DEFECT_DOJO_SERVICE_NAME", "")
+DEFECT_DOJO_EVAL_SERVICE_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_SERVICE_NAME")
 
-DEFECT_DOJO_ENV_NAME: str = os.getenv(
-    "DEFECT_DOJO_ENV_NAME", "Development"
-)
-DEFECT_DOJO_EVAL_ENV_NAME: bool = get_env_var_bool(
-    "DEFECT_DOJO_EVAL_ENV_NAME"
-)
+DEFECT_DOJO_ENV_NAME: str = os.getenv("DEFECT_DOJO_ENV_NAME", "Development")
+DEFECT_DOJO_EVAL_ENV_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_ENV_NAME")
 
 DEFECT_DOJO_TEST_TITLE: str = os.getenv("DEFECT_DOJO_TEST_TITLE", "Kubernetes")
 DEFECT_DOJO_EVAL_TEST_TITLE: bool = get_env_var_bool("DEFECT_DOJO_EVAL_TEST_TITLE")
@@ -64,9 +55,7 @@ DEFECT_DOJO_EVAL_ENGAGEMENT_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_ENGAGEMENT_NAME"
 )
 
-DEFECT_DOJO_PRODUCT_NAME: str = os.getenv(
-    "DEFECT_DOJO_PRODUCT_NAME", "product"
-)
+DEFECT_DOJO_PRODUCT_NAME: str = os.getenv("DEFECT_DOJO_PRODUCT_NAME", "product")
 DEFECT_DOJO_EVAL_PRODUCT_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_PRODUCT_NAME")
 
 DEFECT_DOJO_DO_NOT_REACTIVATE: bool = get_env_var_bool("DEFECT_DOJO_DO_NOT_REACTIVATE")
