@@ -22,11 +22,11 @@ environment for this operator.
 - Deploy the Trivy Operator
 
   ```bash
-   helm repo add aqua https://aquasecurity.github.io/helm-charts/
-   helm repo update
-   helm install trivy-operator aqua/trivy-operator \
-     --namespace trivy-system \
-     --create-namespace
+  helm repo add aqua https://aquasecurity.github.io/helm-charts/
+  helm repo update
+  helm install trivy-operator aqua/trivy-operator \
+    --namespace trivy-system \
+    --create-namespace
   ```
 
 - Setup and deploy
@@ -34,8 +34,6 @@ environment for this operator.
 
   ```bash
   helm repo add helm-charts 'https://raw.githubusercontent.com/DefectDojo/django-DefectDojo/helm-charts'
-  helm repo update
-
   # Add repos for sub-charts
   helm repo add bitnami https://charts.bitnami.com/bitnami
   helm repo update
@@ -59,15 +57,14 @@ environment for this operator.
     --set host=localhost
   ```
 
-
 - Retrieve DefectDojo admin password
 
   ```bash
   echo "DefectDojo admin password: $(kubectl \
-  get secret defectdojo \
-  --namespace=default \
-  --output jsonpath='{.data.DD_ADMIN_PASSWORD}' \
-  | base64 --decode)"
+      get secret defectdojo \
+      --namespace=trivy-system \
+      --output jsonpath='{.data.DD_ADMIN_PASSWORD}' \
+      | base64 --decode)"
   ```
 
 - Port forward DefectDojo service
