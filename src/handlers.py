@@ -1,20 +1,19 @@
 import json
-from io import BytesIO
-import requests
-from requests.exceptions import HTTPError
 import kopf
-
+import prometheus_client
+import requests
 import settings
 
-import prometheus_client as prometheus
+from requests.exceptions import HTTPError
+from io import BytesIO
 
-prometheus.start_http_server(9090)
-REQUEST_TIME = prometheus.Summary(
+prometheus_client.start_http_server(9090)
+REQUEST_TIME = prometheus_client.Summary(
     "request_processing_seconds", "Time spent processing request"
 )
 PROMETHEUS_DISABLE_CREATED_SERIES = True
 
-c = prometheus.Counter("requests_total", "HTTP Requests", ["status"])
+c = prometheus_client.Counter("requests_total", "HTTP Requests", ["status"])
 
 proxies = {
     "http": settings.HTTP_PROXY,
