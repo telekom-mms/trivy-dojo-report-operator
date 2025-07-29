@@ -41,9 +41,23 @@ def check_allowed_reports(report: str):
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
+    """
+    Configure kopf
+    """
+
+    # kopf randomly stops watching resources. setting timeouts is supposed to help.
+    # see these issue for more info:
+    # https://github.com/nolar/kopf/issues/957
+    # https://github.com/nolar/kopf/issues/585
+    # https://github.com/nolar/kopf/issues/955
+    # see https://kopf.readthedocs.io/en/latest/configuration/#api-timeouts
     settings.watching.connect_timeout = 60
     settings.watching.server_timeout = 600
     settings.watching.client_timeout = 610
+
+    # This function tells kopf to use the StatusDiffBaseStorage instead
+    # of the annotations-based storage, because the annotation will get too large
+    # for k8s to handle. see: https://github.com/kubernetes-sigs/kubebuilder/issues/2556
     settings.persistence.diffbase_storage = kopf.MultiDiffBaseStorage(
         [kopf.StatusDiffBaseStorage(field="status.diff-base")]
     )
