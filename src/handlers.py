@@ -3,9 +3,8 @@ import kopf
 import prometheus_client
 import settings
 import asyncio
-import httpx # Use httpx for asynchronous requests
-import copy # Used for deep copying the report body
-
+import httpx
+import copy
 from io import BytesIO
 
 # --- Prometheus Metrics Setup ---
@@ -23,9 +22,7 @@ proxies = {
 } if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
 
 # --- Global Lock for Sequential Processing ---
-# This lock ensures only one vulnerability report is processed at a time.
 report_processing_lock = asyncio.Lock()
-
 
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
@@ -44,9 +41,6 @@ def check_allowed_reports(report: str):
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
-    """
-    Configure kopf settings for robustness.
-    """
     settings.watching.connect_timeout = 60
     settings.watching.server_timeout = 600
     settings.watching.client_timeout = 610
@@ -59,11 +53,8 @@ labels: dict = {}
 if settings.LABEL and settings.LABEL_VALUE:
     labels = {settings.LABEL: settings.LABEL_VALUE}
 
-
 def get_defectdojo_payload(body, meta):
     """Helper function to generate the DefectDojo API payload."""
-    
-    # Dynamically evaluate names if configured to do so
     engagement_name = eval(settings.DEFECT_DOJO_ENGAGEMENT_NAME) if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME else settings.DEFECT_DOJO_ENGAGEMENT_NAME
     product_name = eval(settings.DEFECT_DOJO_PRODUCT_NAME) if settings.DEFECT_DOJO_EVAL_PRODUCT_NAME else settings.DEFECT_DOJO_PRODUCT_NAME
     product_type_name = eval(settings.DEFECT_DOJO_PRODUCT_TYPE_NAME) if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
@@ -80,7 +71,7 @@ def get_defectdojo_payload(body, meta):
         "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
         "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
         "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
-        "scan_type": "Trivy Scan", # Updated scan_type for clarity
+        "scan_type": "Trivy Scan",
         "engagement_name": engagement_name,
         "product_name": product_name,
         "product_type_name": product_type_name,
@@ -100,11 +91,14 @@ async def send_vulns_to_dojo_async(body, meta, logger, **_):
     """
     async with report_processing_lock:
         logger.info(f"Acquired lock for VulnerabilityReport {meta['name']}. Processing...")
-        
+
+        # FIX: Convert the kopf.Body object to a standard Python dict
+        plain_body = dict(body)
+
         headers = {"Authorization": f"Token {settings.DEFECT_DOJO_API_KEY}"}
-        data = get_defectdojo_payload(body, meta)
+        data = get_defectdojo_payload(plain_body, meta)
         
-        vulnerabilities = body.get("report", {}).get("vulnerabilities", [])
+        vulnerabilities = plain_body.get("report", {}).get("vulnerabilities", [])
         total_vulnerabilities = len(vulnerabilities)
         batch_size = getattr(settings, 'VULNERABILITY_BATCH_SIZE', 100)
         
@@ -117,7 +111,7 @@ async def send_vulns_to_dojo_async(body, meta, logger, **_):
         async with httpx.AsyncClient(proxies=proxies, verify=True) as client:
             for i in range(0, total_vulnerabilities, batch_size):
                 batch_vulnerabilities = vulnerabilities[i:i + batch_size]
-                batch_body = copy.deepcopy(body)
+                batch_body = copy.deepcopy(plain_body)
                 batch_body["report"]["vulnerabilities"] = batch_vulnerabilities
                 
                 json_string = json.dumps(batch_body)
@@ -131,7 +125,7 @@ async def send_vulns_to_dojo_async(body, meta, logger, **_):
                         headers=headers,
                         data=data,
                         files=report_file,
-                        timeout=300 # Generous timeout for API calls
+                        timeout=300
                     )
                     response.raise_for_status()
                     c.labels("success").inc()
@@ -140,7 +134,6 @@ async def send_vulns_to_dojo_async(body, meta, logger, **_):
                 except httpx.HTTPStatusError as http_err:
                     c.labels("failed").inc()
                     logger.error(f"HTTP error for {meta['name']}: {http_err} - {http_err.response.text}")
-                    # Use TemporaryError to trigger a retry for the entire report
                     raise kopf.TemporaryError(f"HTTP error occurred: {http_err}. Retrying...", delay=60)
                 except Exception as err:
                     c.labels("failed").inc()
@@ -148,7 +141,6 @@ async def send_vulns_to_dojo_async(body, meta, logger, **_):
                     raise kopf.TemporaryError(f"Other error occurred: {err}. Retrying...", delay=60)
         
         logger.info(f"Successfully processed and released lock for VulnerabilityReport {meta['name']}.")
-
 
 # --- Synchronous Handler for Other Report Types ---
 other_reports = [r for r in settings.REPORTS if r != "vulnerabilityreports"]
@@ -158,10 +150,6 @@ for report in other_reports:
     @REQUEST_TIME.time()
     @kopf.on.create(f"{report.lower()}.aquasecurity.github.io", labels=labels)
     def send_other_reports_to_dojo(body, meta, logger, **_):
-        """
-        The main function that sends other report types (non-vulnerability)
-        to the DefectDojo instance.
-        """
         logger.info(f"Working on {body['kind']} {meta['name']}")
 
         full_object = {i: body[i] for i in body}
@@ -169,12 +157,11 @@ for report in other_reports:
         report_file = {"file": ("report.json", json_string.encode('utf-8'), "application/json")}
         
         headers = {"Authorization": f"Token {settings.DEFECT_DOJO_API_KEY}"}
-        data = get_defectdojo_payload(body, meta)
+        data = get_defectdojo_payload(full_object, meta)
         
         logger.debug(data)
 
         try:
-            # Using synchronous requests for this simple handler
             import requests 
             response = requests.post(
                 f"{settings.DEFECT_DOJO_URL}/api/v2/reimport-scan/",
