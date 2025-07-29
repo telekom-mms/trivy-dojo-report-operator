@@ -71,7 +71,7 @@ def get_defectdojo_payload(body, meta):
         "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
         "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
         "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
-        "scan_type": "Trivy Scan",
+        "scan_type": "Trivy Operator Scan",
         "engagement_name": engagement_name,
         "product_name": product_name,
         "product_type_name": product_type_name,
