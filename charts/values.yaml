@@ -51,6 +51,7 @@ operator:
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
+      vulnerabilityBatchSize: 100
       reports: vulnerabilityreports
       http_proxy: ""
       https_proxy: ""
