@@ -93,6 +93,9 @@ spec:
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
             }}
+        - name: VULNERABILITY_BATCH_SIZE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.vulnerabilityBatchSize
+            }}
         - name: REPORTS
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
