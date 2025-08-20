@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.8.10](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.10) (2025-08-19)
+## [0.8.10](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.10) (2025-08-20)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.9...0.8.10)
 
