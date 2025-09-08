@@ -3,6 +3,7 @@ import kopf
 import prometheus_client
 import requests
 import settings
+import httpx
 
 from requests.exceptions import HTTPError
 from io import BytesIO
@@ -15,10 +16,12 @@ PROMETHEUS_DISABLE_CREATED_SERIES = True
 
 c = prometheus_client.Counter("requests_total", "HTTP Requests", ["status"])
 
-proxies = {
-    "http": settings.HTTP_PROXY,
-    "https": settings.HTTPS_PROXY,
-} if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
+proxy_mounts = {} if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
+
+if settings.HTTP_PROXY:
+    proxy_mounts["http://"] = httpx.HTTPTransport(proxy=settings.HTTP_PROXY)
+if settings.HTTPS_PROXY:
+    proxy_mounts["https://"] = httpx.HTTPTransport(proxy=settings.HTTPS_PROXY)
 
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
@@ -159,14 +162,15 @@ for report in settings.REPORTS:
         logger.debug(data)
 
         try:
-            response: requests.Response = requests.post(
+            response: httpx.Response = httpx.post(
                 settings.DEFECT_DOJO_URL + "/api/v2/reimport-scan/",
                 headers=headers,
                 data=data,
                 files=report_file,
                 verify=True,
-                proxies=proxies,
+                mounts=proxy_mounts,
             )
+
             response.raise_for_status()
         except HTTPError as http_err:
             c.labels("failed").inc()
