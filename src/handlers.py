@@ -1,7 +1,6 @@
 import json
 import kopf
 import prometheus_client
-import requests
 import settings
 import httpx
 
