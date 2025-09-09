@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): update dependency pytest-cov to v7 [\#130](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/130) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update actions/checkout action to v5 [\#125](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/125) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update hugo19941994/delete-draft-releases action to v2 [\#123](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/123) ([renovate[bot]](https://github.com/apps/renovate))
 - feat: Dependency and documentation updates [\#122](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/122) ([szEvEz](https://github.com/szEvEz))
