@@ -20,7 +20,7 @@ aiohttp = "^3.9.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "25.1.0"
-mypy = "1.18.1"
+mypy = "1.18.2"
 pytest = "8.4.2"
 pytest-cov = "7.0.0"
 types-PyYAML = "6.0.12.20250915"
