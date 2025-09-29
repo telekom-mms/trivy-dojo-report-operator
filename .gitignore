@@ -2,3 +2,5 @@ __pycache__/
 .cr-release-packages/
 .venv/
 django-DefectDojo/
+.idea/
+.python-version
