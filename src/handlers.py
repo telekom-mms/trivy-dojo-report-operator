@@ -127,6 +127,13 @@ for report in settings.REPORTS:
             else settings.DEFECT_DOJO_TEST_TITLE
         )
 
+        _DEFECT_DOJO_TAGS = (
+            eval(settings.DEFECT_DOJO_TAGS)
+            if settings.DEFECT_DOJO_EVAL_TAGS
+            else settings.DEFECT_DOJO_TAGS
+        )
+        _DEFECT_DOJO_TAGS = [tag.strip().strip("'\"") for tag in _DEFECT_DOJO_TAGS.split(",") if tag.strip()]
+
         # define the vulnerabilityreport as a json-file so DD accepts it
         json_string: str = json.dumps(full_object)
         json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
@@ -154,6 +161,9 @@ for report in settings.REPORTS:
             "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
+            "tags": _DEFECT_DOJO_TAGS,
+            "apply_tags_to_findings": settings.DEFECT_DOJO_TAGS_FINDINGS,
+            "apply_tags_to_endpoints": settings.DEFECT_DOJO_TAGS_ENDPOINTS,
         }
 
         logger.debug(data)
