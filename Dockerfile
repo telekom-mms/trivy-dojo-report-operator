@@ -9,7 +9,7 @@ COPY poetry.lock pyproject.toml /app/
 RUN poetry config virtualenvs.in-project true && \
     poetry install --no-ansi
 
-FROM python:3.13-slim@sha256:3a6ead7603d322b80dd718d3834dcab86977c73b066028226afd8d0cdf1b0b12
+FROM python:3.13-slim@sha256:5f55cdf0c5d9dc1a415637a5ccc4a9e18663ad203673173b8cda8f8dcacef689
 
 RUN groupadd --gid 1000 app && \
     useradd --gid 1000 --uid 1000 app
