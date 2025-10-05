@@ -15,7 +15,7 @@ environment for this operator.
 - Create and start a local Cluster and enable ingress
 
   ```bash
-  minikube start --kubernetes-version=v1.32
+  minikube start --kubernetes-version=v1.34
   minikube addons enable ingress
   ```
 
@@ -54,7 +54,8 @@ environment for this operator.
     --set createRedisSecret=true \
     --set createMysqlSecret=true \
     --set createPostgresqlSecret=true \
-    --set host=localhost
+    --set host=localhost \
+    --set dbMigrationChecker.enabled=false
   ```
 
 - Retrieve DefectDojo admin password
