@@ -1,12 +1,16 @@
 # Changelog
 
-## [0.8.11](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.11) (2025-10-05)
+## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-10-06)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.10...0.8.11)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.11...0.8.12)
 
 **Fixed bugs:**
 
 - \[Bug\] Reported pod livenessProbe is failing and logs show few reports being processed then stuck [\#126](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/126)
+
+## [0.8.11](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.11) (2025-10-05)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.10...0.8.11)
 
 **Merged pull requests:**
 
