@@ -126,6 +126,7 @@ For a local development setup, please take a look at
 | `reports`                                | `vulnerabilityreports`      | Comma-separated list of report types to send to Defect Dojo. Supported types: `vulnerabilityreports`, `rbacassessmentreports`, `infraassessmentreports`, `configauditreports`, `exposedsecretreports`. |
 | `http_proxy`                             | *(empty)*                   | HTTP proxy setting (optional).                                                                                                                                                                 |
 | `https_proxy`                            | *(empty)*                   | HTTPS proxy setting (optional).                                                                                                                                                                |
+| `excludedNamespaces`                     | *(empty)*                   | Comma-separated list of Kubernetes namespaces to exclude from processing. Reports from these namespaces will be ignored by the operator (optional). |
 
 ### A note on eval
 
