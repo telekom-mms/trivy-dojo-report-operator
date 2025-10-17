@@ -82,6 +82,18 @@ for report in settings.REPORTS:
 
         logger.info(f"Working on {body['kind']} {meta['name']}")
 
+        # --- Namespace filtering patch ---
+        report_ns = meta.get("namespace")
+        excluded_namespaces = [ns.strip() for ns in settings.EXCLUDED_NAMESPACES if ns.strip()]
+        if excluded_namespaces and report_ns in excluded_namespaces:
+            logger.info(
+                f"Skipping report in namespace '{report_ns}' "
+                f"(explicitly excluded: {excluded_namespaces})"
+            )
+            return
+        # ----------------------------------
+
+
         # body is the whole kubernetes manifest of a vulnerabilityreport
         # body is a Python-Object that is not json-serializable,
         # but body[kind], body[metadata] and so on are
