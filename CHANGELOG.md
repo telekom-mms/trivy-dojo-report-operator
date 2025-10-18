@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- fix: Revert back to 3.12 base images again [\#139](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/139) ([szEvEz](https://github.com/szEvEz))
 - chore\(deps\): update python docker tag to v3.14 [\#134](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/134) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.11](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.11) (2025-10-05)
