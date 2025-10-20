@@ -101,6 +101,8 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.http_proxy }}
         - name: HTTPS_PROXY
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.https_proxy }}
+        - name: EXCLUDED_NAMESPACES
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.excludedNamespaces }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
