@@ -21,7 +21,7 @@ yarl = ">=1.9"
 multidict = ">=6.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "25.9.0"
+black = "25.11.0"
 mypy = "1.18.2"
 pytest = "8.4.2"
 pytest-cov = "7.0.0"
