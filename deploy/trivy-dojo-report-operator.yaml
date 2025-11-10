@@ -193,9 +193,9 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: "false"
         - name: DEFECT_DOJO_SERVICE_NAME
-          value: 
+          value:
         - name: DEFECT_DOJO_EVAL_SERVICE_NAME
-          value: 
+          value:
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
         - name: REPORTS
@@ -205,6 +205,8 @@ spec:
         - name: HTTP_PROXY
           value: ""
         - name: HTTPS_PROXY
+          value: ""
+        - name: EXCLUDED_NAMESPACES
           value: ""
         image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.8.12
         livenessProbe:
