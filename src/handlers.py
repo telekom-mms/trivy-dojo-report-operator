@@ -88,22 +88,24 @@ for report in settings.REPORTS:
         annotations = annotations or {}
 
         # --- Rate Limiting ---
-        now = time.time()
-        last_import = LAST_IMPORT.get(name, 0)
-        annotation_key = "dojo-last-import"
+        interval = settings.DEFECT_DOJO_IMPORT_INTERVAL
+        if interval > 0:  # Only apply rate limiting if interval is not zero
+            now = time.time()
+            last_import = LAST_IMPORT.get(name, 0)
+            annotation_key = "dojo-last-import"
 
-        if annotation_key in annotations:
-            try:
-                last_import = float(annotations[annotation_key])
-            except ValueError:
-                logger.warning(f"Invalid timestamp in annotation for {name}")
+            if annotation_key in annotations:
+                try:
+                    last_import = float(annotations[annotation_key])
+                except ValueError:
+                    logger.warning(f"Invalid timestamp in annotation for {name}")
 
-        if now - last_import < settings.DEFECT_DOJO_IMPORT_INTERVAL:
-            logger.info(f"Skipping import for {name}: last import was {int(now - last_import)}s ago.")
-            return
+            if now - last_import < settings.DEFECT_DOJO_IMPORT_INTERVAL:
+                logger.info(f"Skipping import for {name}: last import was {int(now - last_import)}s ago.")
+                return
 
-        LAST_IMPORT[name] = now
-        patch.metadata.annotations[annotation_key] = str(now)
+            LAST_IMPORT[name] = now
+            patch.metadata.annotations[annotation_key] = str(now)
         # --- End Rate Limiting ---
 
         logger.info(f"Working on {body['kind']} {meta['name']}")
