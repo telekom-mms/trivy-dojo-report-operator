@@ -15,14 +15,18 @@ environment for this operator.
 - Create and start a local Cluster and enable ingress
 
   ```bash
-  minikube start
+  minikube start --kubernetes-version=v1.34
   minikube addons enable ingress
   ```
 
 - Deploy the Trivy Operator
 
   ```bash
-  kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.16.4/deploy/static/trivy-operator.yaml
+  helm repo add aqua https://aquasecurity.github.io/helm-charts/
+  helm repo update
+  helm install trivy-operator aqua/trivy-operator \
+    --namespace trivy-system \
+    --create-namespace
   ```
 
 - Setup and deploy
@@ -30,8 +34,6 @@ environment for this operator.
 
   ```bash
   helm repo add helm-charts 'https://raw.githubusercontent.com/DefectDojo/django-DefectDojo/helm-charts'
-  helm repo update
-
   # Add repos for sub-charts
   helm repo add bitnami https://charts.bitnami.com/bitnami
   helm repo update
@@ -52,17 +54,18 @@ environment for this operator.
     --set createRedisSecret=true \
     --set createMysqlSecret=true \
     --set createPostgresqlSecret=true \
-    --set host=localhost
+    --set host=localhost \
+    --set dbMigrationChecker.enabled=false
   ```
 
 - Retrieve DefectDojo admin password
 
   ```bash
   echo "DefectDojo admin password: $(kubectl \
-  get secret defectdojo \
-  --namespace=default \
-  --output jsonpath='{.data.DD_ADMIN_PASSWORD}' \
-  | base64 --decode)"
+      get secret defectdojo \
+      --namespace=trivy-system \
+      --output jsonpath='{.data.DD_ADMIN_PASSWORD}' \
+      | base64 --decode)"
   ```
 
 - Port forward DefectDojo service
@@ -81,18 +84,19 @@ environment for this operator.
   export DEFECT_DOJO_ENGAGEMENT_NAME="test"
   export DEFECT_DOJO_AUTO_CREATE_CONTEXT=true
   export DEFECT_DOJO_ACTIVE=true
+  export DEFECT_DOJO_PRODUCT_NAME="Research and Development"
   ```
 
 - Install the Python dependencies
 
   ```bash
-  poetry install
+  poetry install --no-root
   ```
 
 - Run Kopf
 
   ```bash
-  $ poetry run kopf run src/handlers.py --all-namespaces
+  poetry run kopf run src/handlers.py --all-namespaces
 
   [2023-11-06 15:56:49,610] settings             [INFO    ] Looking for resources with LABEL 'trivy-operator.resource.name' and LABEL_VALUE 'your-label-value'
   [2023-11-06 15:56:49,646] kopf.activities.star [INFO    ] Activity 'configure' succeeded.
@@ -104,7 +108,7 @@ environment for this operator.
 - Create a pod, thus a VulnerabilityReport
 
   ```bash
-  kubectl run --image debian:11 your-label-value bash
+  kubectl run --image debian:12 your-label-value bash
   ```
 
 - Check the logs in kopf:
@@ -123,7 +127,8 @@ environment for this operator.
 Issue:
 
 ```bash
-$ minikube addons enable ingress
+minikube addons enable ingress
+
 Exiting due to MK_ADDON_ENABLE: enable failed: run callbacks: running callbacks: [waiting for app.kubernetes.io/name=ingress-nginx pods: context deadline exceeded]
 ```
 
@@ -132,5 +137,5 @@ Solution:
 Completely clean up your minikube environment and start over
 
 ```bash
-$ minikube delete --all
+minikube delete --all
 ```

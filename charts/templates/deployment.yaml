@@ -84,6 +84,12 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
             }}
+        - name: DEFECT_DOJO_SERVICE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoServiceName
+            }}
+        - name: DEFECT_DOJO_EVAL_SERVICE_NAME
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalServiceName
+            }}
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
             }}
@@ -94,6 +100,10 @@ spec:
         - name: DEFECT_DOJO_IMPORT_INTERVAL
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoImportInterval
             }}
+        - name: HTTP_PROXY
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.http_proxy }}
+        - name: HTTPS_PROXY
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.https_proxy }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
@@ -107,5 +117,30 @@ spec:
         {{- end }}
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
+        {{- with .Values.operator.trivyDojoReportOperator.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
+      # Additional volumes on the output Deployment definition.
+      {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
+      {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.operator.trivyDojoReportOperator.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

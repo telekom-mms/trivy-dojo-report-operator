@@ -1,5 +1,8 @@
 {
   "extends": [
     "github>telekom-mms/.github:renovate-preset.json5"
+  ],
+  "ignorePaths": [
+    "Dockerfile"
   ]
 }

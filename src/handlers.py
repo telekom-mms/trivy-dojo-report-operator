@@ -1,24 +1,28 @@
 import json
-from io import BytesIO
-import requests
-from requests.exceptions import HTTPError
 import kopf
 import time
 import logging
+import prometheus_client
+import requests
 import settings
 
-import prometheus_client as prometheus
+from requests.exceptions import HTTPError
+from io import BytesIO
 
-prometheus.start_http_server(9090)
-REQUEST_TIME = prometheus.Summary(
+prometheus_client.start_http_server(9090)
+REQUEST_TIME = prometheus_client.Summary(
     "request_processing_seconds", "Time spent processing request"
 )
 PROMETHEUS_DISABLE_CREATED_SERIES = True
 
-c = prometheus.Counter("requests_total", "HTTP Requests", ["status"])
+c = prometheus_client.Counter("requests_total", "HTTP Requests", ["status"])
 
 # In-memory cache for last import times
 LAST_IMPORT = {}
+proxies = {
+    "http": settings.HTTP_PROXY,
+    "https": settings.HTTPS_PROXY,
+} if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
 
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
@@ -131,6 +135,11 @@ for report in settings.REPORTS:
             if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
             else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
         )
+        _DEFECT_DOJO_SERVICE_NAME = (
+            eval(settings.DEFECT_DOJO_SERVICE_NAME)
+            if settings.DEFECT_DOJO_EVAL_SERVICE_NAME
+            else settings.DEFECT_DOJO_SERVICE_NAME
+        )
 
         _DEFECT_DOJO_ENV_NAME = (
             eval(settings.DEFECT_DOJO_ENV_NAME)
@@ -167,6 +176,7 @@ for report in settings.REPORTS:
             "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
             "product_name": _DEFECT_DOJO_PRODUCT_NAME,
             "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
+            "service": _DEFECT_DOJO_SERVICE_NAME,
             "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
@@ -181,6 +191,7 @@ for report in settings.REPORTS:
                 data=data,
                 files=report_file,
                 verify=True,
+                proxies=proxies,
             )
             response.raise_for_status()
         except HTTPError as http_err:

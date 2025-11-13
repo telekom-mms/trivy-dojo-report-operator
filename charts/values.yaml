@@ -1,4 +1,5 @@
 defectDojoApiCredentials:
+  createSecret: true
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
   url: "YOUR_DEFECTDOJO_URL"
 kubernetesClusterDomain: cluster.local
@@ -25,6 +26,11 @@ operator:
       seccompProfile:
         type: RuntimeDefault
     resources: {}
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    extraVolumeMounts: []
+    extraVolumes: []
     env:
       defectDojoActive: "true"
       defectDojoAutoCreateContext: "true"
@@ -47,9 +53,12 @@ operator:
       defectDojoVerified: "false"
       defectDojoImportInterval: "21600"
       reports: vulnerabilityreports
+      http_proxy: ""
+      https_proxy: ""
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.6.3
+      tag: 0.8.12
+    imagePullSecrets: []
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true
