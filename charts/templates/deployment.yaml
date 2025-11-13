@@ -91,6 +91,9 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.reports }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
+        - name: DEFECT_DOJO_IMPORT_INTERVAL
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoImportInterval
+            }}
         image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:

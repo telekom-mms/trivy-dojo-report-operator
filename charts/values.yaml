@@ -45,6 +45,7 @@ operator:
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
+      defectDojoImportInterval: "21600"
       reports: vulnerabilityreports
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator

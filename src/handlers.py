@@ -3,7 +3,8 @@ from io import BytesIO
 import requests
 from requests.exceptions import HTTPError
 import kopf
-
+import time
+import logging
 import settings
 
 import prometheus_client as prometheus
@@ -16,6 +17,8 @@ PROMETHEUS_DISABLE_CREATED_SERIES = True
 
 c = prometheus.Counter("requests_total", "HTTP Requests", ["status"])
 
+# In-memory cache for last import times
+LAST_IMPORT = {}
 
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
@@ -71,11 +74,33 @@ for report in settings.REPORTS:
 
     @REQUEST_TIME.time()
     @kopf.on.create(report.lower() + ".aquasecurity.github.io", labels=labels)
-    def send_to_dojo(body, meta, logger, **_):
+    def send_to_dojo(body, meta, annotations, patch, logger, **_):
         """
         The main function that creates a report-file from the trivy-operator vulnerabilityreport
         and sends it to the defectdojo instance.
         """
+
+        name = meta.get("name")
+        annotations = annotations or {}
+
+        # --- Rate Limiting ---
+        now = time.time()
+        last_import = LAST_IMPORT.get(name, 0)
+        annotation_key = "dojo-last-import"
+
+        if annotation_key in annotations:
+            try:
+                last_import = float(annotations[annotation_key])
+            except ValueError:
+                logger.warning(f"Invalid timestamp in annotation for {name}")
+
+        if now - last_import < settings.DEFECT_DOJO_IMPORT_INTERVAL:
+            logger.info(f"Skipping import for {name}: last import was {int(now - last_import)}s ago.")
+            return
+
+        LAST_IMPORT[name] = now
+        patch.metadata.annotations[annotation_key] = str(now)
+        # --- End Rate Limiting ---
 
         logger.info(f"Working on {body['kind']} {meta['name']}")
 

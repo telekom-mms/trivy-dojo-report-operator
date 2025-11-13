@@ -67,3 +67,5 @@ DEFECT_DOJO_DO_NOT_REACTIVATE: bool = get_env_var_bool("DEFECT_DOJO_DO_NOT_REACT
 LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
+
+DEFECT_DOJO_IMPORT_INTERVAL: int = int(os.getenv("DEFECT_DOJO_IMPORT_INTERVAL", 21600))
