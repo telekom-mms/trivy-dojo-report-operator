@@ -85,27 +85,26 @@ for report in settings.REPORTS:
         """
 
         name = meta.get("name")
+        namespace = meta.get("namespace", "default")
+        key = f"{namespace}/{name}"
         annotations = annotations or {}
 
         # --- Rate Limiting ---
         interval = settings.DEFECT_DOJO_IMPORT_INTERVAL
         if interval > 0:  # Only apply rate limiting if interval is not zero
             now = time.time()
-            last_import = LAST_IMPORT.get(name, 0)
+            last_import = LAST_IMPORT.get(key, 0)
             annotation_key = "dojo-last-import"
 
             if annotation_key in annotations:
                 try:
                     last_import = float(annotations[annotation_key])
                 except ValueError:
-                    logger.warning(f"Invalid timestamp in annotation for {name}")
+                    logger.warning(f"Invalid timestamp in annotation for {key}")
 
             if now - last_import < interval:
-                logger.info(f"Skipping import for {name}: last import was {int(now - last_import)}s ago.")
+                logger.info(f"Skipping import for {key}: last import was {int(now - last_import)}s ago.")
                 return
-
-            LAST_IMPORT[name] = now
-            patch.metadata.annotations[annotation_key] = str(now)
         # --- End Rate Limiting ---
 
         logger.info(f"Working on {body['kind']} {meta['name']}")
@@ -137,6 +136,7 @@ for report in settings.REPORTS:
             if settings.DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
             else settings.DEFECT_DOJO_PRODUCT_TYPE_NAME
         )
+
         _DEFECT_DOJO_SERVICE_NAME = (
             eval(settings.DEFECT_DOJO_SERVICE_NAME)
             if settings.DEFECT_DOJO_EVAL_SERVICE_NAME
@@ -185,6 +185,8 @@ for report in settings.REPORTS:
         }
 
         logger.debug(data)
+        annotation_key = "dojo-last-import"
+        error_annotation_key = "dojo-last-import-error"
 
         try:
             response: requests.Response = requests.post(
@@ -196,14 +198,19 @@ for report in settings.REPORTS:
                 proxies=proxies,
             )
             response.raise_for_status()
+            now = time.time()
+            LAST_IMPORT[key] = now
+            patch.metadata.annotations[annotation_key] = str(now)
         except HTTPError as http_err:
             c.labels("failed").inc()
+            patch.metadata.annotations[error_annotation_key] = f"HTTP error: {http_err}"
             raise kopf.TemporaryError(
                 f"HTTP error occurred: {http_err} - {response.content}. Retrying in 60 seconds",
                 delay=60,
             )
         except Exception as err:
             c.labels("failed").inc()
+            patch.metadata.annotations[error_annotation_key] = f"Error: {err}"
             raise kopf.TemporaryError(
                 f"Other error occurred: {err}. Retrying in 60 seconds", delay=60
             )
