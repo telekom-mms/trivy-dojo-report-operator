@@ -100,7 +100,7 @@ for report in settings.REPORTS:
                 except ValueError:
                     logger.warning(f"Invalid timestamp in annotation for {name}")
 
-            if now - last_import < settings.DEFECT_DOJO_IMPORT_INTERVAL:
+            if now - last_import < interval:
                 logger.info(f"Skipping import for {name}: last import was {int(now - last_import)}s ago.")
                 return
 
