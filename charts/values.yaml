@@ -54,6 +54,7 @@ operator:
       reports: vulnerabilityreports
       http_proxy: ""
       https_proxy: ""
+      excludedNamespaces: ""
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.8.12
