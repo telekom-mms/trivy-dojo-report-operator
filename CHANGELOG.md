@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-11-28)
+## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-12-01)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.11...0.8.12)
 
@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- chore: configure renovate to pin python version but allow digest updates [\#144](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/144) ([hektor1966](https://github.com/hektor1966))
 - fix: Revert back to 3.12 base images again [\#139](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/139) ([szEvEz](https://github.com/szEvEz))
 - chore\(deps\): update python docker tag to v3.14 [\#134](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/134) ([renovate[bot]](https://github.com/apps/renovate))
 
