@@ -24,4 +24,6 @@ USER app
 
 WORKDIR /app
 
-CMD ["/app/.venv/bin/kopf", "run", "--liveness=http://0.0.0.0:8080/healthz", "/app/handlers.py", "--all-namespaces"]
+ENTRYPOINT ["/app/.venv/bin/kopf"]
+
+CMD ["run", "--liveness=http://0.0.0.0:8080/healthz", "/app/handlers.py", "--namespace=*"]

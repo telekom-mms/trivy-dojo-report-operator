@@ -109,6 +109,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
+        {{- if .Values.excludedNamespaces }}
+        args:
+          {{- range .Values.excludedNamespaces }}
+          - --namespace=!{{ . }}
+          {{- end }}
+        {{- end }}
         {{- if .Values.operator.trivyDojoReportOperator.resources }}
         resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
         {{- end }}
