@@ -7,6 +7,7 @@
 **Merged pull requests:**
 
 - chore\(deps\): update actions/checkout action to v6 [\#143](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/143) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update dependency pytest to v9 [\#141](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/141) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-12-02)
 
