@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-06)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.12...0.8.13)
+
+**Merged pull requests:**
+
+- chore\(deps\): update actions/checkout action to v6 [\#143](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/143) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-12-02)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.11...0.8.12)
