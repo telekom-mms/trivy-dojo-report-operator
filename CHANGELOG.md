@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.14](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.14) (2025-12-09)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.13...0.8.14)
+
+**Fixed bugs:**
+
+- \[Bug\] Application Liveness is not stable — Pod continuously restarts [\#138](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/138)
+
+**Merged pull requests:**
+
+- chore\(deps\): update dependency isort to v7 [\#135](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-09)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.12...0.8.13)
