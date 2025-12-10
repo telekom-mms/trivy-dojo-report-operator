@@ -57,7 +57,7 @@ operator:
       https_proxy: ""
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.8.14
+      tag: 0.9.0
     imagePullSecrets: []
   type: ClusterIP
   podSecurityContext:

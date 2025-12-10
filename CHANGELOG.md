@@ -1,8 +1,13 @@
 # Changelog
 
-## [0.8.14](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.14) (2025-12-10)
+## [0.9.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.0) (2025-12-10)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.13...0.8.14)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.13...0.9.0)
+
+**Implemented enhancements:**
+
+- chore\(deps\): update python:3.12-slim docker digest to 590cad7 [\#147](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/147) ([renovate[bot]](https://github.com/apps/renovate))
+- feat: allow include and exclude of namespaces that reports are sent from [\#137](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/137) ([LeongBryan](https://github.com/LeongBryan))
 
 **Fixed bugs:**
 
@@ -10,7 +15,6 @@
 
 **Merged pull requests:**
 
-- feat: allow include and exclude of namespaces that reports are sent from [\#137](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/137) ([LeongBryan](https://github.com/LeongBryan))
 - chore\(deps\): update dependency isort to v7 [\#135](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-09)
