@@ -109,6 +109,13 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 30
         name: trivy-dojo-report-operator
+        {{- if .Values.excludedNamespaces }}
+        args:
+          - run
+          - --liveness=http://0.0.0.0:8080/healthz
+          - /app/handlers.py
+          - '--namespace={{- range $i, $ns := .Values.excludedNamespaces -}}{{- if $i }},{{ end }}!{{ $ns }}{{- end }}'
+        {{- end }}
         {{- if .Values.operator.trivyDojoReportOperator.resources }}
         resources: {{- toYaml .Values.operator.trivyDojoReportOperator.resources | nindent 10 }}
         {{- end }}

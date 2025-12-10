@@ -6,6 +6,7 @@ kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:
     annotations: {}
+excludedNamespaces: []
 operator:
   ports:
     - name: metrics
