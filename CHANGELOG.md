@@ -1,6 +1,28 @@
 # Changelog
 
-## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-10-15)
+## [0.8.14](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.14) (2025-12-09)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.13...0.8.14)
+
+**Fixed bugs:**
+
+- \[Bug\] Application Liveness is not stable — Pod continuously restarts [\#138](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/138)
+
+**Merged pull requests:**
+
+- chore\(deps\): update dependency isort to v7 [\#135](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-09)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.12...0.8.13)
+
+**Merged pull requests:**
+
+- chore\(deps\): update python:3.12-slim docker digest to 590cad7 [\#146](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/146) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update actions/checkout action to v6 [\#143](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/143) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update dependency pytest to v9 [\#141](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/141) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.8.12](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.12) (2025-12-02)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.11...0.8.12)
 
@@ -10,6 +32,8 @@
 
 **Merged pull requests:**
 
+- chore: configure renovate to pin python version but allow digest updates [\#144](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/144) ([hektor1966](https://github.com/hektor1966))
+- fix: Revert back to 3.12 base images again [\#139](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/139) ([szEvEz](https://github.com/szEvEz))
 - chore\(deps\): update python docker tag to v3.14 [\#134](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/134) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.11](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.11) (2025-10-05)

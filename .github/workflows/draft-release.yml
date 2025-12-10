@@ -15,7 +15,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -39,7 +39,7 @@ jobs:
           futureRelease: ${{ steps.version.outputs.next-version }}
 
       - name: Update YAML File with next version
-        uses: mikefarah/yq@0ecdce24e83f0fa127940334be98c86b07b0c488 # v4.48.1
+        uses: mikefarah/yq@7ccaf8e700ce99eb3f0f6cef7f5930a0b3c827cd # v4.49.2
         with:
           cmd: |
             yq e '.operator.trivyDojoReportOperator.image.tag = "${{ steps.version.outputs.next-version }}"' -i charts/values.yaml
@@ -62,7 +62,7 @@ jobs:
 
       # do a second checkout to prevent race situation
       # changelog gets updated but action works on old commit id
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: main
 

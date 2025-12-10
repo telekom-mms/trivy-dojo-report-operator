@@ -1,5 +1,12 @@
 {
   "extends": [
     "github>telekom-mms/.github:renovate-preset.json5"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["python"],
+      "allowedVersions": "3.12"
+    }
   ]
 }
