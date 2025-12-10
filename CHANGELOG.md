@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- feat: allow include and exclude of namespaces that reports are sent from [\#137](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/137) ([LeongBryan](https://github.com/LeongBryan))
 - chore\(deps\): update dependency isort to v7 [\#135](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-09)
