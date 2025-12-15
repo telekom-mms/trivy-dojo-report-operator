@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.1) (2025-12-15)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.0...0.9.1)
+
+**Implemented enhancements:**
+
+- \[Enhancement\] Allow exclusion of namespaces from which reports will not be uploaded [\#140](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/140)
+
 ## [0.9.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.0) (2025-12-10)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.13...0.9.0)
