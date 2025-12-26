@@ -1,12 +1,16 @@
 # Changelog
 
-## [0.9.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.1) (2025-12-19)
+## [0.9.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.1) (2025-12-26)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.0...0.9.1)
 
 **Implemented enhancements:**
 
 - \[Enhancement\] Allow exclusion of namespaces from which reports will not be uploaded [\#140](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/140)
+
+**Merged pull requests:**
+
+- Ignore field report.vulnerabilities in kopf diff [\#148](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/148) ([mdnfiras](https://github.com/mdnfiras))
 
 ## [0.9.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.0) (2025-12-10)
 
