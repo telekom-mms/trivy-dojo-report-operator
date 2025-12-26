@@ -15,7 +15,7 @@ environment for this operator.
 - Create and start a local Cluster and enable ingress
 
   ```bash
-  minikube start --kubernetes-version=v1.34
+  minikube start --memory=8192
   minikube addons enable ingress
   ```
 
@@ -51,7 +51,7 @@ environment for this operator.
     --set django.ingress.activateTLS=false \
     --set createSecret=true \
     --set createRabbitMqSecret=true \
-    --set createRedisSecret=true \
+    --set createValkeySecret=true \
     --set createMysqlSecret=true \
     --set createPostgresqlSecret=true \
     --set host=localhost \
