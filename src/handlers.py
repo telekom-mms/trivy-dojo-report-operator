@@ -57,7 +57,10 @@ def configure(settings: kopf.OperatorSettings, **_):
     # for k8s to handle. see: https://github.com/kubernetes-sigs/kubebuilder/issues/2556
     settings.persistence.diffbase_storage = kopf.MultiDiffBaseStorage(
         [
-            kopf.StatusDiffBaseStorage(field="status.diff-base"),
+            kopf.StatusDiffBaseStorage(
+                field="status.diff-base",
+                ignored_fields=["report.vulnerabilities"]
+            ),
         ]
     )
 
