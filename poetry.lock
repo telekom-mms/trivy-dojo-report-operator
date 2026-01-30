@@ -709,14 +709,14 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "kopf"
-version = "1.42.0"
+version = "1.42.1"
 description = "Kubernetes Operator Pythonic Framework (Kopf)"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "kopf-1.42.0-py3-none-any.whl", hash = "sha256:490965784c3082d203857c1aa6191346f60ccfef1967019eced95ca0593f2ab3"},
-    {file = "kopf-1.42.0.tar.gz", hash = "sha256:dcdeb22622da09b8a0200758172785a01e44fae5c07e61f42b4c3a3f2614960a"},
+    {file = "kopf-1.42.1-py3-none-any.whl", hash = "sha256:9537596e2ac91599877ddf5c23b6bc6a29a2cc0233cf4fb40bfa7cec11bec916"},
+    {file = "kopf-1.42.1.tar.gz", hash = "sha256:2ab27270ff00780b5405bbc001abbec2d691c975a209cbded8caa5481fc0f7b4"},
 ]
 
 [package.dependencies]
