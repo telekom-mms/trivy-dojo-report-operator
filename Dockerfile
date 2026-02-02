@@ -16,6 +16,10 @@ RUN groupadd --gid 1000 app && \
 
 COPY --from=build /app /app
 
+RUN apt-get update -y -qq && \
+    apt-get install -y -qq --no-install-recommends jq=1.7.1-6+deb13u1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY src/* /app/
 
 RUN chown -R app:app /app
