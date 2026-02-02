@@ -50,6 +50,12 @@ DEFECT_DOJO_EVAL_ENV_NAME: bool = get_env_var_bool("DEFECT_DOJO_EVAL_ENV_NAME")
 DEFECT_DOJO_TEST_TITLE: str = os.getenv("DEFECT_DOJO_TEST_TITLE", "Kubernetes")
 DEFECT_DOJO_EVAL_TEST_TITLE: bool = get_env_var_bool("DEFECT_DOJO_EVAL_TEST_TITLE")
 
+DEFECT_DOJO_VERSION: str = os.getenv("DEFECT_DOJO_VERSION", "")
+DEFECT_DOJO_EVAL_VERSION: bool = get_env_var_bool("DEFECT_DOJO_EVAL_VERSION")
+
+DEFECT_DOJO_TAGS: str = os.getenv("DEFECT_DOJO_TAGS", "")
+DEFECT_DOJO_EVAL_TAGS: bool = get_env_var_bool("DEFECT_DOJO_EVAL_TAGS")
+
 DEFECT_DOJO_ENGAGEMENT_NAME: str | None = os.getenv("DEFECT_DOJO_ENGAGEMENT_NAME")
 DEFECT_DOJO_EVAL_ENGAGEMENT_NAME: bool = get_env_var_bool(
     "DEFECT_DOJO_EVAL_ENGAGEMENT_NAME"
@@ -66,3 +72,12 @@ REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
 
 HTTP_PROXY: str = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
 HTTPS_PROXY: str = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
+
+TRANSFORMATION_ENABLED: bool = get_env_var_bool("TRANSFORMATION_ENABLED")
+TRANSFORMATION_SCRIPT_PATH: str = os.getenv(
+    "TRANSFORMATION_SCRIPT_PATH", "/scripts/transform.py"
+)
+TRANSFORMATION_INTERPRETER: str = os.getenv("TRANSFORMATION_INTERPRETER", "python3")
+DEFECT_DOJO_SCAN_TYPE_OVERRIDE: str = os.getenv(
+    "DEFECT_DOJO_SCAN_TYPE_OVERRIDE", "Generic Findings Import"
+)

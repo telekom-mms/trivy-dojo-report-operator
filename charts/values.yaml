@@ -39,16 +39,20 @@ operator:
       defectDojoCloseOldFindingsProductScope: "false"
       defectDojoDeduplicationOnEngagement: "true"
       defectDojoDoNotReactivate: "true"
-      defectDojoEngagementName: engagement
+      defectDojoEngagementName: "full_object.get('meta_engagement_name', 'Default Engagement')"
+      defectDojoTags: "[f\"base_image:{full_object.get('meta_base_image', 'unknown')}\", f\"component:{full_object.get('meta_engagement_name', 'unknown')}\"]"
       defectDojoEnvName: Development
-      defectDojoEvalEngagementName: "false"
+      defectDojoProductTypeName: "Research and Development"
+      defectDojoProductName: "BARMER CoreMedia"
+      defectDojoEvalEngagementName: "true"
       defectDojoEvalEnvName: "false"
       defectDojoEvalProductName: "false"
+      defectDojoServiceName: ""
+      defectDojoEvalServiceName: "false"
       defectDojoEvalProductTypeName: "false"
       defectDojoEvalTestTitle: "false"
+      defectDojoEvalTags: "true"
       defectDojoMinimumSeverity: Info
-      defectDojoProductName: product
-      defectDojoProductTypeName: Research and Development
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
@@ -59,6 +63,12 @@ operator:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.9.2
     imagePullSecrets: []
+    transformation:
+      enabled: true
+      scriptConfigMap: "trivy-dojo-transform-script"
+      scriptFilename: "wrapper.sh"
+      interpreter: "bash"
+      scanType: "Generic Findings Import"
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true

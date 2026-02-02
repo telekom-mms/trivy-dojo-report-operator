@@ -38,9 +38,29 @@ rules:
   - ""
   resources:
   - namespaces
+  - pods
+  - secrets
+  - replicationcontrollers
   verbs:
   - list
   - watch
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - statefulsets
+  - daemonsets
+  - replicasets
+  verbs:
+  - get
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - get
 - apiGroups:
   - ""
   resources:
