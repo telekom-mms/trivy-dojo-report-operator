@@ -7,6 +7,12 @@ account:
   serviceAccount:
     annotations: {}
 excludedNamespaces: []
+transformation:
+  enabled: false
+  scriptConfigMap: ""
+  scriptFilename: "transform.py"
+  interpreter: "python3"
+  scanType: "Generic Findings Import"
 operator:
   ports:
     - name: metrics
