@@ -10,6 +10,7 @@ analysis and tracking.
 
 * Monitor Kubernetes for new Trivy vulnerability reports.
 * Push vulnerability reports to a configured Defect Dojo instance.
+* **Transformation Hook**: Intercept and modify reports (e.g., for custom deduplication or enrichment) before upload.
 * Seamless integration with your existing Kubernetes cluster and security workflow.
 * Developed using the Pythonic Kopf framework for easy maintenance and extensibility.
 
@@ -127,6 +128,11 @@ For a local development setup, please take a look at
 | `http_proxy`                             | *(empty)*                   | HTTP proxy setting (optional).                                                                                                                                                                 |
 | `https_proxy`                            | *(empty)*                   | HTTPS proxy setting (optional).                                                                                                                                                                |
 | `excludedNamespaces`                     | *(empty)*                   | List of namespace globs patterns to exclude from processing. Each pattern is converted into a --namespace=!<pattern> CLI argument passed to the operator Deployment. Reports from these namespaces will be ignored (optional). |
+| `transformation.enabled`                 | `false`                     | Enable the transformation hook to modify reports before upload.                                                                                                                                |
+| `transformation.scriptConfigMap`         | *(empty)*                   | Name of a ConfigMap containing the transformation script.                                                                                                                                     |
+| `transformation.scriptFilename`          | `transform.py`              | Filename of the script within the ConfigMap.                                                                                                                                                  |
+| `transformation.interpreter`             | `python3`                   | Command used to execute the script (e.g., `python3`, `bash`, `jq`).                                                                                                                            |
+| `transformation.scanType`                | `Generic Findings Import`   | The DefectDojo scanner type (parser) to use if the transformation is successful.                                                                                                            |
 
 ### A note on eval
 
@@ -140,6 +146,45 @@ evaluated and used as the engagement name.
 
 If you set defectDojoEngagementName to `body["report"]["artifact"]["tag"]`,
 then the engagement will get the name of the specified image-tag.
+
+## Transformation Hook
+
+The transformation hook allows you to manipulate the report data exactly as you need it before it reaches DefectDojo. Common use cases include:
+*   Custom deduplication logic.
+*   Enriching findings with specific labels from the scanned image.
+*   Filtering out specific findings.
+
+### How it works
+The operator serializes the raw Trivy report to a JSON string and pipes it into your script's `stdin`. Your script must write the final modified JSON to `stdout`.
+
+If the script exits with code `0`, the operator uses the modified content and switches the DefectDojo `scan_type` to the one configured in `transformation.scanType`. If the script fails, the operator automatically falls back to sending the original report with the default "Trivy Operator Scan" type.
+
+### Example: Using JQ
+To simply remove a specific field from the report, you can use `jq` as your interpreter:
+
+```yaml
+transformation:
+  enabled: true
+  interpreter: "jq"
+  scriptConfigMap: "jq-transform-cm"
+  scriptFilename: "filter.jq"
+  scanType: "Generic Findings Import"
+```
+
+### Example: Custom Shell Script
+If you need more complex logic, use a shell script:
+
+```bash
+#!/bin/bash
+# Read stdin into a variable or file
+REPORT=$(cat -)
+
+# Perform transformation (e.g., using jq)
+MODIFIED_REPORT=$(echo "$REPORT" | jq '.metrics += {"source": "trivy-operator"}')
+
+# Output back to stdout
+echo "$MODIFIED_REPORT"
+```
 
 ## Metrics
 
