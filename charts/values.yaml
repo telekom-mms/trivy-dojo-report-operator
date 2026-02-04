@@ -52,6 +52,7 @@ operator:
       defectDojoPushToJira: "false"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
+      defectDojoImportInterval: "0"
       reports: vulnerabilityreports
       http_proxy: ""
       https_proxy: ""
