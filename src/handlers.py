@@ -130,6 +130,12 @@ for report in settings.REPORTS:
             else settings.DEFECT_DOJO_TEST_TITLE
         )
 
+        _DEFECT_DOJO_PUSH_TO_JIRA = (
+            eval(settings.DEFECT_DOJO_PUSH_TO_JIRA)
+            if settings.DEFECT_DOJO_EVAL_PUSH_TO_JIRA
+            else settings.DEFECT_DOJO_PUSH_TO_JIRA
+        )
+
         # define the vulnerabilityreport as a json-file so DD accepts it
         json_string: str = json.dumps(full_object)
         json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
@@ -145,7 +151,7 @@ for report in settings.REPORTS:
             "verified": settings.DEFECT_DOJO_VERIFIED,
             "close_old_findings": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS,
             "close_old_findings_product_scope": settings.DEFECT_DOJO_CLOSE_OLD_FINDINGS_PRODUCT_SCOPE,
-            "push_to_jira": settings.DEFECT_DOJO_PUSH_TO_JIRA,
+            "push_to_jira": _DEFECT_DOJO_PUSH_TO_JIRA,
             "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
             "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
             "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,

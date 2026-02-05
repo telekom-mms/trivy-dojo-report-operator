@@ -46,6 +46,7 @@ operator:
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
       defectDojoEvalTestTitle: "false"
+      defectDojoEvalPushToJira: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
