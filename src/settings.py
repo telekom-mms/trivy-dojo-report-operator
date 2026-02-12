@@ -64,5 +64,6 @@ LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
 
+DEFECT_DOJO_IMPORT_INTERVAL: int = int(os.getenv("DEFECT_DOJO_IMPORT_INTERVAL", 0))
 HTTP_PROXY: str = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
 HTTPS_PROXY: str = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
