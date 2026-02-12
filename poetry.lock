@@ -709,18 +709,18 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "kopf"
-version = "1.42.5"
+version = "1.43.0"
 description = "Kubernetes Operator Pythonic Framework (Kopf)"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "kopf-1.42.5-py3-none-any.whl", hash = "sha256:a799aa36c47bb45a43a3044b1b18617369a2a455590b14a1ed4c773c29b0c3d1"},
-    {file = "kopf-1.42.5.tar.gz", hash = "sha256:3a66895197e3e6bf3484681112cd59d4e2700db853adcfd313344eb3a0559600"},
+    {file = "kopf-1.43.0-py3-none-any.whl", hash = "sha256:c601d29c317d381bbed6a0df9459d731a4ebb403e58f6998e753b76d4908bc6b"},
+    {file = "kopf-1.43.0.tar.gz", hash = "sha256:063058a4dc9960072b9b2512b3645e27955e3ae44c753ae69beeeea8ec9662e7"},
 ]
 
 [package.dependencies]
-aiohttp = {version = ">=3.9.0", markers = "python_version >= \"3.12\""}
+aiohttp = {version = ">=3.11.0", markers = "python_version >= \"3.12\""}
 click = ">=8.2.0"
 iso8601 = "*"
 python-json-logger = "*"
