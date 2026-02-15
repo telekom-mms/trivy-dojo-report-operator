@@ -85,6 +85,7 @@ environment for this operator.
   export DEFECT_DOJO_AUTO_CREATE_CONTEXT=true
   export DEFECT_DOJO_ACTIVE=true
   export DEFECT_DOJO_PRODUCT_NAME="Research and Development"
+  export DEFECT_DOJO_PRODUCT_TYPE_NAME="Research and Development"
   ```
 
 - Install the Python dependencies
