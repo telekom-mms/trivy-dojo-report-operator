@@ -101,7 +101,15 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.http_proxy }}
         - name: HTTPS_PROXY
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.https_proxy }}
-        image: {{ .Values.operator.trivyDojoReportOperator.image.repository }}:{{ .Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion }}
+        - name: TRANSFORMATION_ENABLED
+          value: {{ quote .Values.transformation.enabled }}
+        - name: TRANSFORMATION_SCRIPT_PATH
+          value: "/scripts/{{ .Values.transformation.scriptFilename }}"
+        - name: TRANSFORMATION_INTERPRETER
+          value: {{ quote .Values.transformation.interpreter }}
+        - name: DEFECT_DOJO_SCAN_TYPE_OVERRIDE
+          value: {{ quote .Values.transformation.scanType }}
+        image: {{ printf "%s:%s" .Values.operator.trivyDojoReportOperator.image.repository (.Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion) | quote }}
         livenessProbe:
           httpGet:
             path: /healthz
@@ -121,20 +129,33 @@ spec:
         {{- end }}
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
-        {{- with .Values.operator.trivyDojoReportOperator.extraVolumeMounts }}
         volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+          {{- if .Values.transformation.scriptConfigMap }}
+          - mountPath: /scripts
+            name: transformation-scripts
+          {{- end }}
+          {{- with .Values.operator.trivyDojoReportOperator.extraVolumeMounts }}
           {{- toYaml . | nindent 10 }}
-        {{- end }}
+          {{- end }}
       {{- with .Values.operator.trivyDojoReportOperator.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       # Additional volumes on the output Deployment definition.
-      {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
       volumes:
+        - name: tmp
+          emptyDir: {}
+        {{- if .Values.transformation.scriptConfigMap }}
+        - name: transformation-scripts
+          configMap:
+            name: {{ .Values.transformation.scriptConfigMap }}
+        {{- end }}
+        {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       serviceAccountName: {{ include "charts.fullname" . }}-account
       {{- with .Values.operator.trivyDojoReportOperator.nodeSelector }}
       nodeSelector:
