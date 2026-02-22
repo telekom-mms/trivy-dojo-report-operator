@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.2) (2026-02-22)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.1...0.9.2)
+
+**Merged pull requests:**
+
+- chore\(deps\): update wyrihaximus/github-action-get-previous-tag action to v2 [\#156](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/156) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.9.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.1) (2025-12-26)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.0...0.9.1)
