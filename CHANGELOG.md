@@ -6,6 +6,8 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): update docker/setup-qemu-action action to v4 [\#160](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/160) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update docker/login-action action to v4 - autoclosed [\#159](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/159) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update wyrihaximus/github-action-get-previous-tag action to v2 [\#156](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/156) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.9.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.1) (2025-12-26)
