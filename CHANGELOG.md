@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- Add step to delete old draft releases [\#163](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/163) ([schurzi](https://github.com/schurzi))
 - chore\(deps\): update docker/build-push-action action to v7 [\#162](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/162) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/setup-buildx-action action to v4 - autoclosed [\#161](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/161) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/setup-qemu-action action to v4 [\#160](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/160) ([renovate[bot]](https://github.com/apps/renovate))
