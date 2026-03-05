@@ -1,11 +1,17 @@
 # Changelog
 
-## [0.9.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.9.2) (2026-03-05)
+## [0.10.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.10.0) (2026-03-05)
 
-[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.1...0.9.2)
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.1...0.10.0)
+
+**Implemented enhancements:**
+
+- Accept product\_type\_name set in Defectdojo for existings products [\#149](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/149) ([hektor1966](https://github.com/hektor1966))
 
 **Merged pull requests:**
 
+- chore\(deps\): update docker/build-push-action action to v7 [\#162](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/162) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update docker/setup-buildx-action action to v4 - autoclosed [\#161](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/161) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/setup-qemu-action action to v4 [\#160](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/160) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/login-action action to v4 - autoclosed [\#159](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/159) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update wyrihaximus/github-action-get-previous-tag action to v2 [\#156](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/156) ([renovate[bot]](https://github.com/apps/renovate))
