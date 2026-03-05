@@ -20,6 +20,41 @@ proxies = {
     "https": settings.HTTPS_PROXY,
 } if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
 
+
+def check_product_exists(product_name: str, logger) -> bool:
+    """
+    Check if a product with the given name already exists in DefectDojo.
+    Returns True if the product exists, False otherwise.
+    """
+    headers: dict = {
+        "Authorization": "Token " + settings.DEFECT_DOJO_API_KEY,
+        "Accept": "application/json",
+    }
+
+    try:
+        response = requests.get(
+            settings.DEFECT_DOJO_URL + "/api/v2/products/",
+            headers=headers,
+            params={"name": product_name},
+            verify=True,
+            proxies=proxies,
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        # Check if any products were returned
+        if data.get("count", 0) > 0:
+            logger.info(f"Product '{product_name}' already exists in DefectDojo")
+            return True
+        else:
+            logger.info(f"Product '{product_name}' does not exist yet in DefectDojo")
+            return False
+
+    except Exception as err:
+        logger.warning(f"Could not check if product exists: {err}. Assuming it doesn't exist.")
+        return False
+
+
 def check_allowed_reports(report: str):
     allowed_reports: list[str] = [
         "configauditreports",
@@ -140,6 +175,9 @@ for report in settings.REPORTS:
             "Accept": "application/json",
         }
 
+        # Check if product already exists to avoid product_type conflicts
+        product_exists = check_product_exists(_DEFECT_DOJO_PRODUCT_NAME, logger)
+
         data: dict = {
             "active": settings.DEFECT_DOJO_ACTIVE,
             "verified": settings.DEFECT_DOJO_VERIFIED,
@@ -152,12 +190,19 @@ for report in settings.REPORTS:
             "scan_type": "Trivy Operator Scan",
             "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
             "product_name": _DEFECT_DOJO_PRODUCT_NAME,
-            "product_type_name": _DEFECT_DOJO_PRODUCT_TYPE_NAME,
             "service": _DEFECT_DOJO_SERVICE_NAME,
             "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
         }
+
+        # Only include product_type_name if product doesn't exist yet
+        # This prevents conflicts when a product is already assigned to a different product type
+        if not product_exists and _DEFECT_DOJO_PRODUCT_TYPE_NAME:
+            data["product_type_name"] = _DEFECT_DOJO_PRODUCT_TYPE_NAME
+            logger.info(f"Including product_type_name: {_DEFECT_DOJO_PRODUCT_TYPE_NAME}")
+        else:
+            logger.info("Product already exists, omitting product_type_name to avoid conflicts")
 
         logger.debug(data)
 
