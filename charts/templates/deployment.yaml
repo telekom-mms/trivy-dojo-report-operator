@@ -66,6 +66,9 @@ spec:
         - name: DEFECT_DOJO_EVAL_ENV_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalEnvName
             }}
+        - name: DEFECT_DOJO_EVAL_PUSH_TO_JIRA
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalPushToJira
+            }}
         - name: DEFECT_DOJO_TEST_TITLE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTestTitle
             }}
