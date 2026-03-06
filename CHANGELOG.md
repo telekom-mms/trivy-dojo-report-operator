@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.10.1) (2026-03-06)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.10.0...0.10.1)
+
+**Merged pull requests:**
+
+- chore\(deps\): lock file maintenance [\#157](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/157) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.10.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.10.0) (2026-03-05)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.9.1...0.10.0)
