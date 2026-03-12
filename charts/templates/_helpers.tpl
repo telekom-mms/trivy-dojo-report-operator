@@ -43,6 +43,21 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Resolve the effective name of the transformation script ConfigMap.
+When scriptConfigMap.create is true the name is derived from the release.
+When false the caller-supplied ref is used.
+*/}}
+{{- define "charts.transformScriptConfigMapName" -}}
+{{- with .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+{{- if .create }}
+{{- include "charts.fullname" $ }}-transform-scripts
+{{- else }}
+{{- .ref }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "charts.selectorLabels" -}}

@@ -3,9 +3,28 @@ import kopf
 import prometheus_client
 import requests
 import settings
+import subprocess
+import os
+import logging
 
 from requests.exceptions import HTTPError
 from io import BytesIO
+
+# Configure logging to use LOG_LEVEL from settings
+log_level = getattr(logging, settings.LOG_LEVEL)
+logging.basicConfig(level=log_level)
+
+# Set root logger level
+root_logger = logging.getLogger()
+root_logger.setLevel(log_level)
+
+# Set kopf logger level
+kopf_logger = logging.getLogger("kopf")
+kopf_logger.setLevel(log_level)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(log_level)
+logger.info(f"Log level set to {settings.LOG_LEVEL}")
 
 prometheus_client.start_http_server(9090)
 REQUEST_TIME = prometheus_client.Summary(
@@ -71,6 +90,63 @@ def check_allowed_reports(report: str):
         exit(1)
 
 
+def run_transformation(raw_report: dict, logger) -> dict | None:
+    """
+    Runs the transformation script on the raw report using piping (stdin/stdout).
+    Returns the transformed report as a dict or None if transformation failed.
+    """
+    try:
+        # 1. Serialize Input
+        input_data = json.dumps(raw_report)
+
+        # 2. Execute Script via pipe
+        cmd = [
+            settings.TRANSFORMATION_INTERPRETER,
+            settings.TRANSFORMATION_SCRIPT_PATH,
+        ]
+        logger.info(f"Executing transformation: {' '.join(cmd)}")
+
+        result = subprocess.run(
+            cmd,
+            input=input_data,
+            capture_output=True,
+            text=True,
+            env=os.environ,
+            check=True,
+        )
+
+        # 3. Parse Output
+        if not result.stdout.strip():
+            logger.error("Transformation script returned empty stdout")
+            if result.stderr:
+                logger.error(f"Transformation stderr: {result.stderr}")
+            return None
+
+        transformed_data = json.loads(result.stdout)
+        if result.stderr:
+            for line in result.stderr.splitlines():
+                logger.debug(f"Transformation: {line}")
+        return transformed_data
+
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Transformation script failed with exit code {e.returncode}")
+        if e.stderr:
+            logger.error(f"Transformation stderr: {e.stderr}")
+        if e.stdout:
+            logger.error(f"Transformation stdout (partial): {e.stdout[:500]}")
+        return None
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse transformation output as JSON: {e}")
+        if result.stdout:
+            logger.error(f"Raw output (partial): {result.stdout[:500]}...")
+        if result.stderr:
+            logger.error(f"Transformation stderr: {result.stderr}")
+        return None
+    except Exception as e:
+        logger.error(f"Error during transformation: {e}")
+        return None
+
+
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **_):
     """
@@ -130,6 +206,17 @@ for report in settings.REPORTS:
 
         logger.debug(full_object)
 
+        scan_type = "Trivy Operator Scan"
+        if settings.TRANSFORMATION_ENABLED:
+            logger.info("Transformation Hook is enabled")
+            transformed_object = run_transformation(full_object, logger)
+            if transformed_object:
+                logger.info("Transformation successful")
+                full_object = transformed_object
+                scan_type = settings.DEFECT_DOJO_SCAN_TYPE_OVERRIDE
+            else:
+                logger.warning("Transformation failed, falling back to raw report")
+
         _DEFECT_DOJO_ENGAGEMENT_NAME = (
             eval(settings.DEFECT_DOJO_ENGAGEMENT_NAME)
             if settings.DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
@@ -165,6 +252,16 @@ for report in settings.REPORTS:
             else settings.DEFECT_DOJO_TEST_TITLE
         )
 
+        _DEFECT_DOJO_TAGS = (
+            eval(settings.DEFECT_DOJO_TAGS)
+            if settings.DEFECT_DOJO_EVAL_TAGS
+            else (list(filter(None, settings.DEFECT_DOJO_TAGS.split(","))))
+        )
+
+        logger.debug(f"DefectDojo Config - Engagement: {_DEFECT_DOJO_ENGAGEMENT_NAME}, Test: {_DEFECT_DOJO_TEST_TITLE}, Service: {_DEFECT_DOJO_SERVICE_NAME}")
+        logger.debug(f"Transformation Metadata - base_image: {full_object.get('meta_base_image')}, tag: {full_object.get('meta_tag')}")
+
+
         # define the vulnerabilityreport as a json-file so DD accepts it
         json_string: str = json.dumps(full_object)
         json_file: BytesIO = BytesIO(json_string.encode("utf-8"))
@@ -187,13 +284,14 @@ for report in settings.REPORTS:
             "minimum_severity": settings.DEFECT_DOJO_MINIMUM_SEVERITY,
             "auto_create_context": settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT,
             "deduplication_on_engagement": settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT,
-            "scan_type": "Trivy Operator Scan",
+            "scan_type": scan_type,
             "engagement_name": _DEFECT_DOJO_ENGAGEMENT_NAME,
             "product_name": _DEFECT_DOJO_PRODUCT_NAME,
             "service": _DEFECT_DOJO_SERVICE_NAME,
             "environment": _DEFECT_DOJO_ENV_NAME,
             "test_title": _DEFECT_DOJO_TEST_TITLE,
             "do_not_reactivate": settings.DEFECT_DOJO_DO_NOT_REACTIVATE,
+            "tags": _DEFECT_DOJO_TAGS,
         }
 
         # Only include product_type_name if product doesn't exist yet
