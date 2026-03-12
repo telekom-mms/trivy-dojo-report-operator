@@ -5,9 +5,26 @@ import requests
 import settings
 import subprocess
 import os
+import logging
 
 from requests.exceptions import HTTPError
 from io import BytesIO
+
+# Configure logging to use LOG_LEVEL from settings
+log_level = getattr(logging, settings.LOG_LEVEL)
+logging.basicConfig(level=log_level)
+
+# Set root logger level
+root_logger = logging.getLogger()
+root_logger.setLevel(log_level)
+
+# Set kopf logger level
+kopf_logger = logging.getLogger("kopf")
+kopf_logger.setLevel(log_level)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(log_level)
+logger.info(f"Log level set to {settings.LOG_LEVEL}")
 
 prometheus_client.start_http_server(9090)
 REQUEST_TIME = prometheus_client.Summary(

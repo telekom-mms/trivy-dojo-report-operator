@@ -109,6 +109,8 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.transformation.interpreter }}
         - name: DEFECT_DOJO_SCAN_TYPE_OVERRIDE
           value: {{ quote .Values.operator.trivyDojoReportOperator.transformation.scanType }}
+        - name: LOG_LEVEL
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.logLevel }}
         image: {{ printf "%s:%s" .Values.operator.trivyDojoReportOperator.image.repository (.Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion) | quote }}
         livenessProbe:
           httpGet:

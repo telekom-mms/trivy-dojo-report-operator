@@ -59,6 +59,7 @@ operator:
       reports: vulnerabilityreports
       http_proxy: ""
       https_proxy: ""
+      logLevel: "INFO"
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
       tag: 0.9.2
