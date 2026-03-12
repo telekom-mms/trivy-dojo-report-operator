@@ -62,7 +62,7 @@ operator:
       logLevel: "INFO"
     image:
       repository: ghcr.io/telekom-mms/docker-trivy-dojo-operator
-      tag: 0.10.2
+      tag: 0.11.0
     imagePullSecrets: []
     transformation:
       enabled: false

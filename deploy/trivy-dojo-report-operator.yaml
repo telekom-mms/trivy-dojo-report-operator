@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-account
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -19,10 +19,10 @@ kind: Secret
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 stringData:
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
@@ -35,10 +35,10 @@ kind: ClusterRole
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-role-cluster
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -81,10 +81,10 @@ kind: ClusterRoleBinding
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-rolebinding-cluster
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -101,10 +101,10 @@ kind: Service
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-operator
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -123,10 +123,10 @@ kind: Deployment
 metadata:
   name: telekom-mms-trivy-dojo-report-operator-operator
   labels:
-    helm.sh/chart: trivy-dojo-report-operator-0.10.2
+    helm.sh/chart: trivy-dojo-report-operator-0.11.0
     app.kubernetes.io/name: trivy-dojo-report-operator
     app.kubernetes.io/instance: telekom-mms
-    app.kubernetes.io/version: "0.10.2"
+    app.kubernetes.io/version: "0.11.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -193,9 +193,9 @@ spec:
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: "false"
         - name: DEFECT_DOJO_SERVICE_NAME
-          value: 
+          value: ""
         - name: DEFECT_DOJO_EVAL_SERVICE_NAME
-          value: 
+          value: "false"
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
         - name: REPORTS
@@ -206,7 +206,17 @@ spec:
           value: ""
         - name: HTTPS_PROXY
           value: ""
-        image: ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.10.2
+        - name: TRANSFORMATION_ENABLED
+          value: "false"
+        - name: TRANSFORMATION_SCRIPT_PATH
+          value: "/scripts/wrapper.sh"
+        - name: TRANSFORMATION_INTERPRETER
+          value: "bash"
+        - name: DEFECT_DOJO_SCAN_TYPE_OVERRIDE
+          value: "Generic Findings Import"
+        - name: LOG_LEVEL
+          value: "INFO"
+        image: "ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.11.0"
         livenessProbe:
           httpGet:
             path: /healthz
@@ -225,9 +235,11 @@ spec:
           runAsUser: 1000
           seccompProfile:
             type: RuntimeDefault
+        volumeMounts:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       # Additional volumes on the output Deployment definition.
+      volumes:
       serviceAccountName: telekom-mms-trivy-dojo-report-operator-account
