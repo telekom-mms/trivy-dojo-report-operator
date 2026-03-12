@@ -128,11 +128,14 @@ For a local development setup, please take a look at
 | `http_proxy`                             | *(empty)*                   | HTTP proxy setting (optional).                                                                                                                                                                 |
 | `https_proxy`                            | *(empty)*                   | HTTPS proxy setting (optional).                                                                                                                                                                |
 | `excludedNamespaces`                     | *(empty)*                   | List of namespace globs patterns to exclude from processing. Each pattern is converted into a --namespace=!<pattern> CLI argument passed to the operator Deployment. Reports from these namespaces will be ignored (optional). |
-| `transformation.enabled`                 | `false`                     | Enable the transformation hook to modify reports before upload.                                                                                                                                |
-| `transformation.scriptConfigMap`         | *(empty)*                   | Name of a ConfigMap containing the transformation script.                                                                                                                                     |
-| `transformation.scriptFilename`          | `transform.py`              | Filename of the script within the ConfigMap.                                                                                                                                                  |
-| `transformation.interpreter`             | `python3`                   | Command used to execute the script (e.g., `python3`, `bash`, `jq`).                                                                                                                            |
-| `transformation.scanType`                | `Generic Findings Import`   | The DefectDojo scanner type (parser) to use if the transformation is successful.                                                                                                            |
+| `transformation.enabled`                       | `false`                     | Enable the transformation hook to modify reports before upload.                                                                                                                      |
+| `transformation.scriptFilename`                | `wrapper.sh`                | Filename of the entrypoint script within the ConfigMap volume (mounted at `/scripts/`).                                                                                              |
+| `transformation.interpreter`                   | `bash`                      | Command used to execute the script (e.g., `bash`, `python3`, `jq`).                                                                                                                 |
+| `transformation.scanType`                      | `Generic Findings Import`   | The DefectDojo scanner type (parser) to use when the transformation succeeds.                                                                                                        |
+| `transformation.scriptConfigMap.ref`           | *(empty)*                   | Name of an existing externally-deployed ConfigMap to mount. Used when `create` is `false`.                                                                                           |
+| `transformation.scriptConfigMap.create`        | `false`                     | When `true`, Helm creates and manages the ConfigMap from `data`. The name is derived automatically from the release (`<release>-transform-scripts`).                                  |
+| `transformation.scriptConfigMap.data`          | `{}`                        | Map of `filename: content` for the script files. Only used when `create` is `true`.                                                                                                  |
+| `rbac.additionalRules`                         | `[]`                        | Additional RBAC rules appended to the base ClusterRole. Strictly additive — base rules are always present. Each entry is a standard RBAC rule object (`apiGroups`, `resources`, `verbs`). |
 
 ### A note on eval
 
@@ -159,32 +162,66 @@ The operator serializes the raw Trivy report to a JSON string and pipes it into 
 
 If the script exits with code `0`, the operator uses the modified content and switches the DefectDojo `scan_type` to the one configured in `transformation.scanType`. If the script fails, the operator automatically falls back to sending the original report with the default "Trivy Operator Scan" type.
 
-### Example: Using JQ
-To simply remove a specific field from the report, you can use `jq` as your interpreter:
+The script files are mounted into the operator pod at `/scripts/`. The `scriptFilename` value is always just the bare filename — the `/scripts/` prefix is added automatically.
+
+### Providing the script ConfigMap
+
+There are two ways to provide the ConfigMap that holds your scripts:
+
+**Option A — Helm manages the ConfigMap** (`scriptConfigMap.create: true`)
+
+Helm creates the ConfigMap (named `<release>-transform-scripts`) from the inline `data` you provide:
 
 ```yaml
 transformation:
   enabled: true
-  interpreter: "jq"
-  scriptConfigMap: "jq-transform-cm"
-  scriptFilename: "filter.jq"
-  scanType: "Generic Findings Import"
+  interpreter: bash
+  scriptFilename: wrapper.sh
+  scanType: Generic Findings Import
+  scriptConfigMap:
+    create: true
+    data:
+      wrapper.sh: |
+        #!/bin/bash
+        cat - | python3 /scripts/transform.py
+      transform.py: |
+        import sys, json
+        print(sys.stdin.read())
 ```
 
-### Example: Custom Shell Script
-If you need more complex logic, use a shell script:
+**Option B — externally-deployed ConfigMap** (`scriptConfigMap.ref`)
 
-```bash
-#!/bin/bash
-# Read stdin into a variable or file
-REPORT=$(cat -)
+Deploy the ConfigMap yourself (e.g. `kubectl apply -f my-scripts-cm.yaml`) and reference it by name:
 
-# Perform transformation (e.g., using jq)
-MODIFIED_REPORT=$(echo "$REPORT" | jq '.metrics += {"source": "trivy-operator"}')
-
-# Output back to stdout
-echo "$MODIFIED_REPORT"
+```yaml
+transformation:
+  enabled: true
+  interpreter: bash
+  scriptFilename: wrapper.sh
+  scanType: Generic Findings Import
+  scriptConfigMap:
+    ref: my-transform-scripts
 ```
+
+### Extended RBAC for script workload lookups
+
+If your transformation script needs to query Kubernetes resources (e.g. to resolve pods or read image pull secrets), the operator's ClusterRole must be extended. Use `rbac.additionalRules` to append rules without affecting the default minimal permissions:
+
+```yaml
+rbac:
+  additionalRules:
+    - apiGroups: [""]
+      resources: [pods, secrets, replicationcontrollers]
+      verbs: [list, watch, get]
+    - apiGroups: [apps]
+      resources: [deployments, statefulsets, daemonsets, replicasets]
+      verbs: [get]
+    - apiGroups: [batch]
+      resources: [jobs, cronjobs]
+      verbs: [get]
+```
+
+The base ClusterRole rules are always present and cannot be removed through this value.
 
 ## Metrics
 
