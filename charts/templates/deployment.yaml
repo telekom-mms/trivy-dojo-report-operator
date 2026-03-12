@@ -130,8 +130,6 @@ spec:
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
         volumeMounts:
-          - mountPath: /tmp
-            name: tmp
           {{- if .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
           - mountPath: /scripts
             name: transformation-scripts
@@ -146,8 +144,6 @@ spec:
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       # Additional volumes on the output Deployment definition.
       volumes:
-        - name: tmp
-          emptyDir: {}
         {{- if .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
         - name: transformation-scripts
           configMap:

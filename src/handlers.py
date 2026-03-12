@@ -73,7 +73,7 @@ def run_transformation(raw_report: dict, logger) -> dict | None:
         transformed_data = json.loads(result.stdout)
         if result.stderr:
             for line in result.stderr.splitlines():
-                logger.info(f"Transformation: {line}")
+                logger.debug(f"Transformation: {line}")
         return transformed_data
 
     except subprocess.CalledProcessError as e:
@@ -206,8 +206,8 @@ for report in settings.REPORTS:
             else (settings.DEFECT_DOJO_TAGS.split(",") if settings.DEFECT_DOJO_TAGS else [])
         )
 
-        logger.info(f"DefectDojo Config - Engagement: {_DEFECT_DOJO_ENGAGEMENT_NAME}, Test: {_DEFECT_DOJO_TEST_TITLE}, Service: {_DEFECT_DOJO_SERVICE_NAME}")
-        logger.info(f"Transformation Metadata - base_image: {full_object.get('meta_base_image')}, tag: {full_object.get('meta_tag')}")
+        logger.debug(f"DefectDojo Config - Engagement: {_DEFECT_DOJO_ENGAGEMENT_NAME}, Test: {_DEFECT_DOJO_TEST_TITLE}, Service: {_DEFECT_DOJO_SERVICE_NAME}")
+        logger.debug(f"Transformation Metadata - base_image: {full_object.get('meta_base_image')}, tag: {full_object.get('meta_tag')}")
 
 
         # define the vulnerabilityreport as a json-file so DD accepts it

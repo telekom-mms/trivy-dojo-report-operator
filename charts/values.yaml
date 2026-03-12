@@ -39,21 +39,21 @@ operator:
       defectDojoCloseOldFindingsProductScope: "false"
       defectDojoDeduplicationOnEngagement: "true"
       defectDojoDoNotReactivate: "true"
-      defectDojoEngagementName: "full_object.get('meta_engagement_name', 'Default Engagement')"
-      defectDojoTags: "[f\"base_image:{full_object.get('meta_base_image', 'unknown')}\", f\"component:{full_object.get('meta_engagement_name', 'unknown')}\"]"
+      defectDojoEngagementName: engagement
       defectDojoEnvName: Development
-      defectDojoProductTypeName: "Research and Development"
-      defectDojoProductName: "BARMER CoreMedia"
-      defectDojoEvalEngagementName: "true"
+      defectDojoEvalEngagementName: "false"
       defectDojoEvalEnvName: "false"
       defectDojoEvalProductName: "false"
-      defectDojoServiceName: ""
-      defectDojoEvalServiceName: "false"
       defectDojoEvalProductTypeName: "false"
-      defectDojoEvalTestTitle: "false"
+      defectDojoEvalServiceName: "false"
       defectDojoEvalTags: "true"
+      defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
+      defectDojoProductName: product
+      defectDojoProductTypeName: Research and Development
       defectDojoPushToJira: "false"
+      defectDojoServiceName: ""
+      defectDojoTags: "[f\"base_image:{full_object.get('meta_base_image', 'unknown')}\", f\"component:{full_object.get('meta_engagement_name', 'unknown')}\"]"
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
