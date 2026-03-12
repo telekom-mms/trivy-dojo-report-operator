@@ -130,7 +130,8 @@ spec:
         securityContext: {{- toYaml .Values.operator.trivyDojoReportOperator.containerSecurityContext
           | nindent 10 }}
         volumeMounts:
-          {{- if .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+          {{- $cm := .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+          {{- if or $cm.create $cm.ref }}
           - mountPath: /scripts
             name: transformation-scripts
           {{- end }}
@@ -144,10 +145,11 @@ spec:
       securityContext: {{- toYaml .Values.operator.podSecurityContext | nindent 8 }}
       # Additional volumes on the output Deployment definition.
       volumes:
-        {{- if .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+        {{- $cm := .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+        {{- if or $cm.create $cm.ref }}
         - name: transformation-scripts
           configMap:
-            name: {{ .Values.operator.trivyDojoReportOperator.transformation.scriptConfigMap }}
+            name: {{ include "charts.transformScriptConfigMapName" . }}
         {{- end }}
         {{- with .Values.operator.trivyDojoReportOperator.extraVolumes }}
         {{- toYaml . | nindent 8 }}

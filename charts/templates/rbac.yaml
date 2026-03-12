@@ -38,35 +38,18 @@ rules:
   - ""
   resources:
   - namespaces
-  - pods
-  - secrets
-  - replicationcontrollers
   verbs:
   - list
   - watch
-  - get
-- apiGroups:
-  - apps
-  resources:
-  - deployments
-  - statefulsets
-  - daemonsets
-  - replicasets
-  verbs:
-  - get
-- apiGroups:
-  - batch
-  resources:
-  - jobs
-  - cronjobs
-  verbs:
-  - get
 - apiGroups:
   - ""
   resources:
   - events
   verbs:
   - create
+{{- range .Values.rbac.additionalRules }}
+- {{ toYaml . | nindent 2 | trim }}
+{{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

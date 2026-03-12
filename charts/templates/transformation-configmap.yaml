@@ -1,0 +1,12 @@
+{{- with .Values.operator.trivyDojoReportOperator.transformation }}
+{{- if and .enabled .scriptConfigMap.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "charts.transformScriptConfigMapName" $ }}
+  labels:
+  {{- include "charts.labels" $ | nindent 4 }}
+data:
+{{- toYaml .scriptConfigMap.data | nindent 2 }}
+{{- end }}
+{{- end }}

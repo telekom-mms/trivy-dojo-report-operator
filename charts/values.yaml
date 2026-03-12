@@ -46,14 +46,14 @@ operator:
       defectDojoEvalProductName: "false"
       defectDojoEvalProductTypeName: "false"
       defectDojoEvalServiceName: "false"
-      defectDojoEvalTags: "true"
+      defectDojoEvalTags: "false"
       defectDojoEvalTestTitle: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development
       defectDojoPushToJira: "false"
       defectDojoServiceName: ""
-      defectDojoTags: "[f\"base_image:{full_object.get('meta_base_image', 'unknown')}\", f\"component:{full_object.get('meta_engagement_name', 'unknown')}\"]"
+      defectDojoTags: ""
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
@@ -64,13 +64,58 @@ operator:
       tag: 0.9.2
     imagePullSecrets: []
     transformation:
-      enabled: true
-      scriptConfigMap: "trivy-dojo-transform-script"
-      scriptFilename: "wrapper.sh"
+      enabled: false
       interpreter: "bash"
       scanType: "Generic Findings Import"
+      scriptFilename: "wrapper.sh"
+      # scriptConfigMap: defines the ConfigMap that holds the transformation scripts.
+      # create: when true, Helm creates and manages the ConfigMap; the name is
+      #         derived automatically from the release. Only data is needed.
+      # data:   map of filename -> script content; only used when create: true.
+      # ref:    name of an existing externally-deployed ConfigMap to mount;
+      #         only used when create: false.
+      #
+      # Example — reference an externally-deployed ConfigMap:
+      # scriptConfigMap:
+      #   ref: my-transform-scripts
+      #
+      # Example #2 — let Helm manage the ConfigMap:
+      # scriptConfigMap:
+      #   create: true
+      #   data:
+      #     wrapper.sh: |
+      #       #!/bin/bash
+      #       echo "$REPORT_JSON" | python3 /scripts/transform.py
+      #     transform.py: |
+      #       import sys, json
+      #       print(sys.stdin.read())
+      scriptConfigMap:
+        ref: ""
+        create: false
+        data: {}
   type: ClusterIP
   podSecurityContext:
     runAsNonRoot: true
     fsGroupChangePolicy: Always
     fsGroup: 1000
+# rbac.additionalRules: Additional RBAC rules appended to the base ClusterRole.
+# These rules are strictly additive — the built-in base rules are always present
+# and cannot be removed through this value.
+#
+# Each entry must be a valid RBAC rule object (apiGroups, resources, verbs).
+# The rules below are the ones needed when the transformation feature is used
+# to enrich reports with workload context (pods, deployments, jobs, …):
+#
+# rbac:
+#   additionalRules:
+#     - apiGroups: [""]
+#       resources: [pods, secrets, replicationcontrollers]
+#       verbs: [list, watch, get]
+#     - apiGroups: [apps]
+#       resources: [deployments, statefulsets, daemonsets, replicasets]
+#       verbs: [get]
+#     - apiGroups: [batch]
+#       resources: [jobs, cronjobs]
+#       verbs: [get]
+rbac:
+  additionalRules: []
