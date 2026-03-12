@@ -9,8 +9,8 @@ analysis and tracking.
 ## Features
 
 * Monitor Kubernetes for new Trivy vulnerability reports.
+* Intercept and modify reports (e.g., for custom deduplication or enrichment) before upload.
 * Push vulnerability reports to a configured Defect Dojo instance.
-* **Transformation Hook**: Intercept and modify reports (e.g., for custom deduplication or enrichment) before upload.
 * Seamless integration with your existing Kubernetes cluster and security workflow.
 * Developed using the Pythonic Kopf framework for easy maintenance and extensibility.
 

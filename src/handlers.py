@@ -203,7 +203,7 @@ for report in settings.REPORTS:
         _DEFECT_DOJO_TAGS = (
             eval(settings.DEFECT_DOJO_TAGS)
             if settings.DEFECT_DOJO_EVAL_TAGS
-            else (settings.DEFECT_DOJO_TAGS.split(",") if settings.DEFECT_DOJO_TAGS else [])
+            else (list(filter(None, settings.DEFECT_DOJO_TAGS.split(","))))
         )
 
         logger.debug(f"DefectDojo Config - Engagement: {_DEFECT_DOJO_ENGAGEMENT_NAME}, Test: {_DEFECT_DOJO_TEST_TITLE}, Service: {_DEFECT_DOJO_SERVICE_NAME}")
