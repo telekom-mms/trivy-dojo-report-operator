@@ -921,21 +921,49 @@ colors = ["colorama"]
 plugins = ["setuptools"]
 
 [[package]]
+name = "jsonpatch"
+version = "1.33"
+description = "Apply JSON-Patches (RFC 6902)"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*"
+groups = ["main"]
+files = [
+    {file = "jsonpatch-1.33-py2.py3-none-any.whl", hash = "sha256:0ae28c0cd062bbd8b8ecc26d7d164fbbea9652a1a3693f3b956c1eae5145dade"},
+    {file = "jsonpatch-1.33.tar.gz", hash = "sha256:9fcd4009c41e6d12348b4a0ff2563ba56a2923a7dfee731d004e212e1ee5030c"},
+]
+
+[package.dependencies]
+jsonpointer = ">=1.9"
+
+[[package]]
+name = "jsonpointer"
+version = "3.0.0"
+description = "Identify specific nodes in a JSON document (RFC 6901)"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "jsonpointer-3.0.0-py2.py3-none-any.whl", hash = "sha256:13e088adc14fca8b6aa8177c044e12701e6ad4b28ff10e65f2267a90109c9942"},
+    {file = "jsonpointer-3.0.0.tar.gz", hash = "sha256:2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705cb76bf4b832af59ef"},
+]
+
+[[package]]
 name = "kopf"
-version = "1.43.0"
+version = "1.44.0"
 description = "Kubernetes Operator Pythonic Framework (Kopf)"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "kopf-1.43.0-py3-none-any.whl", hash = "sha256:c601d29c317d381bbed6a0df9459d731a4ebb403e58f6998e753b76d4908bc6b"},
-    {file = "kopf-1.43.0.tar.gz", hash = "sha256:063058a4dc9960072b9b2512b3645e27955e3ae44c753ae69beeeea8ec9662e7"},
+    {file = "kopf-1.44.0-py3-none-any.whl", hash = "sha256:ae4e208343eeec3c0c7284de10262594428d32ad120faebfaea0c56aaa9a53c2"},
+    {file = "kopf-1.44.0.tar.gz", hash = "sha256:c66867378d8c94e3e054804cd91c5ad0af6966c1b89d7970227948467b076d10"},
 ]
 
 [package.dependencies]
 aiohttp = {version = ">=3.11.0", markers = "python_version >= \"3.12\""}
 click = ">=8.2.0"
 iso8601 = "*"
+jsonpatch = "*"
 python-json-logger = "*"
 pyyaml = "*"
 
