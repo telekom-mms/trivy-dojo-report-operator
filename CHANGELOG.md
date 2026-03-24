@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.1) (2026-03-24)
+
+[Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.11.0...0.11.1)
+
+**Merged pull requests:**
+
+- chore\(deps\): update azure/setup-helm action to v5 [\#166](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/166) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.11.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.0) (2026-03-12)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.10.1...0.11.0)
