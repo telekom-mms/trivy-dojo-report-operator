@@ -9,6 +9,7 @@
 - chore\(deps\): update azure/setup-helm action to v5 [\#166](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/166) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): lock file maintenance [\#165](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/165) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency black to v26 \[security\] [\#164](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/164) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update dependency isort to v8 [\#158](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/158) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.11.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.0) (2026-03-12)
 
