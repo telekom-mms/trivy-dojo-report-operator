@@ -7,6 +7,7 @@
 **Merged pull requests:**
 
 - chore\(deps\): update azure/setup-helm action to v5 [\#166](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/166) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): lock file maintenance [\#165](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/165) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.11.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.0) (2026-03-12)
 
