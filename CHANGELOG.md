@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.11.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.1) (2026-04-29)
+## [0.11.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.11.1) (2026-04-30)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.11.0...0.11.1)
 
@@ -70,6 +70,10 @@
 
 - \[Bug\] Application Liveness is not stable — Pod continuously restarts [\#138](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/138)
 
+**Merged pull requests:**
+
+- chore\(deps\): update dependency isort to v7 [\#135](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/135) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.13](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.13) (2025-12-09)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.12...0.8.13)
@@ -117,6 +121,10 @@
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.8...0.8.9)
 
+**Merged pull requests:**
+
+- chore\(deps\): update python docker tag to v3.13 [\#80](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/80) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.8](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.8) (2025-04-24)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.7...0.8.8)
@@ -131,19 +139,37 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): update azure/setup-helm digest to b9e5190 [\#115](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/115) ([renovate[bot]](https://github.com/apps/renovate))
+- feat: Update poetry, fix workflow and update docs [\#114](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/114) ([szEvEz](https://github.com/szEvEz))
 - feat: provide option to set http\_proxy variable [\#112](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/112) ([MPritsch](https://github.com/MPritsch))
 - chore\(deps\): update docker/setup-buildx-action digest to b5ca514 [\#110](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/110) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update dependency black to v25 [\#107](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/107) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update dependency isort to v6 [\#106](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/106) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update python:3.12-slim docker digest to a866731 [\#105](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/105) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): pin dependencies [\#103](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/103) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update python:3.12 docker digest to 4e7024d [\#102](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/102) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/build-push-action digest to 471d1dc [\#100](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/100) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update docker/setup-qemu-action digest to 2910929 [\#95](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/95) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.6](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.6) (2025-01-16)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.5...0.8.6)
 
+**Merged pull requests:**
+
+- FEATURE: Allow Pull an Image from a Private Registry [\#101](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/101) ([tidusete](https://github.com/tidusete))
+- chore\(deps\): update python:3.12-slim docker digest to 123be56 [\#99](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/99) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update python:3.12 docker digest to 044cfd8 [\#98](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/98) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update mikefarah/yq action to v4.45.1 [\#97](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/97) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update docker/build-push-action digest to b32b51a [\#94](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/94) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.5](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.5) (2025-01-13)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.4...0.8.5)
+
+**Merged pull requests:**
+
+- Conditional generation of secret [\#96](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/96) ([guipal](https://github.com/guipal))
 
 ## [0.8.4](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.4) (2024-12-30)
 
@@ -157,21 +183,43 @@
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.2...0.8.3)
 
+**Merged pull requests:**
+
+- feat\(multiplatform-images\): Build images for arm64 platform [\#90](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/90) ([guipal](https://github.com/guipal))
+
 ## [0.8.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.2) (2024-11-27)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.1...0.8.2)
+
+**Merged pull requests:**
+
+- Fix: correct DEFECT\_DOJO\_EVAL\_SERVICE\_NAME environment variable [\#88](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/88) ([tidusete](https://github.com/tidusete))
 
 ## [0.8.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.1) (2024-11-25)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.8.0...0.8.1)
 
+**Merged pull requests:**
+
+- Add affinity, nodeselector and tolerations to deployment [\#86](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/86) ([lbi22](https://github.com/lbi22))
+
 ## [0.8.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.8.0) (2024-11-25)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.3...0.8.0)
 
+**Implemented enhancements:**
+
+- Allow variable DEFECT\_DOJO\_PRODUCT\_TYPE\_NAME empty [\#83](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/83) ([tidusete](https://github.com/tidusete))
+
 **Fixed bugs:**
 
 - \[Bug\] Image docker-trivy-dojo-operator:0.7.3 does not exist? [\#82](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/82)
+
+**Merged pull requests:**
+
+- Update dependency pytest-cov to v6 - autoclosed [\#81](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/81) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency kubernetes to v31 [\#79](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/79) ([renovate[bot]](https://github.com/apps/renovate))
+- feat: add support for setting 'Service' [\#78](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/78) ([donbowman](https://github.com/donbowman))
 
 ## [0.7.3](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.3) (2024-10-23)
 
@@ -185,25 +233,48 @@
 
 - \[Enhancement\] Publish new release with latest base images [\#72](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/72)
 
+**Merged pull requests:**
+
+- Update dependency aiohttp to v3.10.5 [\#76](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/76) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.7.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.1) (2024-08-17)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.7.0...0.7.1)
+
+**Merged pull requests:**
+
+- use upstream hadolint, only run on changed Dockerfile [\#75](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/75) ([rndmh3ro](https://github.com/rndmh3ro))
 
 ## [0.7.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.7.0) (2024-07-30)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.2...0.7.0)
 
+**Implemented enhancements:**
+
+- :tada: improve Dockerfile and implement hadolint [\#73](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/73) ([manuel-sommer](https://github.com/manuel-sommer))
+
 **Merged pull requests:**
 
+- Update tj-actions/changed-files action to v44 [\#74](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/74) ([renovate[bot]](https://github.com/apps/renovate))
 - Update docker/build-push-action action to v6 [\#70](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/70) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency kubernetes to v30 [\#69](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/69) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.6.2](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.2) (2024-05-28)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.1...0.6.2)
 
+**Merged pull requests:**
+
+- Update service.yaml [\#68](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/68) ([rits1902](https://github.com/rits1902))
+
 ## [0.6.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.1) (2024-04-16)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.6.0...0.6.1)
+
+**Merged pull requests:**
+
+- Re-add configuration for resource requests and limits, remove kubernetes manifest [\#67](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/67) ([szEvEz](https://github.com/szEvEz))
+- Update dependency pytest-cov to v5 [\#65](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/65) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.6.0](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.6.0) (2024-03-19)
 
@@ -263,6 +334,10 @@
 - \[Enhancement\] Separate Engagements by Namespace [\#54](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/54)
 - \[Enhancement\] Add more kind of reports and make them configurables [\#52](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/52)
 
+**Fixed bugs:**
+
+- Fix ClusterRole permissions [\#55](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/55) ([corvusmod](https://github.com/corvusmod))
+
 ## [0.5.1](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/0.5.1) (2024-02-08)
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.5.0...0.5.1)
@@ -288,6 +363,8 @@
 
 **Merged pull requests:**
 
+- Add possiblity to configure resources [\#44](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/44) ([szEvEz](https://github.com/szEvEz))
+- Update dependency kubernetes to v29 [\#43](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/43) ([renovate[bot]](https://github.com/apps/renovate))
 - Add workflow for automatically creating helm chart releases [\#42](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/42) ([szEvEz](https://github.com/szEvEz))
 - Update README.md with creation of release with version tag only [\#41](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/41) ([szEvEz](https://github.com/szEvEz))
 
@@ -324,6 +401,7 @@
 
 - Update dependency mypy to v1.7.1 [\#32](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/32) ([renovate[bot]](https://github.com/apps/renovate))
 - Update python:3.11-slim Docker digest to 1bc6a3e [\#31](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/31) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency prometheus-client to ^0.19.0 [\#30](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/30) ([renovate[bot]](https://github.com/apps/renovate))
 - Pin dependencies [\#29](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/29) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [trivy-dojo-report-operator-0.3.5](https://github.com/telekom-mms/trivy-dojo-report-operator/tree/trivy-dojo-report-operator-0.3.5) (2023-11-14)
@@ -351,6 +429,7 @@
 
 **Merged pull requests:**
 
+- fix wrong image version tag [\#27](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/27) ([rndmh3ro](https://github.com/rndmh3ro))
 - Update dependency mypy to v1.7.0 [\#26](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/26) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mypy to v1 [\#20](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/20) ([renovate[bot]](https://github.com/apps/renovate))
 
@@ -393,6 +472,7 @@
 **Merged pull requests:**
 
 - Update actions/checkout action to v4.1.1 [\#15](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/15) ([renovate[bot]](https://github.com/apps/renovate))
+- Metrics [\#13](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/13) ([rndmh3ro](https://github.com/rndmh3ro))
 - Update actions/checkout action to v4.1.0 [\#10](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/10) ([renovate[bot]](https://github.com/apps/renovate))
 - Update docker/setup-qemu-action action to v3 [\#9](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/9) ([renovate[bot]](https://github.com/apps/renovate))
 - Update docker/setup-buildx-action action to v3 [\#8](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/8) ([renovate[bot]](https://github.com/apps/renovate))
