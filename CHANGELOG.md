@@ -7,6 +7,8 @@
 **Merged pull requests:**
 
 - chore\(deps\): update telekom-mms/.github digest to da259d7 [\#171](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/171) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): lock file maintenance [\#168](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/168) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update hugo19941994/delete-draft-releases action to v3 [\#167](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/167) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update azure/setup-helm action to v5 [\#166](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/166) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): lock file maintenance [\#165](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/165) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency black to v26 \[security\] [\#164](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/164) ([renovate[bot]](https://github.com/apps/renovate))
