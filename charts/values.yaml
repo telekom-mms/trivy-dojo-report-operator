@@ -48,6 +48,10 @@ operator:
       defectDojoEvalServiceName: "false"
       defectDojoEvalTags: "false"
       defectDojoEvalTestTitle: "false"
+      defectDojoApplyTagsToFindings: "false"
+      defectDojoApplyTagsToEndpoints: "false"
+      defectDojoVersion: ""
+      defectDojoEvalVersion: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
       defectDojoProductTypeName: Research and Development

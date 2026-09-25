@@ -96,6 +96,18 @@ spec:
         - name: DEFECT_DOJO_EVAL_TAGS
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalTags
             }}
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_FINDINGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoApplyTagsToFindings
+            }}
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_ENDPOINTS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoApplyTagsToEndpoints
+            }}
+        - name: DEFECT_DOJO_VERSION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoVersion
+            }}
+        - name: DEFECT_DOJO_EVAL_VERSION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalVersion
+            }}
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
             }}

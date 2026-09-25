@@ -200,6 +200,14 @@ spec:
           value: ""
         - name: DEFECT_DOJO_EVAL_TAGS
           value: "false"
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_FINDINGS
+          value: "false"
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_ENDPOINTS
+          value: "false"
+        - name: DEFECT_DOJO_VERSION
+          value: ""
+        - name: DEFECT_DOJO_EVAL_VERSION
+          value: "false"
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
         - name: REPORTS
