@@ -190,7 +190,11 @@ spec:
           value: "false"
         - name: DEFECT_DOJO_PRODUCT_NAME
           value: "product"
+        - name: DEFECT_DOJO_PRODUCT_DESCRIPTION
+          value: "Created by trivy-dojo-report-operator"
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
+          value: "false"
+        - name: DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION
           value: "false"
         - name: DEFECT_DOJO_SERVICE_NAME
           value: ""
@@ -207,6 +211,10 @@ spec:
         - name: DEFECT_DOJO_VERSION
           value: ""
         - name: DEFECT_DOJO_EVAL_VERSION
+          value: "false"
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT
+          value: "false"
+        - name: DEFECT_DOJO_ENABLE_PRODUCT_TAG_INHERITANCE
           value: "false"
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
