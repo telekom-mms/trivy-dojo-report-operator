@@ -196,6 +196,10 @@ spec:
           value: ""
         - name: DEFECT_DOJO_EVAL_SERVICE_NAME
           value: "false"
+        - name: DEFECT_DOJO_TAGS
+          value: ""
+        - name: DEFECT_DOJO_EVAL_TAGS
+          value: "false"
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: "true"
         - name: REPORTS
