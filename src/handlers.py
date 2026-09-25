@@ -40,6 +40,11 @@ proxies = {
 } if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
 
 
+def defect_dojo_api_url(endpoint: str) -> str:
+    """Build a DefectDojo API URL regardless of a trailing slash in its base URL."""
+    return f"{settings.DEFECT_DOJO_URL.rstrip('/')}/api/v2/{endpoint.lstrip('/')}"
+
+
 def check_product_exists(product_name: str, logger) -> bool:
     """
     Check if a product with the given name already exists in DefectDojo.
@@ -52,7 +57,7 @@ def check_product_exists(product_name: str, logger) -> bool:
 
     try:
         response = requests.get(
-            settings.DEFECT_DOJO_URL + "/api/v2/products/",
+            defect_dojo_api_url("products/"),
             headers=headers,
             params={"name": product_name},
             verify=True,
@@ -306,7 +311,7 @@ for report in settings.REPORTS:
 
         try:
             response: requests.Response = requests.post(
-                settings.DEFECT_DOJO_URL + "/api/v2/reimport-scan/",
+                defect_dojo_api_url("reimport-scan/"),
                 headers=headers,
                 data=data,
                 files=report_file,
