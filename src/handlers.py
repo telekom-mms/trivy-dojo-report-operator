@@ -59,7 +59,7 @@ def check_product_exists(product_name: str, logger) -> bool:
         response = requests.get(
             defect_dojo_api_url("products/"),
             headers=headers,
-            params={"name": product_name},
+            params={"name_exact": product_name},
             verify=True,
             proxies=proxies,
         )
