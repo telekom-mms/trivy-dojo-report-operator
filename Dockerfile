@@ -19,7 +19,7 @@ COPY --from=build /app /app
 RUN apt-get update -y -qq && \
     apt-get install -y -qq --no-install-recommends jq kubectl curl && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* # hadolint ignore=DL3008
 
 COPY src/* /app/
 
