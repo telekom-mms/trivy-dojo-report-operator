@@ -9,6 +9,7 @@
 - chore\(deps\): update dependency aiohttp to v3.14.3 \[security\] [\#182](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/182) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/build-push-action digest to c3c9e26 [\#180](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/180) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update python:3.12-slim docker digest to f77ac9e [\#178](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/178) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update python:3.12 docker digest to 4d1cade [\#177](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/177) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency yarl to v1.25.1 [\#176](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/176) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update dependency black to v26.5.1 [\#173](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/173) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update telekom-mms/.github digest to da259d7 [\#171](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/171) ([renovate[bot]](https://github.com/apps/renovate))
