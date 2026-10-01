@@ -44,12 +44,20 @@ operator:
       defectDojoEvalEngagementName: "false"
       defectDojoEvalEnvName: "false"
       defectDojoEvalProductName: "false"
+      defectDojoEvalProductDescription: "false"
       defectDojoEvalProductTypeName: "false"
       defectDojoEvalServiceName: "false"
       defectDojoEvalTags: "false"
       defectDojoEvalTestTitle: "false"
+      defectDojoApplyTagsToFindings: "false"
+      defectDojoApplyTagsToEndpoints: "false"
+      defectDojoVersion: ""
+      defectDojoEvalVersion: "false"
+      defectDojoApplyTagsToProduct: "false"
+      defectDojoEnableProductTagInheritance: "false"
       defectDojoMinimumSeverity: Info
       defectDojoProductName: product
+      defectDojoProductDescription: Created by trivy-dojo-report-operator
       defectDojoProductTypeName: Research and Development
       defectDojoPushToJira: "false"
       defectDojoServiceName: ""

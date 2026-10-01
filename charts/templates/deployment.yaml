@@ -81,14 +81,44 @@ spec:
         - name: DEFECT_DOJO_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductName
             }}
+        - name: DEFECT_DOJO_PRODUCT_DESCRIPTION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoProductDescription
+            }}
         - name: DEFECT_DOJO_EVAL_PRODUCT_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductName
+            }}
+        - name: DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalProductDescription
             }}
         - name: DEFECT_DOJO_SERVICE_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoServiceName
             }}
         - name: DEFECT_DOJO_EVAL_SERVICE_NAME
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalServiceName
+            }}
+        - name: DEFECT_DOJO_TAGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoTags
+            }}
+        - name: DEFECT_DOJO_EVAL_TAGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalTags
+            }}
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_FINDINGS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoApplyTagsToFindings
+            }}
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_ENDPOINTS
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoApplyTagsToEndpoints
+            }}
+        - name: DEFECT_DOJO_VERSION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoVersion
+            }}
+        - name: DEFECT_DOJO_EVAL_VERSION
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEvalVersion
+            }}
+        - name: DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoApplyTagsToProduct
+            }}
+        - name: DEFECT_DOJO_ENABLE_PRODUCT_TAG_INHERITANCE
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoEnableProductTagInheritance
             }}
         - name: DEFECT_DOJO_DO_NOT_REACTIVATE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoDoNotReactivate
