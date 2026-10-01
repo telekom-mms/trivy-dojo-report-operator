@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/telekom-mms/trivy-dojo-report-operator/compare/0.11.0...0.11.1)
 
+**Implemented enhancements:**
+
+- \[Enhancement\] Defect-Dojo Tags [\#111](https://github.com/telekom-mms/trivy-dojo-report-operator/issues/111)
+
 **Merged pull requests:**
 
+- feat: add DefectDojo tag options and create products with description, tags and tag inheritance [\#183](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/183) ([DravenPie](https://github.com/DravenPie))
 - chore\(deps\): update dependency aiohttp to v3.14.3 \[security\] [\#182](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/182) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update docker/build-push-action digest to c3c9e26 [\#180](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/180) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update python:3.12-slim docker digest to f77ac9e [\#178](https://github.com/telekom-mms/trivy-dojo-report-operator/pull/178) ([renovate[bot]](https://github.com/apps/renovate))
