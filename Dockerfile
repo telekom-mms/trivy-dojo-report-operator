@@ -1,4 +1,4 @@
-FROM python:3.12@sha256:ed942629d18ad03521f9835ff95f3edbfbe99ccd38be6ba64a509ce3c1b149a8 AS build
+FROM python:3.12@sha256:4d1caded1f729ae443eb803f26ffde7b61e696aeaef62f099abb6dd6b14257c7 AS build
 
 WORKDIR /app
 
@@ -9,16 +9,18 @@ COPY poetry.lock pyproject.toml /app/
 RUN poetry config virtualenvs.in-project true && \
     poetry install --no-ansi
 
-FROM python:3.12-slim@sha256:401f6e1a67dad31a1bd78e9ad22d0ee0a3b52154e6bd30e90be696bb6a3d7461
+FROM python:3.12-slim@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f
 
 RUN groupadd --gid 1000 app && \
     useradd --gid 1000 --uid 1000 app
 
 COPY --from=build /app /app
 
+# hadolint ignore=DL3008
 RUN apt-get update -y -qq && \
-    apt-get install -y -qq --no-install-recommends jq=1.7.1-6+deb13u4 kubectl=1.32.3+ds-2 curl=8.14.1-2+deb13u5 && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get install -y -qq --no-install-recommends jq kubectl curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY src/* /app/
 
