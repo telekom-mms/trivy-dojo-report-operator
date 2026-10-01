@@ -16,10 +16,11 @@ RUN groupadd --gid 1000 app && \
 
 COPY --from=build /app /app
 
+# hadolint ignore=DL3008
 RUN apt-get update -y -qq && \
     apt-get install -y -qq --no-install-recommends jq kubectl curl && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* # hadolint ignore=DL3008
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY src/* /app/
 
