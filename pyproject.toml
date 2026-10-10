@@ -26,7 +26,7 @@ mypy = "1.20.2"
 pytest = "9.1.1"
 pytest-cov = "7.1.0"
 types-PyYAML = "6.0.12.20260906"
-isort = "8.0.1"
+isort = "9.0.2"
 
 [tool.pytest.ini_options]
 addopts = [
