@@ -5,4 +5,4 @@ on: [push, pull_request]
 jobs:
   linting:
     # docs: https://github.com/telekom-mms/.github#python-linting
-    uses: telekom-mms/.github/.github/workflows/python_linting.yml@7c72204e2eac574ea9b92aaa46854f6d09bddb0f # main
+    uses: telekom-mms/.github/.github/workflows/python_linting.yml@24519daf4da7e324e07d7dfc0802f9feb7821ecc # main
