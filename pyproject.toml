@@ -25,7 +25,7 @@ black = "26.10.1"
 mypy = "1.20.2"
 pytest = "9.2.0"
 pytest-cov = "7.1.0"
-types-PyYAML = "6.0.12.20260906"
+types-PyYAML = "6.0.12.20261030"
 isort = "8.0.1"
 
 [tool.pytest.ini_options]
