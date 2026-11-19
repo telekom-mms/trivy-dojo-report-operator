@@ -138,7 +138,7 @@ Every step is idempotent. `<name>`, `<namespace>` and `<env>` are the resolved v
 | | `projectName` | `<namespace>-<env>` |
 | | `projectVersion` | `<name>` (the repository, not the image tag) |
 | | `projectTags` | the `tags` templates, comma separated |
-| | `bom` | the BOM exactly as stored in the report |
+| | `bom` | the BOM as stored in the report, minus repeated `dependsOn` refs |
 | DefectDojo Product (create only) | name | `defectDojo.product` template |
 | | `prod_type` | id of the Product Type named `productType` (exact name; must exist) |
 | | `description` | `DEFECT_DOJO_PRODUCT_DESCRIPTION` (default `Created by trivy-dojo-report-operator`; when `DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION` is `true` the default text is used) |
@@ -198,7 +198,10 @@ Known limitations:
 
 - The BOM is sent as stored in the `SbomReport`. The Trivy Operator CRD prunes some BOM
   fields (for example `$schema` and nested components), so the upload can differ from
-  the BOM Trivy generated.
+  the BOM Trivy generated. The only change the operator makes is dropping repeated refs
+  in `dependencies[].dependsOn`: Trivy repeats them for some embedded SPDX documents
+  (e.g. Bitnami's `/opt/bitnami/<app>/.spdx-<app>.spdx`), and Dependency-Track rejects
+  such a BOM with HTTP 400 because CycloneDX requires them to be unique.
 - If a BOM changes in an `update` that preserves `status` (for example a manual edit),
   the change is not detected until the next operator restart. Real Trivy rescans drop
   the `status`, so the normal flow is unaffected.

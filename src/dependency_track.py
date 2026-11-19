@@ -445,8 +445,27 @@ def _dd(method: str, path: str, what: str, **kwargs):
     return _request(method, url, headers, what, **kwargs)
 
 
+def dedupe_depends_on(bom: dict) -> dict:
+    """Copy of the BOM without repeated `dependsOn` refs. Trivy repeats them for some embedded SPDX documents (e.g. Bitnami's `.spdx-<app>.spdx`) and Dependency-Track rejects the BOM because the CycloneDX schema requires `uniqueItems`.
+    """
+    deps = bom.get("dependencies")
+    if not isinstance(deps, list):
+        return bom
+    return {
+        **bom,
+        "dependencies": [
+            (
+                {**d, "dependsOn": list(dict.fromkeys(d["dependsOn"]))}
+                if isinstance(d, dict) and isinstance(d.get("dependsOn"), list)
+                else d
+            )
+            for d in deps
+        ],
+    }
+
+
 def upload_bom(identity: dict, bom: dict) -> tuple[str, str | None]:
-    """POST the BOM untouched; return (projectUuid, token)."""
+    """POST the BOM, minus repeated dependsOn refs; return (projectUuid, token)."""
     what = "Dependency-Track BOM upload"
     response = _dt(
         "POST",
@@ -458,7 +477,13 @@ def upload_bom(identity: dict, bom: dict) -> tuple[str, str | None]:
             "projectVersion": identity["name"],
             "projectTags": ",".join(identity["tags"]),
         },
-        files={"bom": ("sbom.cdx.json", json.dumps(bom).encode(), "application/json")},
+        files={
+            "bom": (
+                "sbom.cdx.json",
+                json.dumps(dedupe_depends_on(bom)).encode(),
+                "application/json",
+            )
+        },
         accept=(409,),
     )
     if response.status_code == 409:  # project created concurrently by another uploader
