@@ -28,7 +28,7 @@ was checked against Dependency-Track 5.2.1 and DefectDojo 3.4.201.
 | `DEPENDENCY_TRACK_API_KEY` | `dependencyTrack.apiCredentials.*` | from a Secret |
 | `DEPENDENCY_TRACK_IDENTITIES` | `dependencyTrack.identities` | JSON, see below; validated at startup |
 | `DEFECT_DOJO_URL`, `DEFECT_DOJO_API_KEY` | `defectDojoApiCredentials.*` | existing settings, reused |
-| `DEFECT_DOJO_REPORTS_ENABLED` | `defectDojo.reportsEnabled` | default `true`; `false` disables the `REPORTS` flow (`REPORTS` is ignored) |
+| `DEFECT_DOJO_REPORTS_ENABLED` | `operator.trivyDojoReportOperator.env.defectDojoReportsEnabled` | default `true`; `false` disables the `REPORTS` flow (`REPORTS` is ignored) |
 
 API key Secret: with `createSecret: true` the chart creates it from `apiKey` (never
 commit a real key; use `--set` or a private values file). With `createSecret: false`,

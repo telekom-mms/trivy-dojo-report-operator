@@ -136,7 +136,7 @@ For a local development setup, please take a look at
 | `defectDojoVerified`                     | `false`                     | Mark findings as verified in Defect Dojo.                                                                                                                                                      |
 | `defectDojoDoNotReactivate`              | `true`                      | If true, do not reactivate previously closed findings when importing.                                                                                                                          |
 | `reports`                                | `vulnerabilityreports`      | Comma-separated list of report types to send to Defect Dojo. Supported types: `vulnerabilityreports`, `rbacassessmentreports`, `infraassessmentreports`, `configauditreports`, `exposedsecretreports`. |
-| `defectDojo.reportsEnabled`              | `true`                      | Send the report types in `reports` to Defect Dojo. When `false`, `reports` is ignored; the Defect Dojo credentials stay required (Dependency-Track links projects to it). |
+| `defectDojoReportsEnabled`               | `true`                      | Send the report types in `reports` to Defect Dojo. When `false`, `reports` is ignored; the Defect Dojo credentials stay required (Dependency-Track links projects to it). |
 | `http_proxy`                             | *(empty)*                   | HTTP proxy setting (optional).                                                                                                                                                                 |
 | `https_proxy`                            | *(empty)*                   | HTTPS proxy setting (optional).                                                                                                                                                                |
 | `excludedNamespaces`                     | *(empty)*                   | List of namespace globs patterns to exclude from processing. Each pattern is converted into a --namespace=!<pattern> CLI argument passed to the operator Deployment. Reports from these namespaces will be ignored (optional). |
@@ -249,7 +249,7 @@ operator uploads the CycloneDX SBOM of each `SbomReport` to Dependency-Track and
 links the project to Defect Dojo. It is disabled by default. `ClusterSbomReport` and
 KBOM are not handled. See [DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md) for identity
 rules, configuration, required permissions and activation. To use only
-Dependency-Track, set `defectDojo.reportsEnabled=false`.
+Dependency-Track, set `defectDojoReportsEnabled` to `false`.
 
 ## Metrics
 

@@ -31,7 +31,7 @@ spec:
               name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
               optional: false
         - name: DEFECT_DOJO_REPORTS_ENABLED
-          value: {{ quote .Values.defectDojo.reportsEnabled }}
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoReportsEnabled }}
         - name: DEFECT_DOJO_ACTIVE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
             }}
