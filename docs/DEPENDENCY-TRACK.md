@@ -63,6 +63,16 @@ Every value follows the DefectDojo pattern (`DEFECT_DOJO_X` and `DEFECT_DOJO_EVA
 
 (`..._` stands for `DEPENDENCY_TRACK_DEFECT_DOJO`.) Reused from the DefectDojo flow, no new keys: product description (`DEFECT_DOJO_PRODUCT_DESCRIPTION`, `DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION`), product tags (`DEFECT_DOJO_TAGS`, `DEFECT_DOJO_EVAL_TAGS`), `DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT`, `DEFECT_DOJO_AUTO_CREATE_CONTEXT`, `DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT` and `DEFECT_DOJO_DO_NOT_REACTIVATE`.
 
+Expressions of one report run in the order of the table above (then the reused product description and tags) and share one namespace, so the first one can bind a name with `:=` for the others. This keeps a mapping in one place:
+
+```yaml
+dependencyTrack:
+  evalProjectName: "true"
+  projectName: '(I := {"shop": {"team": "tech"}}.get(meta["namespace"])) and meta["namespace"]'
+  evalAclTeam: "true"
+  aclTeam: 'I["team"]'
+```
+
 Skip rule: the required values (project name, project version, product name, product type, product description, engagement, environment, test title) must not be empty. A `None` or empty result skips the report with an INFO log; this is how reports are filtered. An eval exception skips the report with an ERROR log `<key> could not be evaluated (<ExceptionType>)`; the expression is never echoed.
 
 Security: `eval` runs arbitrary Python. Use it only with trusted, administrator-controlled configuration, never with values that users or workloads can influence.

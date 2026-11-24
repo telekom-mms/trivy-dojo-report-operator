@@ -143,6 +143,8 @@ def resolve_identity(body) -> dict:
     Where the report goes: every configured value, eval-ed with `body` and `meta` when its
     EVAL flag is on (like the DefectDojo flow). Raises NotEligible. No I/O.
     """
+    # One namespace per report, evaluated in configured_values() order: an expression can bind a
+    # name with := (e.g. in projectName) for the later ones.
     names = {"body": body, "meta": body.get("metadata") or {}}
     identity = {}
     for key, (raw, use_eval) in configured_values().items():
