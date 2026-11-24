@@ -446,7 +446,10 @@ def _dd(method: str, path: str, what: str, **kwargs):
 
 
 def dedupe_depends_on(bom: dict) -> dict:
-    """Copy of the BOM without repeated `dependsOn` refs. Trivy repeats them for some embedded SPDX documents (e.g. Bitnami's `.spdx-<app>.spdx`) and Dependency-Track rejects the BOM because the CycloneDX schema requires `uniqueItems`.
+    """
+    Copy of the BOM without repeated `dependsOn` refs. Trivy repeats them for some
+    embedded SPDX documents (e.g. Bitnami's `.spdx-<app>.spdx`) and Dependency-Track
+    rejects the BOM because the CycloneDX schema requires `uniqueItems`.
     """
     deps = bom.get("dependencies")
     if not isinstance(deps, list):
