@@ -23,32 +23,40 @@ dependencyTrack:
     secretName: ""
     # apiKeySecretKey: key inside the Secret that holds the API key.
     apiKeySecretKey: apiKey
-  # identities: rendered as-is to JSON in DEPENDENCY_TRACK_IDENTITIES; the operator validates it at startup.
-  # Templates accept {namespace}, {name} and {env}; {product} only in testTitle and tags. Example:
-  #   registries: [registry.example.com]        # exact report.registry.server; empty = all registries
-  #   default:                                  # any other namespace, used as is; absent = skipped
-  #     env: staging
-  #     productType: my-team-staging
-  #     environment: Staging
-  #     tags: ["{env}", "{namespace}"]          # optional, this is the default
-  #     aclTeam: my-team-staging                # optional, without it no ACL is applied
-  #   prefixes:                                 # "dev-my-app" -> namespace "my-app" with this entry
-  #     dev-: {env: dev, productType: my-team-dev, environment: Development, aclTeam: my-team-dev}
-  #   namespaces:                               # "<k8s namespace>" -> keys that differ from prefixes/default
-  #     my-ns:
-  #       namespace: my-app
-  #   repositories:                             # "<k8s namespace>/<repository>" -> optional overrides
-  #     my-ns/my-image:
-  #       name: my-app-api
-  #       namespace: my-app
-  #   exclude:                                  # workload label key -> values that are never sent
-  #     example.com/app: [my-app-canary]
-  #   defectDojo:                               # all optional
-  #     engagement: dependency-track
-  #     product: "{namespace}-{env}"
-  #     testTitle: "{namespace}/{name}"
-  #     groupBy: component_name+component_version
-  identities: {}
+  # The values below follow operator.trivyDojoReportOperator.env.defectDojo*: each is used as is or,
+  # when its eval* flag is "true", eval-ed as a Python expression per SbomReport with `body` (the
+  # report) and `meta` (its metadata). An empty result for a required value (projectName,
+  # projectVersion and the defectDojo names) skips the report, e.g.
+  #   projectName: 'meta["namespace"] if meta["namespace"] != "kube-system" else None'
+  # Only enable eval for trusted, administrator-controlled configuration.
+  # projectName / projectVersion: Dependency-Track project (created on upload).
+  projectName: "project"
+  evalProjectName: "false"
+  projectVersion: "1.0"
+  evalProjectVersion: "false"
+  # projectTags: comma-separated, or with evalProjectTags a Python list of strings.
+  projectTags: ""
+  evalProjectTags: "false"
+  # aclTeam: Dependency-Track team mapped to the project; empty = no ACL mapping.
+  aclTeam: ""
+  evalAclTeam: "false"
+  # groupBy: defectdojo.groupBy project property; empty = not set.
+  groupBy: ""
+  evalGroupBy: "false"
+  # defectDojo: where Dependency-Track exports the findings. The Product Type must exist.
+  # Product description/tags, deduplicationOnEngagement, autoCreateContext and doNotReactivate
+  # come from the matching operator.trivyDojoReportOperator.env.defectDojo* values.
+  defectDojo:
+    productName: product
+    evalProductName: "false"
+    productTypeName: Research and Development
+    evalProductTypeName: "false"
+    engagementName: engagement
+    evalEngagementName: "false"
+    envName: Development
+    evalEnvName: "false"
+    testTitle: Kubernetes
+    evalTestTitle: "false"
 kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:

@@ -154,7 +154,26 @@ For a local development setup, please take a look at
 | `dependencyTrack.apiCredentials.apiKey`        | *(empty)*                   | Dependency-Track API key. Only used when `createSecret` is `true`; never commit a real key.                                                                                               |
 | `dependencyTrack.apiCredentials.secretName`    | *(empty)*                   | Name of the existing Secret (required when `createSecret` is `false`, e.g. a Secret that is already reused by other workloads). Optional override of the generated name otherwise.        |
 | `dependencyTrack.apiCredentials.apiKeySecretKey` | `apiKey`                    | Key inside the Secret that holds the API key, e.g. `dependencyTrackApiKey`.                                                                                                               |
-| `dependencyTrack.identities`                   | `{}`                        | Rules that map reports to Dependency-Track projects and Defect Dojo products (default, prefixes, namespaces, registries, repositories, exclude, defectDojo). Rendered as JSON; see [DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md). |
+| `dependencyTrack.projectName` | `project` | Dependency-Track project name. Used as is, or evaluated when `evalProjectName` is `true`. Required when enabled; an empty result skips the report. |
+| `dependencyTrack.evalProjectName` | `false` | Evaluate `projectName` as a Python expression. |
+| `dependencyTrack.projectVersion` | `1.0` | Dependency-Track project version. Required when enabled; an empty result skips the report. |
+| `dependencyTrack.evalProjectVersion` | `false` | Evaluate `projectVersion` as a Python expression. |
+| `dependencyTrack.projectTags` | *(empty)* | Dependency-Track project tags. Comma-separated list, or a Python expression returning a list of strings with `evalProjectTags`. A tag must not contain a comma. |
+| `dependencyTrack.evalProjectTags` | `false` | Evaluate `projectTags` as a Python expression that returns a list of strings. |
+| `dependencyTrack.aclTeam` | *(empty)* | Dependency-Track team mapped to the project (ACL). Empty: no ACL mapping. |
+| `dependencyTrack.evalAclTeam` | `false` | Evaluate `aclTeam` as a Python expression. |
+| `dependencyTrack.groupBy` | *(empty)* | Value of the Dependency-Track property `defectdojo.groupBy`. Empty: the property is not set. |
+| `dependencyTrack.evalGroupBy` | `false` | Evaluate `groupBy` as a Python expression. |
+| `dependencyTrack.defectDojo.productName` | `product` | Defect Dojo Product name for the Dependency-Track flow. |
+| `dependencyTrack.defectDojo.evalProductName` | `false` | Evaluate `defectDojo.productName` as a Python expression. |
+| `dependencyTrack.defectDojo.productTypeName` | `Research and Development` | Defect Dojo Product Type of the Product; must exist. |
+| `dependencyTrack.defectDojo.evalProductTypeName` | `false` | Evaluate `defectDojo.productTypeName` as a Python expression. |
+| `dependencyTrack.defectDojo.engagementName` | `engagement` | Defect Dojo engagement name. |
+| `dependencyTrack.defectDojo.evalEngagementName` | `false` | Evaluate `defectDojo.engagementName` as a Python expression. |
+| `dependencyTrack.defectDojo.envName` | `Development` | Defect Dojo environment name. |
+| `dependencyTrack.defectDojo.evalEnvName` | `false` | Evaluate `defectDojo.envName` as a Python expression. |
+| `dependencyTrack.defectDojo.testTitle` | `Kubernetes` | Defect Dojo test title. |
+| `dependencyTrack.defectDojo.evalTestTitle` | `false` | Evaluate `defectDojo.testTitle` as a Python expression. |
 
 ### A note on eval
 
@@ -168,6 +187,11 @@ evaluated and used as the engagement name.
 
 If you set defectDojoEngagementName to `body["report"]["artifact"]["tag"]`,
 then the engagement will get the name of the specified image-tag.
+
+The Dependency-Track values (`dependencyTrack.*`) use the same mechanism: with
+the matching `eval*` value set to `true`, the value is evaluated per `SbomReport`
+with `body` (the report) and `meta` (`body["metadata"]`). Evaluate only trusted,
+administrator-controlled configuration. See [DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md).
 
 ## Transformation Hook
 
@@ -247,8 +271,8 @@ The base ClusterRole rules are always present and cannot be removed through this
 When `dependencyTrack.reportsEnabled=true` (Helm; env `DEPENDENCY_TRACK_REPORTS_ENABLED=true`), the
 operator uploads the CycloneDX SBOM of each `SbomReport` to Dependency-Track and
 links the project to Defect Dojo. It is disabled by default. `ClusterSbomReport` and
-KBOM are not handled. See [DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md) for identity
-rules, configuration, required permissions and activation. To use only
+KBOM are not handled. See [DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md) for the
+values, configuration, required permissions and activation. To use only
 Dependency-Track, set `defectDojoReportsEnabled` to `false`.
 
 ## Metrics

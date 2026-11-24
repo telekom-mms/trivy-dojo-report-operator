@@ -34,9 +34,9 @@ The system consists of the following event handlers (agents) defined in `src/han
     -   **Type:** `@kopf.on.create`, `@kopf.on.update` and `@kopf.on.resume` (registered only when `DEPENDENCY_TRACK_REPORTS_ENABLED=true`, in `src/dependency_track.py`)
     -   **Trigger:** `sbomreports.aquasecurity.github.io` (not `ClusterSbomReport`, not part of `REPORTS`). Trivy Operator updates the report on every rescan and drops its status, so all three causes share one handler.
     -   **Responsibility:**
-        -   **Identity:** maps the report to project, DefectDojo Product Type, environment and tags from `DEPENDENCY_TRACK_IDENTITIES` (`default`, `prefixes` and/or `namespaces`, optional `registries`, `repositories`, `exclude`, `defectDojo` templates); ineligible reports are skipped.
-        -   **Change detection:** hashes the resolved identity, URLs, image digest and scanner version and keeps `key`, `stage` and `project` in the annotation `dependency-track.trivy-dojo-report-operator/state`; nothing is sent when it is already `linked`.
-        -   **Transmission:** uploads the BOM to Dependency-Track, creates the DefectDojo Product if missing, reimports an empty FPF to create engagement and test, sets the project properties and, with `aclTeam`, maps the ACL team.
+        -   **Identity:** resolves project name, version, tags, ACL team, group-by and the DefectDojo Product, Product Type, engagement, environment and test title from the `DEPENDENCY_TRACK_*` values (used as is, or eval-ed per report with `body` and `meta` when the matching `DEPENDENCY_TRACK_EVAL_*` flag is `true`); an empty required value skips the report.
+        -   **Change detection:** hashes all resolved values, URLs, image digest and scanner version and keeps `key`, `stage` and `project` in the annotation `dependency-track.trivy-dojo-report-operator/state`; nothing is sent when it is already `linked`.
+        -   **Transmission:** uploads the BOM to Dependency-Track, creates the DefectDojo Product if missing, reimports an empty FPF to create engagement and test, sets the project properties and, with `DEPENDENCY_TRACK_ACL_TEAM`, maps the ACL team.
         -   **Resilience:** temporary errors retry 10 times, 60 s apart; permanent errors stop. Concurrency is limited only by the Kopf thread pool.
         -   **Observability:** `dependency_track_reports_total`.
     -   Details: [docs/DEPENDENCY-TRACK.md](docs/DEPENDENCY-TRACK.md).
@@ -47,7 +47,7 @@ The agents are configured via environment variables (loaded in `src/settings.py`
 
 -   **Connectivity:** DefectDojo URL (`DEFECT_DOJO_URL`) and API Key (`DEFECT_DOJO_API_KEY`).
 -   **Scope:** optional filtering by Kubernetes Label (`LABEL`, `LABEL_VALUE`); `REPORTS` and `DEFECT_DOJO_REPORTS_ENABLED` (default `true`) select the reports sent to DefectDojo.
--   **Dependency-Track (optional):** `DEPENDENCY_TRACK_REPORTS_ENABLED`, `DEPENDENCY_TRACK_URL`, `DEPENDENCY_TRACK_API_KEY`, `DEPENDENCY_TRACK_IDENTITIES`.
+-   **Dependency-Track (optional):** `DEPENDENCY_TRACK_REPORTS_ENABLED`, `DEPENDENCY_TRACK_URL`, `DEPENDENCY_TRACK_API_KEY`, `DEPENDENCY_TRACK_PROJECT_NAME`, `DEPENDENCY_TRACK_PROJECT_VERSION` (required), plus optional `DEPENDENCY_TRACK_PROJECT_TAGS`, `DEPENDENCY_TRACK_ACL_TEAM`, `DEPENDENCY_TRACK_GROUP_BY` and `DEPENDENCY_TRACK_DEFECT_DOJO_*`, each with an `EVAL` flag.
 -   **Import Logic:**
     -   `DEFECT_DOJO_ACTIVE`: Whether findings are marked as active.
     -   `DEFECT_DOJO_VERIFIED`: Whether findings are marked as verified.

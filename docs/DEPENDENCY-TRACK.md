@@ -26,7 +26,8 @@ was checked against Dependency-Track 5.2.1 and DefectDojo 3.4.201.
 | `DEPENDENCY_TRACK_REPORTS_ENABLED` | `dependencyTrack.reportsEnabled` | default `false` |
 | `DEPENDENCY_TRACK_URL` | `dependencyTrack.url` | `http` or `https` URL without credentials, query or fragment; `http` is accepted with a startup warning (the API key travels unencrypted) |
 | `DEPENDENCY_TRACK_API_KEY` | `dependencyTrack.apiCredentials.*` | from a Secret |
-| `DEPENDENCY_TRACK_IDENTITIES` | `dependencyTrack.identities` | JSON, see below; validated at startup |
+| `DEPENDENCY_TRACK_PROJECT_NAME`, `DEPENDENCY_TRACK_PROJECT_VERSION` | `dependencyTrack.projectName`, `projectVersion` | required when enabled, see Values |
+| other `DEPENDENCY_TRACK_*` | `dependencyTrack.*` | see Values |
 | `DEFECT_DOJO_URL`, `DEFECT_DOJO_API_KEY` | `defectDojoApiCredentials.*` | existing settings, reused |
 | `DEFECT_DOJO_REPORTS_ENABLED` | `operator.trivyDojoReportOperator.env.defectDojoReportsEnabled` | default `true`; `false` disables the `REPORTS` flow (`REPORTS` is ignored) |
 
@@ -43,117 +44,85 @@ have SBOM generation enabled so `SbomReport` objects exist. The static manifest 
 Network: requests use the standard `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY`
 environment variables. TLS is verified and redirects are not followed.
 
-### `DEPENDENCY_TRACK_IDENTITIES`
+### Values
 
-```json
-{
-  "registries": ["registry.example.com"],
-  "default": {"env": "staging", "productType": "tech-staging", "environment": "Staging", "aclTeam": "tech-staging"},
-  "prefixes": {"dev-": {"env": "dev", "productType": "tech-dev", "environment": "Development", "aclTeam": "tech-dev"}},
-  "namespaces": {
-    "shop-staging": {
-      "namespace": "shop", "env": "staging",
-      "productType": "tech-staging", "environment": "Staging",
-      "tags": ["{env}", "{namespace}"],
-      "aclTeam": "tech-staging"
-    }
-  },
-  "repositories": {"shop-staging/shop-api-v2": {"name": "shop-api", "namespace": "shop"}},
-  "exclude": {"example.com/app": ["shop-canary"]},
-  "defectDojo": {
-    "engagement": "dependency-track",
-    "product": "{namespace}-{env}",
-    "testTitle": "{namespace}/{name}",
-    "groupBy": "component_name+component_version"
-  }
-}
+Every value follows the DefectDojo pattern (`DEFECT_DOJO_X` and `DEFECT_DOJO_EVAL_X`): it is used as is, or, when its `EVAL` flag is `true`, evaluated as a Python expression for each `SbomReport` with `body` (the report) and `meta` (`body["metadata"]`). Results are converted with `str()` and stripped.
+
+| Environment variable | Helm value | Default (chart) | Notes |
+|---|---|---|---|
+| `DEPENDENCY_TRACK_PROJECT_NAME` / `DEPENDENCY_TRACK_EVAL_PROJECT_NAME` | `projectName` / `evalProjectName` | `project` / `false` | required env when enabled; required result |
+| `DEPENDENCY_TRACK_PROJECT_VERSION` / `DEPENDENCY_TRACK_EVAL_PROJECT_VERSION` | `projectVersion` / `evalProjectVersion` | `1.0` / `false` | required env when enabled; required result |
+| `DEPENDENCY_TRACK_PROJECT_TAGS` / `DEPENDENCY_TRACK_EVAL_PROJECT_TAGS` | `projectTags` / `evalProjectTags` | empty / `false` | comma-separated string, or with eval a list of strings; a tag containing a comma is an error |
+| `DEPENDENCY_TRACK_ACL_TEAM` / `DEPENDENCY_TRACK_EVAL_ACL_TEAM` | `aclTeam` / `evalAclTeam` | empty / `false` | empty: no ACL mapping |
+| `DEPENDENCY_TRACK_GROUP_BY` / `DEPENDENCY_TRACK_EVAL_GROUP_BY` | `groupBy` / `evalGroupBy` | empty / `false` | empty: the property `defectdojo.groupBy` is not set |
+| `DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_NAME` / `..._DEFECT_DOJO_EVAL_PRODUCT_NAME` | `defectDojo.productName` / `evalProductName` | `product` / `false` | required result |
+| `DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_TYPE_NAME` / `..._EVAL_PRODUCT_TYPE_NAME` | `defectDojo.productTypeName` / `evalProductTypeName` | `Research and Development` / `false` | required result; the Product Type must exist |
+| `DEPENDENCY_TRACK_DEFECT_DOJO_ENGAGEMENT_NAME` / `..._EVAL_ENGAGEMENT_NAME` | `defectDojo.engagementName` / `evalEngagementName` | `engagement` / `false` | required result |
+| `DEPENDENCY_TRACK_DEFECT_DOJO_ENV_NAME` / `..._EVAL_ENV_NAME` | `defectDojo.envName` / `evalEnvName` | `Development` / `false` | required result |
+| `DEPENDENCY_TRACK_DEFECT_DOJO_TEST_TITLE` / `..._EVAL_TEST_TITLE` | `defectDojo.testTitle` / `evalTestTitle` | `Kubernetes` / `false` | required result |
+
+(`..._` stands for `DEPENDENCY_TRACK_DEFECT_DOJO`.) Reused from the DefectDojo flow, no new keys: product description (`DEFECT_DOJO_PRODUCT_DESCRIPTION`, `DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION`), product tags (`DEFECT_DOJO_TAGS`, `DEFECT_DOJO_EVAL_TAGS`), `DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT`, `DEFECT_DOJO_AUTO_CREATE_CONTEXT`, `DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT` and `DEFECT_DOJO_DO_NOT_REACTIVATE`.
+
+Skip rule: the required values (project name, project version, product name, product type, product description, engagement, environment, test title) must not be empty. A `None` or empty result skips the report with an INFO log; this is how reports are filtered. An eval exception skips the report with an ERROR log `<key> could not be evaluated (<ExceptionType>)`; the expression is never echoed.
+
+Security: `eval` runs arbitrary Python. Use it only with trusted, administrator-controlled configuration, never with values that users or workloads can influence.
+
+Examples (Helm values; each needs its `eval*` flag `true`):
+
+```yaml
+dependencyTrack:
+  # only namespaces starting with "app-", prefix stripped; others are skipped
+  projectName: 'meta["namespace"][4:] if meta["namespace"].startswith("app-") else None'
+  # skip images from one registry
+  projectVersion: 'None if body["report"]["registry"]["server"] == "docker.io" else body["report"]["artifact"]["repository"]'
+  # skip reports labelled team=sandbox (the label must be on the report, see Trivy Operator reportResourceLabels)
+  defectDojo:
+    productName: 'None if meta.get("labels", {}).get("team") == "sandbox" else meta["namespace"]'
 ```
-
-| Key | Required | Meaning |
-|---|---|---|
-| `default` | no | Entry (without `namespace`) for every Kubernetes namespace not matched by `namespaces` or `prefixes`; the project `namespace` is the Kubernetes namespace. Absent: unmatched namespaces are skipped |
-| `prefixes` | no | Prefix to entry (without `namespace`): a Kubernetes namespace that starts with the prefix uses the entry and, as `namespace`, the rest of its name (`dev-shop` with `dev-` becomes `shop`). The longest prefix wins; it takes precedence over `default` |
-| `namespaces` | no | Kubernetes namespace (of the `SbomReport`) to identity, merged onto the entry `prefixes` or `default` gives it, so an override only needs the keys that differ; without such an entry it must be complete. At least one of `default`, `prefixes` and `namespaces` is required. Per entry: `namespace` (project name prefix, `[A-Za-z0-9._-]`), `env` (project name suffix, any non-empty string), `productType` (DefectDojo Product Type name), `environment` (DefectDojo environment name), optional `tags` (templates, default `["{env}", "{namespace}"]`), optional `aclTeam` (Dependency-Track team name; absent skips the ACL) |
-| `registries` | no | Exact values of `report.registry.server` that are eligible. Absent or `[]` means all registries |
-| `repositories` | no | `"<k8s namespace>/<repository>"` of a namespace that `namespaces`, `prefixes` or `default` maps; overrides `name` and/or `namespace` |
-| `exclude` | no | Label key to a non-empty list of values; a report whose label has one of the values is never sent. The label is on the report only if Trivy Operator copies it from the workload (Trivy Operator Helm value `trivyOperator.reportResourceLabels`, a comma-separated list of label keys) |
-| `defectDojo` | no | `engagement` (default `dependency-track`), `product` (default `{namespace}-{env}`), `testTitle` (default `{namespace}/{name}`), `groupBy` (default unset: the property is not written) |
-
-Templates use `str.format` with `{namespace}`, `{name}` and `{env}`; `testTitle` and
-`tags` also accept `{product}`. Startup validation (the operator exits on error; the
-chart only renders the JSON) checks the structure, the name patterns, that every
-template formats with sample values and that tags are non-empty and contain no comma.
-An empty Product or test title is only rejected at runtime (the report is skipped as an
-error). Errors never echo the input.
 
 ### Which report goes where
 
 Evaluated in this order; the first failing check skips the report and logs the reason.
 
-1. `exclude`: skipped when a label value matches.
-2. `registries`: when not empty, `report.registry.server` must be equal to one entry.
-3. `metadata.namespace` is looked up in `namespaces`, then in `prefixes` (longest match),
-   then `default`. Without a match the report is skipped.
-4. `name` is `report.artifact.repository`, `namespace` is the entry's `namespace`;
-   `repositories["<k8s namespace>/<repository>"]` overrides either. The result is
-   validated (`name` also allows `/`); an invalid or empty result is an error.
-5. A report owned by a ReplicaSet is ignored when the ReplicaSet no longer exists or has
+1. The `LABEL`/`LABEL_VALUE` filter applies as for the other reports (Kopf never calls the handler otherwise).
+2. The values are resolved; an empty required result or an eval error skips the report.
+3. A report owned by a ReplicaSet is ignored when the ReplicaSet no longer exists or has
    `spec.replicas` 0 (an old rollout must not overwrite the current SBOM). Reports that
    Trivy Operator marked as historical (annotation
    `trivy-operator.aquasecurity.github.io/report-ttl: 0s`, set on inactive revisions) are
    ignored too: Trivy rewrites all their annotations on every change, so the state would
    never stick.
 
-### Example for a typical scheme
-
-One cluster per environment of one team, one Product Type and one Dependency-Track team
-per team and environment, the project named after the namespace and environment of the
-workload; `dev-*` namespaces belong to the `dev` environment and `legacy` is an exception:
-
-```yaml
-dependencyTrack:
-  reportsEnabled: true
-  url: https://dependency-track.example.com
-  apiCredentials:
-    createSecret: false
-    secretName: dependency-track-api
-  identities:
-    registries: [registry.example.com]
-    default: {env: staging, productType: tech-staging, environment: Staging, aclTeam: tech-staging}
-    prefixes:
-      dev-: {env: dev, productType: tech-dev, environment: Development, aclTeam: tech-dev}
-    namespaces:
-      legacy: {namespace: shop}
-```
-
 ## What is sent
 
 Order: BOM upload, DefectDojo Product (only if missing), DefectDojo reimport (empty
 FPF, to create engagement and test), integration properties, optional ACL mapping.
-Every step is idempotent. `<name>`, `<namespace>` and `<env>` are the resolved values.
+Every step is idempotent.
 
 | Target | Field | Value |
 |---|---|---|
 | Dependency-Track `POST /api/v1/bom` | `autoCreate` | `true` |
-| | `projectName` | `<namespace>-<env>` |
-| | `projectVersion` | `<name>` (the repository, not the image tag) |
-| | `projectTags` | the `tags` templates, comma separated |
+| | `projectName` | resolved `projectName` |
+| | `projectVersion` | resolved `projectVersion` |
+| | `projectTags` | resolved `projectTags`, comma separated |
 | | `bom` | the BOM as stored in the report, minus repeated `dependsOn` refs |
-| DefectDojo Product (create only) | name | `defectDojo.product` template |
-| | `prod_type` | id of the Product Type named `productType` (exact name; must exist) |
-| | `description` | `DEFECT_DOJO_PRODUCT_DESCRIPTION` (default `Created by trivy-dojo-report-operator`; when `DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION` is `true` the default text is used) |
+| DefectDojo Product (create only) | name | resolved `defectDojo.productName` |
+| | `prod_type` | id of the Product Type named `defectDojo.productTypeName` (exact name; must exist) |
+| | `description` | `DEFECT_DOJO_PRODUCT_DESCRIPTION` (`DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION` applies) |
 | | `enable_product_tag_inheritance` | `DEFECT_DOJO_ENABLE_PRODUCT_TAG_INHERITANCE` |
-| | `tags` | fixed `[<env>, <namespace>]`, only when `DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT=true` (the `tags` templates only feed the Dependency-Track project tags) |
+| | `tags` | `DEFECT_DOJO_TAGS` (`DEFECT_DOJO_EVAL_TAGS` applies), only when `DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT=true`; otherwise `[]` |
 | DefectDojo `POST /api/v2/reimport-scan/` | `scan_type` | `Dependency Track Finding Packaging Format (FPF) Export`, with an empty `{"findings": []}` file |
-| | `product_name` / `engagement_name` / `test_title` | `defectDojo.product` / `engagement` / `testTitle` templates |
-| | `environment` | `environment` of the namespace entry |
-| | flags | `auto_create_context=true`, `deduplication_on_engagement=true`, `close_old_findings=false` |
+| | `product_name` / `engagement_name` / `test_title` | resolved `defectDojo.productName` / `engagementName` / `testTitle` |
+| | `environment` | resolved `defectDojo.envName` |
+| | `auto_create_context` | `DEFECT_DOJO_AUTO_CREATE_CONTEXT` |
+| | `deduplication_on_engagement` | `DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT` |
+| | `close_old_findings` | always `false`: the FPF file is empty, so `true` would close every finding Dependency-Track exported |
 | Dependency-Track project properties (group `integrations`) | `defectdojo.engagementId` | engagement id returned by the reimport (STRING) |
-| | `defectdojo.reimport` | `true` (BOOLEAN) |
-| | `defectdojo.doNotReactivate` | `false` (BOOLEAN) |
+| | `defectdojo.reimport` | `true` (BOOLEAN, fixed) |
+| | `defectdojo.doNotReactivate` | `DEFECT_DOJO_DO_NOT_REACTIVATE` (BOOLEAN; chart default `true`) |
 | | `defectdojo.testTitle` | the resolved test title (STRING) |
-| | `defectdojo.groupBy` | `defectDojo.groupBy`, only when set (STRING) |
-| Dependency-Track `PUT /api/v1/acl/mapping` | `project`, `team` | only with `aclTeam`: UUID of the team named exactly `aclTeam` (paginated lookup; missing or ambiguous is an error) |
+| | `defectdojo.groupBy` | resolved `groupBy`, only when not empty (STRING) |
+| Dependency-Track `PUT /api/v1/acl/mapping` | `project`, `team` | only with `aclTeam`: UUID of the team named exactly as the resolved `aclTeam` (paginated lookup; missing or ambiguous is an error) |
 
 Notes:
 
@@ -170,7 +139,7 @@ Notes:
 - State is kept in the annotation `dependency-track.trivy-dojo-report-operator/state`
   (JSON): `key`, `stage` (`uploaded` or `linked`) and `project` (UUID). The token is
   only logged.
-- `key` is a SHA-256 of the resolved identity (including the `defectDojo` block), the
+- `key` is a SHA-256 of all resolved values (project, tags, ACL team, group-by and the DefectDojo values), the
   Dependency-Track and DefectDojo URLs, `report.artifact.digest` and
   `report.scanner.version`. Without a digest the hash of the whole BOM is used instead,
   and then every rescan produces a new BOM and resends it.
@@ -248,7 +217,7 @@ Findings reach DefectDojo only when that task runs, not at upload time.
 
 ### DefectDojo (verified on 3.4.201)
 
-- The Product Types named in `productType` must already exist.
+- The Product Types named by `defectDojo.productTypeName` must already exist.
 - Simplest: a staff user. Otherwise a non-staff user listed in `authorized_users` of
   each used Product Type can list Product Types, create Products and reimport with
   `auto_create_context`. Deleting is not needed and not available to it.
@@ -256,7 +225,7 @@ Findings reach DefectDojo only when that task runs, not at upload time.
 ## Sharing a project with other uploaders
 
 Another uploader (for example a CI pipeline) that sends BOMs to the same project name
-(`<namespace>-<env>`) and version (`<name>`) writes to the same Dependency-Track project, and with
+and version as the resolved `projectName` and `projectVersion` writes to the same Dependency-Track project, and with
 the same DefectDojo settings to the same Product, engagement and test. Dependency-Track
 5.2.1 reconciles components on every BOM: the project ends up with the components of the
 last BOM processed, not the union, and processing is asynchronous, so the order is not
@@ -266,8 +235,7 @@ Effect: if CI scans a feature or release-candidate image while the cluster runs 
 the project flips between the two component sets, and the findings follow it.
 Recommendation: let only one source feed a given project. Either upload from CI only the
 artifact that is actually deployed to that environment, or give the operator a separate
-identity (a `repositories` override with another `name` or `namespace`, or another
-`env`).
+project name or version through `projectName` or `projectVersion`.
 
 ## Activation checklist
 
@@ -275,7 +243,7 @@ identity (a `repositories` override with another `name` or `namespace`, or anoth
 2. Create the API key Secret (or ExternalSecret) in the operator namespace.
 3. Provision Dependency-Track and DefectDojo as above, including Product Types and, if
    used, teams.
-4. Prepare values: URL, Secret, `identities` (start with one namespace).
+4. Prepare values: URL, Secret, the `projectName` and other values (filter to one namespace first, e.g. with a `None` result for the rest). The defaults are literals, like the `defectDojo*` ones: without expressions every SBOM goes to the same project (`project` / `1.0`) and the same DefectDojo Product, engagement and test, and each upload replaces the components of the previous one. Set at least `projectName`/`projectVersion` and the DefectDojo names per report, for example `meta["namespace"]` and `body["report"]["artifact"]["repository"]` with their `eval*` flags on.
 5. Enable on one cluster at a time.
 6. Watch `dependency_track_reports_total` and the operator logs; confirm the project,
    properties and ACL in Dependency-Track and the Product, engagement and test in

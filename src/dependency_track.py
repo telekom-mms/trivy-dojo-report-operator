@@ -13,7 +13,6 @@ Imported (and its handlers registered) only when DEPENDENCY_TRACK_REPORTS_ENABLE
 import hashlib
 import json
 import logging
-import re
 import sys
 import threading
 import uuid
@@ -37,39 +36,18 @@ MAX_PAGES = 50
 
 DD_SCAN_TYPE = "Dependency Track Finding Packaging Format (FPF) Export"
 EMPTY_FPF = b'{"findings": []}\n'
-# The eval-ed description is written for the DefectDojo flow's report context, which does not fit an SbomReport.
-DEFAULT_PRODUCT_DESCRIPTION = "Created by trivy-dojo-report-operator"
-
-_TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
-_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/-]*")
-_TOP_LEVEL_KEYS = {
-    "registries",
-    "default",
-    "prefixes",
-    "namespaces",
-    "repositories",
-    "exclude",
-    "defectDojo",
+# identity keys that must not be empty (an empty value skips the report) and list values.
+REQUIRED = {
+    "projectName",
+    "projectVersion",
+    "product",
+    "productType",
+    "productDescription",
+    "engagement",
+    "environment",
+    "testTitle",
 }
-_ENTRY_KEYS = {"env", "productType", "environment", "tags", "aclTeam"}
-_NAMESPACE_KEYS = _ENTRY_KEYS | {"namespace"}
-_DEFECT_DOJO_DEFAULTS = {
-    "engagement": "dependency-track",
-    "product": "{namespace}-{env}",
-    "testTitle": "{namespace}/{name}",
-    "groupBy": None,
-}
-DEFAULT_TAGS = ["{env}", "{namespace}"]
-# Fictional identity used to check templates at startup.
-_SAMPLE = {"namespace": "ns", "name": "name", "env": "env"}
-
-
-def validate_identity(namespace: str, name: str | None) -> None:
-    """Raise ValueError unless namespace (and name, unless None) can be used in project and product names."""
-    if not isinstance(namespace, str) or not _TOKEN.fullmatch(namespace):
-        raise ValueError("namespace must be non-empty and contain only [A-Za-z0-9._-]")
-    if name is not None and (not isinstance(name, str) or not _NAME.fullmatch(name)):
-        raise ValueError("name must be non-empty and contain only [A-Za-z0-9._/-]")
+LISTS = {"projectTags", "productTags"}
 
 
 def parse_url(name: str, raw: str) -> str:
@@ -88,205 +66,10 @@ def parse_url(name: str, raw: str) -> str:
     return raw.strip().rstrip("/")
 
 
-def format_template(template: str, **values: str) -> str:
-    """str.format with the identity fields; a bad placeholder raises ValueError (never echoes the template)."""
-    try:
-        return template.format(**values)
-    except (KeyError, IndexError, ValueError, AttributeError):
-        raise ValueError("invalid placeholder or brace in template") from None
-
-
-def _non_empty_str(value) -> bool:
-    return isinstance(value, str) and bool(value) and value == value.strip()
-
-
-def base_entry(k8s_ns: str, default: dict | None, prefixes: dict) -> dict | None:
-    """The entry of the longest matching prefix (namespace = k8s ns minus it), else default (namespace = k8s ns)."""
-    for p in sorted(prefixes, key=len, reverse=True):
-        if k8s_ns.startswith(p) and len(k8s_ns) > len(p):
-            return {**prefixes[p], "namespace": k8s_ns[len(p) :]}
-    return {**default, "namespace": k8s_ns} if default else None
-
-
-def parse_dependency_track_identities(raw: str) -> dict:
-    """
-    Validate DEPENDENCY_TRACK_IDENTITIES and fill the defaults:
-    {
-      "registries": ["<registry>"],                       # optional; absent or [] means all
-      "default": {<entry without namespace>},             # optional; any other k8s ns, as is
-      "prefixes": {"<prefix>": {<entry without namespace>}},  # optional; k8s ns minus the prefix
-      "namespaces": {"<k8s ns>": {                        # optional overrides, merged onto the
-          "namespace": "...", "env": "...",               # matching prefix or default entry;
-          "productType": "...", "environment": "...",     # complete without one
-          "tags": ["{env}", "{namespace}"],               # optional templates
-          "aclTeam": "..."}},                             # optional; absent skips the ACL
-      # at least one of default, prefixes or namespaces is required
-      "repositories": {"<k8s ns>/<repository>": {"name": "...", "namespace": "..."}},  # optional
-      "exclude": {"<label key>": ["<value>"]},            # optional
-      "defectDojo": {"engagement": "...", "product": "...", "testTitle": "...", "groupBy": "..."}
-    }
-    Templates use {namespace}, {name}, {env} and, except in "product", {product}.
-    Errors never echo the input.
-    """
-    try:
-        data = json.loads(raw)
-    except (TypeError, ValueError):
-        raise ValueError("DEPENDENCY_TRACK_IDENTITIES is not valid JSON") from None
-    if (
-        not isinstance(data, dict)
-        or not data.keys() & {"default", "prefixes", "namespaces"}
-        or not data.keys() <= _TOP_LEVEL_KEYS
-    ):
-        raise ValueError(
-            "DEPENDENCY_TRACK_IDENTITIES must be an object with default, prefixes and/or "
-            "namespaces and optionally registries, repositories, exclude and defectDojo"
-        )
-    prefix = "DEPENDENCY_TRACK_IDENTITIES"
-
-    registries = data.get("registries", [])
-    if not isinstance(registries, list) or not all(
-        _non_empty_str(r) for r in registries
-    ):
-        raise ValueError(f"{prefix}.registries must be a list of non-empty strings")
-
-    defect_dojo = data.get("defectDojo", {})
-    if (
-        not isinstance(defect_dojo, dict)
-        or not defect_dojo.keys() <= _DEFECT_DOJO_DEFAULTS.keys()
-    ):
-        raise ValueError(
-            f"{prefix}.defectDojo must be an object with only engagement, product, testTitle and/or groupBy"
-        )
-    defect_dojo = {**_DEFECT_DOJO_DEFAULTS, **defect_dojo}
-    for key, value in defect_dojo.items():
-        if value is None and key == "groupBy":
-            continue
-        if not _non_empty_str(value):
-            raise ValueError(f"{prefix}.defectDojo.{key} must be a non-empty string")
-    try:
-        product = format_template(defect_dojo["product"], **_SAMPLE)
-        format_template(defect_dojo["testTitle"], **_SAMPLE, product=product)
-    except ValueError as err:
-        raise ValueError(f"{prefix}.defectDojo: {err}") from None
-
-    def check_entry(where: str, entry, keys: set) -> dict:
-        """Validate one complete identity entry (with namespace when it is in keys)."""
-        required = {"env", "productType", "environment"} | (keys - _ENTRY_KEYS)
-        if (
-            not isinstance(entry, dict)
-            or not required <= entry.keys()
-            or not entry.keys() <= keys
-        ):
-            raise ValueError(
-                f"{where} needs {', '.join(sorted(required))} and optionally tags, aclTeam"
-            )
-        if "namespace" in entry:
-            try:
-                validate_identity(entry["namespace"], None)
-            except ValueError as err:
-                raise ValueError(f"{where}: {err}") from None
-        for key in ("env", "productType", "environment", "aclTeam"):
-            if key in entry and not _non_empty_str(entry[key]):
-                raise ValueError(f"{where}.{key} must be a non-empty string")
-        entry = {"tags": list(DEFAULT_TAGS), **entry}
-        if (
-            not isinstance(entry["tags"], list)
-            or not entry["tags"]
-            or not all(isinstance(t, str) for t in entry["tags"])
-        ):
-            raise ValueError(f"{where}.tags must be a non-empty list of strings")
-        for template in entry["tags"]:
-            try:
-                tag = format_template(template, **_SAMPLE, product=product)
-            except ValueError as err:
-                raise ValueError(f"{where}.tags: {err}") from None
-            if not tag or "," in tag:
-                raise ValueError(
-                    f"{where}.tags must produce non-empty tags without commas"
-                )
-        return entry
-
-    default = data.get("default")
-    if default is not None:
-        default = check_entry(f"{prefix}.default", default, _ENTRY_KEYS)
-    prefixes = data.get("prefixes", {})
-    if not isinstance(prefixes, dict) or not all(_non_empty_str(k) for k in prefixes):
-        raise ValueError(f"{prefix}.prefixes must map non-empty prefixes to entries")
-    prefixes = {
-        k: check_entry(f"{prefix}.prefixes['{k}']", v, _ENTRY_KEYS)
-        for k, v in prefixes.items()
-    }
-    namespaces = data.get("namespaces", {})
-    if not isinstance(namespaces, dict):
-        raise ValueError(f"{prefix}.namespaces must be an object")
-    namespaces = {
-        k8s_ns: check_entry(
-            f"{prefix}.namespaces['{k8s_ns}']",
-            (
-                {**(base_entry(k8s_ns, default, prefixes) or {}), **entry}
-                if isinstance(entry, dict)
-                else entry
-            ),
-            _NAMESPACE_KEYS,
-        )
-        for k8s_ns, entry in namespaces.items()
-    }
-    if not (default or prefixes or namespaces):
-        raise ValueError(
-            f"{prefix} must map at least one namespace (default, prefixes or namespaces)"
-        )
-
-    repositories = data.get("repositories", {})
-    if not isinstance(repositories, dict):
-        raise ValueError(f"{prefix}.repositories must be an object")
-    for key, override in repositories.items():
-        k8s_ns, _, repository = key.partition("/")
-        if not repository or not (
-            k8s_ns in namespaces or base_entry(k8s_ns, default, prefixes)
-        ):
-            raise ValueError(
-                f"{prefix}.repositories key '{key}' must be '<k8s namespace>/<repository>' of a mapped namespace"
-            )
-        if not isinstance(override, dict) or not override.keys() <= {
-            "name",
-            "namespace",
-        }:
-            raise ValueError(
-                f"{prefix}.repositories['{key}'] must be an object with only name and/or namespace"
-            )
-        try:
-            validate_identity(override.get("namespace", "x"), override.get("name", "x"))
-        except ValueError as err:
-            raise ValueError(f"{prefix}.repositories['{key}']: {err}") from None
-
-    exclude = data.get("exclude", {})
-    if not isinstance(exclude, dict) or not all(
-        _non_empty_str(k)
-        and isinstance(v, list)
-        and v
-        and all(_non_empty_str(x) for x in v)
-        for k, v in exclude.items()
-    ):
-        raise ValueError(
-            f"{prefix}.exclude must map label keys to non-empty lists of values"
-        )
-
-    return {
-        "registries": registries,
-        "default": default,
-        "prefixes": prefixes,
-        "namespaces": namespaces,
-        "repositories": repositories,
-        "exclude": exclude,
-        "defectDojo": defect_dojo,
-    }
-
-
 try:
     DT_URL = parse_url("DEPENDENCY_TRACK_URL", settings.DEPENDENCY_TRACK_URL)
     if not settings.DEPENDENCY_TRACK_API_KEY.strip():
         raise ValueError("DEPENDENCY_TRACK_API_KEY must not be empty")
-    IDENTITIES = parse_dependency_track_identities(settings.DEPENDENCY_TRACK_IDENTITIES)
 except ValueError as err:
     logger.error(f"Invalid Dependency-Track configuration: {err} Exiting.")
     sys.exit(1)
@@ -308,54 +91,86 @@ class NotEligible(Exception):
         self.level = level
 
 
+def configured_values() -> dict:
+    """identity key -> (configured value, eval flag), read from settings on every call."""
+    st = settings
+    return {
+        "projectName": (
+            st.DEPENDENCY_TRACK_PROJECT_NAME,
+            st.DEPENDENCY_TRACK_EVAL_PROJECT_NAME,
+        ),
+        "projectVersion": (
+            st.DEPENDENCY_TRACK_PROJECT_VERSION,
+            st.DEPENDENCY_TRACK_EVAL_PROJECT_VERSION,
+        ),
+        "projectTags": (
+            st.DEPENDENCY_TRACK_PROJECT_TAGS,
+            st.DEPENDENCY_TRACK_EVAL_PROJECT_TAGS,
+        ),
+        "aclTeam": (st.DEPENDENCY_TRACK_ACL_TEAM, st.DEPENDENCY_TRACK_EVAL_ACL_TEAM),
+        "groupBy": (st.DEPENDENCY_TRACK_GROUP_BY, st.DEPENDENCY_TRACK_EVAL_GROUP_BY),
+        "product": (
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_NAME,
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_NAME,
+        ),
+        "productType": (
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_TYPE_NAME,
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME,
+        ),
+        "engagement": (
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_ENGAGEMENT_NAME,
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENGAGEMENT_NAME,
+        ),
+        "environment": (
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_ENV_NAME,
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENV_NAME,
+        ),
+        "testTitle": (
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_TEST_TITLE,
+            st.DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_TEST_TITLE,
+        ),
+        # Shared with the DefectDojo flow.
+        "productDescription": (
+            st.DEFECT_DOJO_PRODUCT_DESCRIPTION,
+            st.DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION,
+        ),
+        "productTags": (st.DEFECT_DOJO_TAGS, st.DEFECT_DOJO_EVAL_TAGS),
+    }
+
+
 def resolve_identity(body) -> dict:
     """
-    Where the report goes: namespace, name, env, productType, environment, tags, aclTeam
-    and the resolved "dojo" block. Raises NotEligible. No I/O.
+    Where the report goes: every configured value, eval-ed with `body` and `meta` when its
+    EVAL flag is on (like the DefectDojo flow). Raises NotEligible. No I/O.
     """
-    cfg = IDENTITIES
-    meta = body.get("metadata") or {}
-    labels = meta.get("labels") or {}
-    report = body.get("report") or {}
-
-    for key, values in cfg["exclude"].items():
-        if labels.get(key) in values:
-            raise NotEligible(f"label {key}={labels[key]} is excluded")
-    server = (report.get("registry") or {}).get("server")
-    if cfg["registries"] and server not in cfg["registries"]:
-        raise NotEligible(f"registry '{server}' is out of scope")
-    k8s_ns = meta.get("namespace")
-    mapped = cfg["namespaces"].get(k8s_ns) or base_entry(
-        k8s_ns, cfg["default"], cfg["prefixes"]
-    )
-    if mapped is None:
-        raise NotEligible(f"namespace '{k8s_ns}' is not mapped")
-
-    repository = (report.get("artifact") or {}).get("repository")
-    override = cfg["repositories"].get(f"{k8s_ns}/{repository}", {})
-    namespace = override.get("namespace") or mapped["namespace"]
-    name = override.get("name") or repository
-    try:
-        validate_identity(namespace, name)
-    except ValueError as err:
-        raise NotEligible(f"invalid identity: {err}", logging.ERROR) from None
-
-    values = {"namespace": namespace, "name": name, "env": mapped["env"]}
-    dojo = dict(cfg["defectDojo"])
-    values["product"] = dojo["product"] = format_template(dojo["product"], **values)
-    dojo["testTitle"] = format_template(dojo["testTitle"], **values)
-    if not dojo["product"] or not dojo["testTitle"]:
-        raise NotEligible("empty DefectDojo product or test title", logging.ERROR)
-    return {
-        "namespace": namespace,
-        "name": name,
-        "env": mapped["env"],
-        "productType": mapped["productType"],
-        "environment": mapped["environment"],
-        "tags": [format_template(t, **values) for t in mapped["tags"]],
-        "aclTeam": mapped.get("aclTeam"),
-        "dojo": dojo,
-    }
+    names = {"body": body, "meta": body.get("metadata") or {}}
+    identity = {}
+    for key, (raw, use_eval) in configured_values().items():
+        if key == "productTags" and not settings.DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT:
+            identity[key] = []
+            continue
+        try:
+            value = eval(raw, names) if use_eval else raw
+        except Exception as err:
+            raise NotEligible(
+                f"{key} could not be evaluated ({type(err).__name__})", logging.ERROR
+            ) from None
+        if key in LISTS:
+            if value is None:
+                value = []
+            elif isinstance(value, str):
+                value = value.split(",")
+            if not isinstance(value, (list, tuple)):
+                raise NotEligible(f"{key} must be a list of strings", logging.ERROR)
+            value = [str(t).strip() for t in value if t is not None and str(t).strip()]
+        else:
+            value = "" if value is None else str(value).strip()
+            if key in REQUIRED and not value:
+                raise NotEligible(f"{key} is empty")
+        identity[key] = value
+    if any("," in t for t in identity["projectTags"]):
+        raise NotEligible("projectTags must not contain commas", logging.ERROR)
+    return identity
 
 
 def state_key(identity: dict, report: dict) -> str:
@@ -476,9 +291,9 @@ def upload_bom(identity: dict, bom: dict) -> tuple[str, str | None]:
         what,
         data={
             "autoCreate": "true",
-            "projectName": f"{identity['namespace']}-{identity['env']}",
-            "projectVersion": identity["name"],
-            "projectTags": ",".join(identity["tags"]),
+            "projectName": identity["projectName"],
+            "projectVersion": identity["projectVersion"],
+            "projectTags": ",".join(identity["projectTags"]),
         },
         files={
             "bom": (
@@ -515,7 +330,7 @@ def _first_exact(response, what: str, field: str, value: str) -> dict | None:
 
 def ensure_product(identity: dict, logger) -> None:
     """Create the Product when it does not exist yet; an existing one is never changed."""
-    name = identity["dojo"]["product"]
+    name = identity["product"]
     what = "DefectDojo product lookup"
 
     def lookup():
@@ -533,19 +348,14 @@ def ensure_product(identity: dict, logger) -> None:
             f"DefectDojo product type '{type_name}' does not exist"
         )
 
-    description = (
-        DEFAULT_PRODUCT_DESCRIPTION
-        if settings.DEFECT_DOJO_EVAL_PRODUCT_DESCRIPTION
-        else settings.DEFECT_DOJO_PRODUCT_DESCRIPTION
-    )
     payload = {
         "name": name,
-        "description": description,
+        "description": identity["productDescription"],
         "enable_product_tag_inheritance": settings.DEFECT_DOJO_ENABLE_PRODUCT_TAG_INHERITANCE,
         "prod_type": product_type["id"],
     }
     if settings.DEFECT_DOJO_APPLY_TAGS_TO_PRODUCT:
-        payload["tags"] = [identity["env"], identity["namespace"]]
+        payload["tags"] = identity["productTags"]
     response = _dd(
         "POST",
         "products/",
@@ -565,19 +375,24 @@ def ensure_product(identity: dict, logger) -> None:
 def reimport_empty_fpf(identity: dict) -> str:
     """Create the engagement and test now (Dependency-Track only sends findings later); return the engagement id."""
     what = "DefectDojo reimport"
-    dojo = identity["dojo"]
     response = _dd(
         "POST",
         "reimport-scan/",
         what,
         data={
             "scan_type": DD_SCAN_TYPE,
-            "product_name": dojo["product"],
-            "engagement_name": dojo["engagement"],
-            "test_title": dojo["testTitle"],
+            "product_name": identity["product"],
+            "engagement_name": identity["engagement"],
+            "test_title": identity["testTitle"],
             "environment": identity["environment"],
-            "auto_create_context": "true",
-            "deduplication_on_engagement": "true",
+            "auto_create_context": str(
+                settings.DEFECT_DOJO_AUTO_CREATE_CONTEXT
+            ).lower(),
+            "deduplication_on_engagement": str(
+                settings.DEFECT_DOJO_DEDUPLICATION_ON_ENGAGEMENT
+            ).lower(),
+            # Not DEFECT_DOJO_CLOSE_OLD_FINDINGS: with this empty file it would close every
+            # finding Dependency-Track exported to the test.
             "close_old_findings": "false",
         },
         files={"file": ("empty.json", EMPTY_FPF, "application/json")},
@@ -593,15 +408,15 @@ def reimport_empty_fpf(identity: dict) -> str:
 
 
 def set_properties(project: str, identity: dict, engagement_id: str) -> None:
-    dojo = identity["dojo"]
+    do_not_reactivate = str(settings.DEFECT_DOJO_DO_NOT_REACTIVATE).lower()
     properties = [
         ("defectdojo.engagementId", "STRING", engagement_id),
         ("defectdojo.reimport", "BOOLEAN", "true"),
-        ("defectdojo.doNotReactivate", "BOOLEAN", "false"),
-        ("defectdojo.testTitle", "STRING", dojo["testTitle"]),
+        ("defectdojo.doNotReactivate", "BOOLEAN", do_not_reactivate),
+        ("defectdojo.testTitle", "STRING", identity["testTitle"]),
     ]
-    if dojo["groupBy"]:
-        properties.append(("defectdojo.groupBy", "STRING", dojo["groupBy"]))
+    if identity["groupBy"]:
+        properties.append(("defectdojo.groupBy", "STRING", identity["groupBy"]))
     for prop_name, prop_type, value in properties:
         body = {
             "groupName": "integrations",
@@ -723,7 +538,7 @@ _locks_guard = threading.Lock()
 def destination_lock(identity: dict) -> threading.Lock:
     """One lock per DefectDojo Product: reports sharing it must not create the Product, engagement or test twice."""
     with _locks_guard:
-        return _locks.setdefault(identity["dojo"]["product"], threading.Lock())
+        return _locks.setdefault(identity["product"], threading.Lock())
 
 
 def sbom_to_dependency_track(body, patch, logger, **_):
@@ -782,7 +597,7 @@ def sbom_to_dependency_track(body, patch, logger, **_):
         raise
     c.labels("success").inc()
     logger.info(
-        f"Linked {identity['namespace']}-{identity['env']}:{identity['name']} to DefectDojo"
+        f"Linked {identity['projectName']}:{identity['projectVersion']} to DefectDojo"
     )
 
 
