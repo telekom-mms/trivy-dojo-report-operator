@@ -85,7 +85,15 @@ DEFECT_DOJO_DO_NOT_REACTIVATE: bool = get_env_var_bool("DEFECT_DOJO_DO_NOT_REACT
 
 LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
-REPORTS: list = os.getenv("REPORTS", "vulnerabilityreports").split(",")
+# Only "false" (any case) disables it, so a missing env (image run without the chart) keeps it on.
+DEFECT_DOJO_REPORTS_ENABLED: bool = (
+    os.getenv("DEFECT_DOJO_REPORTS_ENABLED", "true").lower() != "false"
+)
+REPORTS: list = (
+    os.getenv("REPORTS", "vulnerabilityreports").split(",")
+    if DEFECT_DOJO_REPORTS_ENABLED
+    else []
+)
 
 HTTP_PROXY: str = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
 HTTPS_PROXY: str = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
@@ -97,4 +105,83 @@ TRANSFORMATION_SCRIPT_PATH: str = os.getenv(
 TRANSFORMATION_INTERPRETER: str = os.getenv("TRANSFORMATION_INTERPRETER", "python3")
 DEFECT_DOJO_SCAN_TYPE_OVERRIDE: str = os.getenv(
     "DEFECT_DOJO_SCAN_TYPE_OVERRIDE", "Generic Findings Import"
+)
+
+# Dependency-Track is opt-in: nothing below is required or validated unless it is enabled
+# (dependency_track.py validates the values when it is imported).
+DEPENDENCY_TRACK_REPORTS_ENABLED: bool = (
+    os.getenv("DEPENDENCY_TRACK_REPORTS_ENABLED", "false").lower() == "true"
+)
+DEPENDENCY_TRACK_STATE_ANNOTATION = "dependency-track.trivy-dojo-report-operator/state"
+DEPENDENCY_TRACK_URL: str = ""
+DEPENDENCY_TRACK_API_KEY: str = ""
+DEPENDENCY_TRACK_PROJECT_NAME: str = ""
+DEPENDENCY_TRACK_PROJECT_VERSION: str = ""
+if DEPENDENCY_TRACK_REPORTS_ENABLED:
+    DEPENDENCY_TRACK_URL = get_required_env_var("DEPENDENCY_TRACK_URL")
+    DEPENDENCY_TRACK_API_KEY = get_required_env_var("DEPENDENCY_TRACK_API_KEY")
+    DEPENDENCY_TRACK_PROJECT_NAME = get_required_env_var(
+        "DEPENDENCY_TRACK_PROJECT_NAME"
+    )
+    DEPENDENCY_TRACK_PROJECT_VERSION = get_required_env_var(
+        "DEPENDENCY_TRACK_PROJECT_VERSION"
+    )
+
+# Like the DEFECT_DOJO_* names: used as is, or eval-ed per SbomReport (body, meta) when the
+# matching EVAL flag is "true". An empty result skips the report.
+DEPENDENCY_TRACK_EVAL_PROJECT_NAME: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_EVAL_PROJECT_NAME"
+)
+DEPENDENCY_TRACK_EVAL_PROJECT_VERSION: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_EVAL_PROJECT_VERSION"
+)
+
+DEPENDENCY_TRACK_PROJECT_TAGS: str = os.getenv("DEPENDENCY_TRACK_PROJECT_TAGS", "")
+DEPENDENCY_TRACK_EVAL_PROJECT_TAGS: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_EVAL_PROJECT_TAGS"
+)
+
+DEPENDENCY_TRACK_ACL_TEAM: str = os.getenv("DEPENDENCY_TRACK_ACL_TEAM", "")
+DEPENDENCY_TRACK_EVAL_ACL_TEAM: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_EVAL_ACL_TEAM"
+)
+
+DEPENDENCY_TRACK_GROUP_BY: str = os.getenv("DEPENDENCY_TRACK_GROUP_BY", "")
+DEPENDENCY_TRACK_EVAL_GROUP_BY: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_EVAL_GROUP_BY"
+)
+
+DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_NAME: str = os.getenv(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_NAME", "product"
+)
+DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_NAME: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_NAME"
+)
+
+DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_TYPE_NAME: str = os.getenv(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_TYPE_NAME", "Research and Development"
+)
+DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME"
+)
+
+DEPENDENCY_TRACK_DEFECT_DOJO_ENGAGEMENT_NAME: str = os.getenv(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_ENGAGEMENT_NAME", "engagement"
+)
+DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENGAGEMENT_NAME: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENGAGEMENT_NAME"
+)
+
+DEPENDENCY_TRACK_DEFECT_DOJO_ENV_NAME: str = os.getenv(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_ENV_NAME", "Development"
+)
+DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENV_NAME: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENV_NAME"
+)
+
+DEPENDENCY_TRACK_DEFECT_DOJO_TEST_TITLE: str = os.getenv(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_TEST_TITLE", "Kubernetes"
+)
+DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_TEST_TITLE: bool = get_env_var_bool(
+    "DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_TEST_TITLE"
 )

@@ -30,6 +30,8 @@ spec:
               key: url
               name: {{ include "charts.fullname" . }}-defect-dojo-api-credentials
               optional: false
+        - name: DEFECT_DOJO_REPORTS_ENABLED
+          value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoReportsEnabled }}
         - name: DEFECT_DOJO_ACTIVE
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.defectDojoActive
             }}
@@ -141,6 +143,58 @@ spec:
           value: {{ quote .Values.operator.trivyDojoReportOperator.transformation.scanType }}
         - name: LOG_LEVEL
           value: {{ quote .Values.operator.trivyDojoReportOperator.env.logLevel }}
+        - name: DEPENDENCY_TRACK_REPORTS_ENABLED
+          value: {{ quote .Values.dependencyTrack.reportsEnabled }}
+        {{- if .Values.dependencyTrack.reportsEnabled }}
+        - name: DEPENDENCY_TRACK_URL
+          value: {{ required "dependencyTrack.url is required when dependencyTrack.reportsEnabled=true" .Values.dependencyTrack.url | quote }}
+        - name: DEPENDENCY_TRACK_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: {{ required "dependencyTrack.apiCredentials.apiKeySecretKey is required when dependencyTrack.reportsEnabled=true" .Values.dependencyTrack.apiCredentials.apiKeySecretKey }}
+              name: {{ include "charts.dependencyTrackSecretName" . }}
+              optional: false
+        - name: DEPENDENCY_TRACK_PROJECT_NAME
+          value: {{ quote .Values.dependencyTrack.projectName }}
+        - name: DEPENDENCY_TRACK_EVAL_PROJECT_NAME
+          value: {{ quote .Values.dependencyTrack.evalProjectName }}
+        - name: DEPENDENCY_TRACK_PROJECT_VERSION
+          value: {{ quote .Values.dependencyTrack.projectVersion }}
+        - name: DEPENDENCY_TRACK_EVAL_PROJECT_VERSION
+          value: {{ quote .Values.dependencyTrack.evalProjectVersion }}
+        - name: DEPENDENCY_TRACK_PROJECT_TAGS
+          value: {{ quote .Values.dependencyTrack.projectTags }}
+        - name: DEPENDENCY_TRACK_EVAL_PROJECT_TAGS
+          value: {{ quote .Values.dependencyTrack.evalProjectTags }}
+        - name: DEPENDENCY_TRACK_ACL_TEAM
+          value: {{ quote .Values.dependencyTrack.aclTeam }}
+        - name: DEPENDENCY_TRACK_EVAL_ACL_TEAM
+          value: {{ quote .Values.dependencyTrack.evalAclTeam }}
+        - name: DEPENDENCY_TRACK_GROUP_BY
+          value: {{ quote .Values.dependencyTrack.groupBy }}
+        - name: DEPENDENCY_TRACK_EVAL_GROUP_BY
+          value: {{ quote .Values.dependencyTrack.evalGroupBy }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.productName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.evalProductName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_PRODUCT_TYPE_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.productTypeName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_PRODUCT_TYPE_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.evalProductTypeName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_ENGAGEMENT_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.engagementName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENGAGEMENT_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.evalEngagementName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_ENV_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.envName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_ENV_NAME
+          value: {{ quote .Values.dependencyTrack.defectDojo.evalEnvName }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_TEST_TITLE
+          value: {{ quote .Values.dependencyTrack.defectDojo.testTitle }}
+        - name: DEPENDENCY_TRACK_DEFECT_DOJO_EVAL_TEST_TITLE
+          value: {{ quote .Values.dependencyTrack.defectDojo.evalTestTitle }}
+        {{- end }}
         image: {{ printf "%s:%s" .Values.operator.trivyDojoReportOperator.image.repository (.Values.operator.trivyDojoReportOperator.image.tag | default .Chart.AppVersion) | quote }}
         livenessProbe:
           httpGet:
@@ -148,6 +202,7 @@ spec:
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 30
+          timeoutSeconds: 10
         name: trivy-dojo-report-operator
         {{- if .Values.excludedNamespaces }}
         args:

@@ -156,6 +156,8 @@ spec:
               key: url
               name: telekom-mms-trivy-dojo-report-operator-defect-dojo-api-credentials
               optional: false
+        - name: DEFECT_DOJO_REPORTS_ENABLED
+          value: "true"
         - name: DEFECT_DOJO_ACTIVE
           value: "true"
         - name: DEFECT_DOJO_VERIFIED
@@ -236,6 +238,8 @@ spec:
           value: "Generic Findings Import"
         - name: LOG_LEVEL
           value: "INFO"
+        - name: DEPENDENCY_TRACK_REPORTS_ENABLED
+          value: "false"
         image: "ghcr.io/telekom-mms/docker-trivy-dojo-operator:0.11.1"
         livenessProbe:
           httpGet:
@@ -243,6 +247,7 @@ spec:
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 30
+          timeoutSeconds: 10
         name: trivy-dojo-report-operator
         securityContext:
           allowPrivilegeEscalation: false

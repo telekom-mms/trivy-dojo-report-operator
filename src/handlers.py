@@ -39,6 +39,14 @@ proxies = {
     "https": settings.HTTPS_PROXY,
 } if settings.HTTP_PROXY or settings.HTTPS_PROXY else None
 
+# report.components (the SBOM) is far too big for the diff-base; the dedupe state annotation
+# is written by the handler itself and must not look like a change to the report.
+DIFFBASE_IGNORED_FIELDS = [
+    "report.vulnerabilities",
+    "report.components",
+    ("metadata", "annotations", settings.DEPENDENCY_TRACK_STATE_ANNOTATION),
+]
+
 
 def defect_dojo_api_url(endpoint: str) -> str:
     """Build a DefectDojo API URL regardless of a trailing slash in its base URL."""
@@ -245,7 +253,7 @@ def configure(settings: kopf.OperatorSettings, **_):
         [
             kopf.StatusDiffBaseStorage(
                 field="status.diff-base",
-                ignored_fields=["report.vulnerabilities"]
+                ignored_fields=DIFFBASE_IGNORED_FIELDS,
             ),
         ]
     )
@@ -256,6 +264,13 @@ if settings.LABEL and settings.LABEL_VALUE:
     labels = {settings.LABEL: settings.LABEL_VALUE}
 else:
     labels = {}
+
+if not settings.DEFECT_DOJO_REPORTS_ENABLED:
+    logger.info("Sending reports to DefectDojo is disabled, REPORTS is ignored")
+    if not settings.DEPENDENCY_TRACK_REPORTS_ENABLED:
+        logger.warning(
+            "DefectDojo and Dependency-Track reports are both disabled, nothing is processed"
+        )
 
 for report in settings.REPORTS:
     # check if reports are allowed
@@ -454,3 +469,12 @@ for report in settings.REPORTS:
             c.labels("success").inc()
             logger.info(f"Finished {body['kind']} {meta['name']}")
             logger.debug(response.content)
+
+
+# Trivy rewrites the SbomReport on every rescan (status dropped): the handler covers
+# create, update and resume. Registered only when enabled; sbomreports stay out of
+# REPORTS so they never reach the DefectDojo flow above.
+if settings.DEPENDENCY_TRACK_REPORTS_ENABLED:
+    import dependency_track
+
+    dependency_track.register(labels)

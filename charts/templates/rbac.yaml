@@ -47,6 +47,23 @@ rules:
   - events
   verbs:
   - create
+{{- if .Values.dependencyTrack.reportsEnabled }}
+- apiGroups:
+  - aquasecurity.github.io
+  resources:
+  - sbomreports
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - replicasets
+  verbs:
+  - get
+{{- end }}
 {{- range .Values.rbac.additionalRules }}
 - {{ toYaml . | nindent 2 | trim }}
 {{- end }}

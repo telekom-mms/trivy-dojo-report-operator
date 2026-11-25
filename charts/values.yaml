@@ -2,6 +2,61 @@ defectDojoApiCredentials:
   createSecret: true
   apiKey: "YOUR_DEFECTDOJO_API_KEY"
   url: "YOUR_DEFECTDOJO_URL"
+# dependencyTrack: opt-in upload of Trivy Operator SbomReports to Dependency-Track.
+# Disabled by default: when false only the DEPENDENCY_TRACK_REPORTS_ENABLED flag is rendered, no Secret
+# is required and the ClusterRole gets no sbomreports rule (the SbomReport CRD is not needed).
+dependencyTrack:
+  # reportsEnabled: turns the integration on; url and the API key Secret become mandatory.
+  reportsEnabled: false
+  # url: base URL of Dependency-Track, http or https (DEPENDENCY_TRACK_URL).
+  url: ""
+  # apiCredentials: where the Dependency-Track API key comes from (DEPENDENCY_TRACK_API_KEY).
+  apiCredentials:
+    # createSecret: true = Helm creates the Secret from apiKey;
+    #               false = use an existing Secret (ExternalSecret, operator-managed Secret, ...).
+    createSecret: true
+    # apiKey: only used when createSecret is true. Never commit a real key; pass it with --set or a private values file.
+    apiKey: ""
+    # secretName: createSecret=false: name of the existing Secret (required).
+    #             createSecret=true: optional override of the generated name
+    #             (default <fullname>-dependency-track-api-credentials).
+    secretName: ""
+    # apiKeySecretKey: key inside the Secret that holds the API key.
+    apiKeySecretKey: apiKey
+  # The values below follow operator.trivyDojoReportOperator.env.defectDojo*: each is used as is or,
+  # when its eval* flag is "true", eval-ed as a Python expression per SbomReport with `body` (the
+  # report) and `meta` (its metadata). An empty result for a required value (projectName,
+  # projectVersion and the defectDojo names) skips the report, e.g.
+  #   projectName: 'meta["namespace"] if meta["namespace"] != "kube-system" else None'
+  # Only enable eval for trusted, administrator-controlled configuration.
+  # projectName / projectVersion: Dependency-Track project (created on upload).
+  projectName: "project"
+  evalProjectName: "false"
+  projectVersion: "1.0"
+  evalProjectVersion: "false"
+  # projectTags: comma-separated, or with evalProjectTags a Python list of strings.
+  projectTags: ""
+  evalProjectTags: "false"
+  # aclTeam: Dependency-Track team mapped to the project; empty = no ACL mapping.
+  aclTeam: ""
+  evalAclTeam: "false"
+  # groupBy: defectdojo.groupBy project property; empty = not set.
+  groupBy: ""
+  evalGroupBy: "false"
+  # defectDojo: where Dependency-Track exports the findings. The Product Type must exist.
+  # Product description/tags, deduplicationOnEngagement, autoCreateContext and doNotReactivate
+  # come from the matching operator.trivyDojoReportOperator.env.defectDojo* values.
+  defectDojo:
+    productName: product
+    evalProductName: "false"
+    productTypeName: Research and Development
+    evalProductTypeName: "false"
+    engagementName: engagement
+    evalEngagementName: "false"
+    envName: Development
+    evalEnvName: "false"
+    testTitle: Kubernetes
+    evalTestTitle: "false"
 kubernetesClusterDomain: cluster.local
 account:
   serviceAccount:
@@ -65,6 +120,8 @@ operator:
       defectDojoTestTitle: Kubernetes
       defectDojoVerified: "false"
       reports: vulnerabilityreports
+      # defectDojoReportsEnabled: send the report kinds in reports directly to DefectDojo. When "false" reports is ignored; the Defect Dojo credentials stay required (Dependency-Track links projects to it).
+      defectDojoReportsEnabled: "true"
       http_proxy: ""
       https_proxy: ""
       logLevel: "INFO"

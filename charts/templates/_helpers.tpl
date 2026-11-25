@@ -58,6 +58,20 @@ When false the caller-supplied ref is used.
 {{- end }}
 
 {{/*
+Name of the Secret that holds the Dependency-Track API key.
+createSecret=true: generated name unless secretName overrides it.
+createSecret=false: secretName of an existing Secret is mandatory.
+*/}}
+{{- define "charts.dependencyTrackSecretName" -}}
+{{- $c := .Values.dependencyTrack.apiCredentials }}
+{{- if $c.createSecret }}
+{{- default (printf "%s-dependency-track-api-credentials" (include "charts.fullname" .)) $c.secretName }}
+{{- else }}
+{{- required "dependencyTrack.apiCredentials.secretName is required when dependencyTrack.reportsEnabled=true and createSecret=false" $c.secretName }}
+{{- end }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "charts.selectorLabels" -}}
